@@ -11,5 +11,6 @@ namespace SerialsOnlineCenter.DAL.Entities
         public string? Description { get; set; }
 
         public int GenreId { get; set; }
+        public int SubscriptionId { get; set; }
     }
 }
