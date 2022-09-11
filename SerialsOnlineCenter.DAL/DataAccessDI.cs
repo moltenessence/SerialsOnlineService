@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SerialsOnlineCenter.DAL.Helpers;
 using SerialsOnlineCenter.DAL.Interfaces;
+using SerialsOnlineCenter.DAL.Interfaces.Repositories;
 using SerialsOnlineCenter.DAL.Repositories;
 using System.Reflection;
 
@@ -17,6 +18,9 @@ namespace SerialsOnlineCenter.DAL
 
             services.AddTransient<IDatabaseCreator, DatabaseCreator>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IGenreRepository, GenreRepository>();
+            services.AddTransient<ISubscriptionRepository, SubscriptionRepository>();
+            services.AddTransient<IPurchaseRepository, PurchaseRepository>();
 
             services.AddFluentMigratorCore().ConfigureRunner(config =>
                     config.AddMySql5().WithGlobalConnectionString(RepositoryHelper.ConnectionString)
