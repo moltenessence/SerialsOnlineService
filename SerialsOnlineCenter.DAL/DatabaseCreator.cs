@@ -14,6 +14,7 @@ namespace SerialsOnlineCenter.DAL
         {
             _connectionString = SysConnectionString;
         }
+
         public void CreateDatabase(string dbName)
         {
             using var connection = new MySqlConnection(SysConnectionString);
