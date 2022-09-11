@@ -1,8 +1,10 @@
-﻿namespace SerialsOnlineCenter.DAL.Entities
+﻿using SerialsOnlineCenter.DAL.Interfaces;
+
+namespace SerialsOnlineCenter.DAL.Entities
 {
-    public class SubscriptionEntity
+    public class SubscriptionEntity : IEntityBase
     {
-        public int SubscriptionId { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; }
         public decimal PricePerMonth { get; set; }

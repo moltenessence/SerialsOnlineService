@@ -1,6 +1,8 @@
-﻿namespace SerialsOnlineCenter.DAL.Entities
+﻿using SerialsOnlineCenter.DAL.Interfaces;
+
+namespace SerialsOnlineCenter.DAL.Entities
 {
-    public class UsersRatingsEntity
+    public class UsersRatingsEntity : IEntityBase
     {
         public int Id { get; set; }
 

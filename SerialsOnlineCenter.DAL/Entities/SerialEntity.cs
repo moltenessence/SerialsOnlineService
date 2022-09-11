@@ -1,10 +1,12 @@
-﻿namespace SerialsOnlineCenter.DAL.Entities
+﻿using SerialsOnlineCenter.DAL.Interfaces;
+
+namespace SerialsOnlineCenter.DAL.Entities
 {
-    public class SerialEntity
+    public class SerialEntity : IEntityBase
     {
-        public int SerialId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
-        public DateOnly PremierDate { get; set; }
+        public int ReleaseYear { get; set; }
         public int AmountOfSeries { get; set; }
         public string? Description { get; set; }
 
