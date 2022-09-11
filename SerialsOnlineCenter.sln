@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerialsOnlineCenter", "SerialsOnlineCenter\SerialsOnlineCenter.csproj", "{45133FA9-5A1E-4E9D-B191-7A68943E15CA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{45133FA9-5A1E-4E9D-B191-7A68943E15CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45133FA9-5A1E-4E9D-B191-7A68943E15CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45133FA9-5A1E-4E9D-B191-7A68943E15CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45133FA9-5A1E-4E9D-B191-7A68943E15CA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4022E503-1E25-4251-A864-13A344E69C96}
+	EndGlobalSection
+EndGlobal
