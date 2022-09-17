@@ -56,18 +56,6 @@ namespace SerialsOnlineCenter.DAL.Migrations
                 .WithColumn("SerialId").AsInt32().NotNullable().ForeignKey("Serials", "Id").OnDelete(Rule.Cascade)
                 .WithColumn("RatingId").AsInt32().NotNullable().ForeignKey("Ratings", "Id");
 
-            Insert.IntoTable("Genres")
-                .Row(new GenreEntity() { Id = 1, Name = "Horror" })
-                .Row(new GenreEntity() { Id = 2, Name = "Adventures" })
-                .Row(new GenreEntity() { Id = 3, Name = "Comedy" })
-                .Row(new GenreEntity() { Id = 4, Name = "Drama" })
-                .Row(new GenreEntity() { Id = 5, Name = "Tragedy" })
-                .Row(new GenreEntity() { Id = 6, Name = "Romance" })
-                .Row(new GenreEntity() { Id = 7, Name = "Trailer" })
-                .Row(new GenreEntity() { Id = 8, Name = "Militant" })
-                .Row(new GenreEntity() { Id = 9, Name = "Mystery" })
-                .Row(new GenreEntity() { Id = 10, Name = "Fantasy" });
-
             Insert.IntoTable("Subscriptions")
                 .Row(new SubscriptionEntity()
                 {

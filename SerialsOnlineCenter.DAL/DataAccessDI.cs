@@ -18,7 +18,6 @@ namespace SerialsOnlineCenter.DAL
 
             services.AddTransient<IDatabaseCreator, DatabaseCreator>();
             services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<IGenreRepository, GenreRepository>();
             services.AddTransient<ISubscriptionRepository, SubscriptionRepository>();
             services.AddTransient<IPurchaseRepository, PurchaseRepository>();
 
