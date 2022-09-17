@@ -9,8 +9,8 @@ namespace SerialsOnlineCenter.DAL.Entities
         public int ReleaseYear { get; set; }
         public int AmountOfSeries { get; set; }
         public string? Description { get; set; }
+        public string Genre { get; set; }
 
-        public int GenreId { get; set; }
         public int SubscriptionId { get; set; }
     }
 }

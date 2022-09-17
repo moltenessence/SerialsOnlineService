@@ -1,10 +1,8 @@
-using FluentMigrator.Runner;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using SerialsOnlineCenter.Converters;
 using SerialsOnlineCenter.DAL;
-using SerialsOnlineCenter.DAL.Interfaces;
+using SerialsOnlineCenter.Extensions;
 using ConfigurationManager = Microsoft.Extensions.Configuration.ConfigurationManager;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,10 +21,6 @@ builder.Services.AddSwaggerGen(options => options.MapType<DateOnly>(() => new Op
     Format = "date",
     Example = new OpenApiString("2022-01-01")
 }));
-builder.Services.Configure<JsonOptions>(options =>
-{
-
-});
 
 DataAccessDI.RegisterDataAccessDependencies(builder.Services, configuration);
 
@@ -44,12 +38,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-using var scope = ((IApplicationBuilder)app).ApplicationServices.CreateScope();
-
-var migrator = scope.ServiceProvider.GetService<IMigrationRunner>();
-var dbCreator = scope.ServiceProvider.GetService<IDatabaseCreator>();
-
-dbCreator.CreateDatabase("serials");
-migrator.MigrateUp();
+app.InitializeDatabase();
 
 app.Run();
