@@ -1,8 +1,13 @@
-﻿using static SerialsOnlineCenter.DAL.Helpers.RepositoryHelper;
+﻿using Dapper;
+using MySql.Data.MySqlClient;
+using SerialsOnlineCenter.DAL.Entities;
+using SerialsOnlineCenter.DAL.EntityViews;
+using SerialsOnlineCenter.DAL.Interfaces.Repositories;
+using static SerialsOnlineCenter.DAL.Helpers.RepositoryHelper;
 
 namespace SerialsOnlineCenter.DAL.Repositories
 {
-    public class SerialRepository
+    public class SerialRepository : ISerialRepository
     {
         private readonly string _connectionString;
 
@@ -162,6 +167,40 @@ namespace SerialsOnlineCenter.DAL.Repositories
             var result = await connection.QuerySingleOrDefaultAsync<SerialEntity>(command);
 
             return result;
+        }
+
+        public async Task<IReadOnlyList<SerialWithRequiredSubscription>> GetWithRequiredSubscription(CancellationToken cancellationToken)
+        {
+            await using var connection = new MySqlConnection(_connectionString);
+
+            var query = "SELECT Serials.Name, Serials.Description, Serials.Genre, Subscriptions.Name AS RequiredSubscription" +
+                        " FROM Serials JOIN Subscriptions ON Serials.SubscriptionId = Subscriptions.Id";
+
+            var result = await connection.QueryAsync<SerialWithRequiredSubscription>(query, cancellationToken);
+
+            return result.ToList();
+        }
+
+        public async Task<IReadOnlyList<SerialWithRequiredSubscription>> GetGroupedByGenre(CancellationToken cancellationToken)
+        {
+            await using var connection = new MySqlConnection(_connectionString);
+
+            var query = "SELECT Genre, COUNT(*) AS Amount FROM Serials GROUP BY Genre";
+
+            var result = await connection.QueryAsync<SerialWithRequiredSubscription>(query, cancellationToken);
+
+            return result.ToList();
+        }
+
+        public async Task<IReadOnlyList<string>> GetAllGenres(CancellationToken cancellationToken)
+        {
+            await using var connection = new MySqlConnection(_connectionString);
+
+            var query = "SELECT Genre FROM Serials";
+
+            var result = await connection.QueryAsync<string>(query, cancellationToken);
+
+            return result.ToList();
         }
     }
 }
