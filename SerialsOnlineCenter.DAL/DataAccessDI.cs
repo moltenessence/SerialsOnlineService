@@ -20,6 +20,8 @@ namespace SerialsOnlineCenter.DAL
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ISubscriptionRepository, SubscriptionRepository>();
             services.AddTransient<IPurchaseRepository, PurchaseRepository>();
+            services.AddTransient<ISerialRepository, SerialRepository>();
+            services.AddTransient<IRatingRepository, RatingRepository>();
 
             services.AddFluentMigratorCore().ConfigureRunner(config =>
                     config.AddMySql5().WithGlobalConnectionString(RepositoryHelper.ConnectionString)

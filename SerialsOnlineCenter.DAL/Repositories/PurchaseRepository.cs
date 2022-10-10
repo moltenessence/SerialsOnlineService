@@ -42,6 +42,30 @@ namespace SerialsOnlineCenter.DAL.Repositories
             return result.ToList();
         }
 
+        public async Task<PurchaseEntity> Update(PurchaseEntity entity, CancellationToken cancellationToken)
+        {
+
+            await using var connection = new MySqlConnection(_connectionString);
+
+            var query = "UPDATE Purchases SET AmountOfMonths = @AmountOfMonths, Date = @Date, TotalPrice = @TotalPrice, " +
+                        "UserId = @UserId, SubscriptionId = @SubscriptionId WHERE Id = @Id)";
+
+            var command = CreateCommand(query, new
+            {
+                @Id = entity.Id,
+                @AmountOfMonths = entity.AmountOfMonths,
+                @Date = entity.Date,
+                @TotalPrice = entity.TotalPrice,
+                @UserId = entity.UserId,
+                @SubscriptionId = entity.SubscriptionId
+            },
+                cancellationToken: cancellationToken);
+
+            var result = await connection.QuerySingleOrDefaultAsync<PurchaseEntity>(command);
+
+            return result;
+        }
+
         public async Task<PurchaseEntity> DeleteById(int id, CancellationToken cancellationToken)
         {
             await using var connection = new MySqlConnection(_connectionString);

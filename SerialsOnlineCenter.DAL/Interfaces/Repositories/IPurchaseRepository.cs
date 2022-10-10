@@ -2,12 +2,8 @@
 
 namespace SerialsOnlineCenter.DAL.Interfaces.Repositories
 {
-    public interface IPurchaseRepository
+    public interface IPurchaseRepository : IGenericRepository<PurchaseEntity>
     {
-        Task<PurchaseEntity> GetById(int id, CancellationToken cancellationToken);
-        Task<IReadOnlyList<PurchaseEntity>> GetAll(CancellationToken cancellationToken);
-        Task<PurchaseEntity> DeleteById(int id, CancellationToken cancellationToken);
-        Task<PurchaseEntity> Insert(PurchaseEntity entity, CancellationToken cancellationToken);
         Task<IReadOnlyList<PurchaseEntity>> GetTopPurchasesByMaxTotalPrice(int amountOfPurchases, CancellationToken cancellationToken);
     }
 }

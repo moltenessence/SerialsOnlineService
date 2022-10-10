@@ -3,6 +3,7 @@ using Microsoft.OpenApi.Models;
 using SerialsOnlineCenter.Converters;
 using SerialsOnlineCenter.DAL;
 using SerialsOnlineCenter.Extensions;
+using SerialsOnlineService.BLL;
 using ConfigurationManager = Microsoft.Extensions.Configuration.ConfigurationManager;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 }); ;
 
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddSwaggerGen(options => options.MapType<DateOnly>(() => new OpenApiSchema
 {
     Type = "string",
@@ -22,7 +24,8 @@ builder.Services.AddSwaggerGen(options => options.MapType<DateOnly>(() => new Op
     Example = new OpenApiString("2022-01-01")
 }));
 
-DataAccessDI.RegisterDataAccessDependencies(builder.Services, configuration);
+builder.Services.RegisterDataAccessDependencies(configuration);
+builder.Services.RegisterBusinessLogicDependencies();
 
 var app = builder.Build();
 

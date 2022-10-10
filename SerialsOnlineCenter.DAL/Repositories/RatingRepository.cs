@@ -16,7 +16,47 @@ namespace SerialsOnlineCenter.DAL.Repositories
             _connectionString = ConnectionString;
         }
 
-        public async Task<RatingEntity> Insert(int userId, int serialId, RatingEntity entity, CancellationToken cancellationToken)
+        public async Task<RatingEntity> GetById(int id, CancellationToken cancellationToken)
+        {
+            await using var connection = new MySqlConnection(_connectionString);
+
+            var query = "SELECT FROM Ratings WHERE id = @Id";
+
+            var command = CreateCommand(query, new { @Id = id }, cancellationToken: cancellationToken);
+
+            var result = await connection.QuerySingleOrDefaultAsync<RatingEntity>(command);
+
+            return result;
+        }
+
+        public async Task<RatingEntity> Insert(RatingEntity entity, CancellationToken cancellationToken)
+        {
+            await using var connection = new MySqlConnection(_connectionString);
+
+            var query = "INSERT INTO Ratings (Value, Annotation) values (@Value, @Annotation)";
+
+            var command = CreateCommand(query, new
+            {
+                @Value = entity.Value,
+                @Annonation = entity.Annotation
+            },
+                cancellationToken: cancellationToken);
+
+            var result = await connection.QuerySingleOrDefaultAsync<RatingEntity>(command);
+
+            return result;
+        }
+
+        public async Task<IReadOnlyList<RatingEntity>> GetAll(CancellationToken cancellationToken)
+        {
+            await using var connection = new MySqlConnection(_connectionString);
+
+            var result = await connection.QueryAsync<RatingEntity>("SELECT * FROM Ratings", cancellationToken);
+
+            return result.ToList();
+        }
+
+        public async Task<RatingEntity> SetForSerial(int userId, int serialId, RatingEntity entity, CancellationToken cancellationToken)
         {
             await using var connection = new MySqlConnection(_connectionString);
 
@@ -63,7 +103,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
             return result;
         }
 
-        public async Task<IReadOnlyList<RatingWithUserAndSerialNames>> GetAll(CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<RatingWithUserAndSerialNames>> GetWithUsersAndSerialNames(CancellationToken cancellationToken)
         {
             await using var connection = new MySqlConnection(_connectionString);
 
