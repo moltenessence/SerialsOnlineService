@@ -16,7 +16,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
             _connectionString = ConnectionString;
         }
 
-        public async Task<RatingEntity> SetRating(int userId, int serialId, RatingEntity entity, CancellationToken cancellationToken)
+        public async Task<RatingEntity> Insert(int userId, int serialId, RatingEntity entity, CancellationToken cancellationToken)
         {
             await using var connection = new MySqlConnection(_connectionString);
 
@@ -50,7 +50,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
             return rating;
         }
 
-        public async Task<double> CalculateSerialRating(int serialId, CancellationToken cancellationToken)
+        public async Task<double> GetSerialRating(int serialId, CancellationToken cancellationToken)
         {
             await using var connection = new MySqlConnection(_connectionString);
 
@@ -63,7 +63,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
             return result;
         }
 
-        public async Task<IReadOnlyList<RatingWithUserAndSerialNames>> GetAllRatings(CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<RatingWithUserAndSerialNames>> GetAll(CancellationToken cancellationToken)
         {
             await using var connection = new MySqlConnection(_connectionString);
 
@@ -77,6 +77,38 @@ namespace SerialsOnlineCenter.DAL.Repositories
             var result = await connection.QueryAsync<RatingWithUserAndSerialNames>(query, cancellationToken);
 
             return result.ToList();
+        }
+
+        public async Task<RatingEntity> Update(RatingEntity entity, CancellationToken cancellationToken)
+        {
+            await using var connection = new MySqlConnection(_connectionString);
+
+            var query = "UPDATE Ratings SET Value = @Value, Annotation = @Annotation WHERE Id = @Id)";
+
+            var command = CreateCommand(query, new
+            {
+                @Id = entity.Id,
+                @Value = entity.Value,
+            },
+                cancellationToken: cancellationToken);
+
+            var result = await connection.QuerySingleOrDefaultAsync<RatingEntity>(command);
+
+            return result;
+        }
+
+
+        public async Task<RatingEntity> DeleteById(int id, CancellationToken cancellationToken)
+        {
+            await using var connection = new MySqlConnection(_connectionString);
+
+            var query = "DELETE FROM Ratings WHERE id = @Id";
+
+            var command = CreateCommand(query, new { @Id = id }, cancellationToken: cancellationToken);
+
+            var result = await connection.QuerySingleOrDefaultAsync<RatingEntity>(command);
+
+            return result;
         }
     }
 }

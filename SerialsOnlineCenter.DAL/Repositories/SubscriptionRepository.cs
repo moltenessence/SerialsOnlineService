@@ -59,7 +59,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
             return result;
         }
 
-        public async Task<decimal> GetAverageSubscriptionPrice(CancellationToken cancellationToken)
+        public async Task<decimal> GetAveragePrice(CancellationToken cancellationToken)
         {
             await using var connection = new MySqlConnection(_connectionString);
 
