@@ -29,7 +29,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
             return result;
         }
 
-        public async Task<IReadOnlyList<SerialEntity>> GetOrderedByOldestReleaseYear(int id, CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<SerialEntity>> GetOrderedByOldestReleaseYear(CancellationToken cancellationToken)
         {
             await using var connection = new MySqlConnection(_connectionString);
 
@@ -38,7 +38,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
             return result.ToList();
         }
 
-        public async Task<IReadOnlyList<SerialEntity>> GetOrderedByLatestReleaseYear(int id, CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<SerialEntity>> GetOrderedByLatestReleaseYear(CancellationToken cancellationToken)
         {
             await using var connection = new MySqlConnection(_connectionString);
 
@@ -181,13 +181,13 @@ namespace SerialsOnlineCenter.DAL.Repositories
             return result.ToList();
         }
 
-        public async Task<IReadOnlyList<SerialWithRequiredSubscription>> GetGroupedByGenre(CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<SerialsGroupedByGenre>> GetGroupedByGenre(CancellationToken cancellationToken)
         {
             await using var connection = new MySqlConnection(_connectionString);
 
             var query = "SELECT Genre, COUNT(*) AS Amount FROM Serials GROUP BY Genre";
 
-            var result = await connection.QueryAsync<SerialWithRequiredSubscription>(query, cancellationToken);
+            var result = await connection.QueryAsync<SerialsGroupedByGenre>(query, cancellationToken);
 
             return result.ToList();
         }
