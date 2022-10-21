@@ -10,9 +10,37 @@ namespace SerialsOnlineService.BLL.Service
     {
         private readonly IRatingRepository _repository;
         private readonly IMapper _mapper;
+
         public RatingService(IRatingRepository repository, IMapper mapper) : base(repository, mapper)
         {
 
+        }
+
+        public async Task<Rating> SetForSerial(int userId, int serialId, Rating entity, CancellationToken cancellationToken)
+        {
+            var rating = _mapper.Map<RatingEntity>(entity);
+
+            var ratingEntity = await _repository.SetForSerial(userId, serialId, rating, cancellationToken);
+
+            var result = _mapper.Map<Rating>(ratingEntity);
+
+            return result;
+        }
+
+        public async Task<double> GetSerialRating(int serialId, CancellationToken cancellationToken)
+        {
+            var result = await _repository.GetSerialRating(serialId, cancellationToken);
+
+            return result;
+        }
+
+        public async Task<IReadOnlyList<RatingWithUserAndSerialNamesDTO>> GetWithUsersAndSerialNames(CancellationToken cancellationToken)
+        {
+            var entityView = await _repository.GetWithUsersAndSerialNames(cancellationToken);
+
+            var result = _mapper.Map<IReadOnlyList<RatingWithUserAndSerialNamesDTO>>(entityView);
+
+            return result;
         }
     }
 }
