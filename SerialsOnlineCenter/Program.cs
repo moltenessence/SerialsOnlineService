@@ -24,8 +24,7 @@ builder.Services.AddSwaggerGen(options => options.MapType<DateOnly>(() => new Op
     Example = new OpenApiString("2022-01-01")
 }));
 
-builder.Services.RegisterDataAccessDependencies(configuration);
-builder.Services.RegisterBusinessLogicDependencies();
+builder.Services.RegisterBusinessLogicDependencies(configuration);
 
 var app = builder.Build();
 
