@@ -10,9 +10,19 @@ namespace SerialsOnlineService.BLL.Service
     {
         private readonly IPurchaseRepository _repository;
         private readonly IMapper _mapper;
+
         public PurchaseService(IPurchaseRepository repository, IMapper mapper) : base(repository, mapper)
         {
 
+        }
+
+        public async Task<IReadOnlyList<Purchase>> GetTopPurchasesByMaxTotalPrice(int amountOfPurchases, CancellationToken cancellationToken)
+        {
+            var entities = await _repository.GetTopPurchasesByMaxTotalPrice(amountOfPurchases, cancellationToken);
+
+            var result = _mapper.Map<IReadOnlyList<Purchase>>(entities);
+
+            return result;
         }
     }
 }
