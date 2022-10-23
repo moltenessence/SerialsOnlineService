@@ -2,7 +2,7 @@
 
 namespace SerialsOnlineService.BLL.Models
 {
-    public record Serial(string Name,
+    public record Serial(int Id, string Name,
         int ReleaseYear,
         int AmountOfSeries,
         string? Description,

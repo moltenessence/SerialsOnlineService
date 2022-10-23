@@ -13,7 +13,7 @@ namespace SerialsOnlineCenter.Mapper
             CreateMap<RatingEntity, Rating>().ReverseMap();
             CreateMap<SerialEntity, Serial>().ReverseMap();
             CreateMap<PurchaseEntity, Purchase>().ReverseMap();
-            CreateMap<RatingEntity, Rating>().ReverseMap();
+            CreateMap<SubscriptionEntity, Subscription>().ReverseMap();
 
             CreateMap<SerialWithRequiredSubscription, SerialWithRequiredSubscriptionDTO>();
             CreateMap<RatingWithUserAndSerialNames, RatingWithUserAndSerialNamesDTO>();

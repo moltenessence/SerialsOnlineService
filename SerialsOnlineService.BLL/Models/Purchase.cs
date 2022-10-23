@@ -2,7 +2,8 @@
 
 namespace SerialsOnlineService.BLL.Models
 {
-    public record Purchase(DateOnly Date,
+    public record Purchase(int Id,
+        DateOnly Date,
         int AmountOfMonths,
         int UserId,
         int SubscriptionId,
