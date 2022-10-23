@@ -19,7 +19,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var query = "SELECT FROM Subscriptions WHERE id = @Id";
+            var query = "SELECT * FROM subscriptions WHERE subscription_id = @Id";
 
             var command = CreateCommand(query, new { @Id = id }, cancellationToken: cancellationToken);
 
@@ -32,7 +32,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var result = await connection.QueryAsync<SubscriptionEntity>("SELECT * FROM Subscriptions", cancellationToken);
+            var result = await connection.QueryAsync<SubscriptionEntity>("SELECT * FROM subscriptions", cancellationToken);
 
             return result.ToList();
         }
@@ -41,7 +41,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var query = "SELECT * FROM Subscriptions WHERE PricePerMonth = (SELECT MAX(PricePerMonth) FROM Subscriptions); ";
+            var query = "SELECT * FROM subscriptions WHERE price_per_month = (SELECT MAX(price_per_month) FROM subscriptions); ";
 
             var result = await connection.QuerySingleOrDefaultAsync<SubscriptionEntity>(query, cancellationToken);
 
@@ -52,7 +52,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var query = "SELECT * FROM Subscriptions WHERE PricePerMonth = (SELECT MIN(PricePerMonth) FROM Subscriptions); ";
+            var query = "SELECT * FROM subscriptions WHERE price_per_month = (SELECT MIN(price_per_month) FROM subscriptions); ";
 
             var result = await connection.QuerySingleOrDefaultAsync<SubscriptionEntity>(query, cancellationToken);
 
@@ -63,7 +63,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var query = "SELECT AVG(Price) FROM Subscriptions";
+            var query = "SELECT AVG(price) FROM subscriptions";
 
             var result = await connection.QueryFirstOrDefaultAsync(query, cancellationToken);
 
@@ -74,7 +74,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var query = "DELETE FROM Subscriptions WHERE id = @Id";
+            var query = "DELETE FROM subscriptions WHERE subscription_id = @Id";
 
             var command = CreateCommand(query, new { @Id = id }, cancellationToken: cancellationToken);
 
@@ -87,7 +87,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var query = "INSERT INTO Subscriptions (Name, PricePerMonth) values (@Name, @PricePerMonth)";
+            var query = "INSERT INTO subscriptions (name, price_per_month) values (@Name, @PricePerMonth)";
 
             var command = CreateCommand(query, new { @Name = entity.Name, @PricePerMonth = entity.PricePerMonth },
                 cancellationToken: cancellationToken);
@@ -101,7 +101,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var query = "UPDATE Subscriptions SET Name = @Name, PricePerMonth = @PricePerMonth WHERE Id = @Id)";
+            var query = "UPDATE subscriptions SET name = @Name, price_per_month = @PricePerMonth WHERE subscription_id = @Id";
 
             var command = CreateCommand(query, new
             { @Id = entity.Id, @Name = entity.Name, @PricePetMonth = entity.PricePerMonth },

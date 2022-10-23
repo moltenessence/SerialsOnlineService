@@ -19,7 +19,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var query = "SELECT FROM Users WHERE id = @Id";
+            var query = "SELECT * FROM users WHERE user_id = @Id";
 
             var command = CreateCommand(query, new { @Id = id }, cancellationToken: cancellationToken);
 
@@ -32,7 +32,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var result = await connection.QueryAsync<UserEntity>("SELECT * FROM Users", cancellationToken);
+            var result = await connection.QueryAsync<UserEntity>("SELECT * FROM users", cancellationToken);
 
             return result.ToList();
         }
@@ -41,7 +41,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var query = "DELETE FROM Users WHERE id = @Id";
+            var query = "DELETE FROM users WHERE user_id = @Id";
 
             var command = CreateCommand(query, new { @Id = id }, cancellationToken: cancellationToken);
 
@@ -54,7 +54,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var query = "INSERT INTO Users (UserName, Email, Age, SubscriptionId) values (@UserName, @Email, @Age, @SubscriptionId)";
+            var query = "INSERT INTO users (username, email, age, subscription_id) values (@UserName, @Email, @Age, @SubscriptionId)";
 
             var command = CreateCommand(query, new
             { @UserName = entity.UserName, @Email = entity.Email, @Age = entity.Age, @SubscriptionId = entity.SubscriptionId },
@@ -69,7 +69,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var query = "UPDATE Users SET UserName = @UserName, Email = @Email, Age = @Age, SubscriptionId = @SubscriptionId WHERE Id = @Id)";
+            var query = "UPDATE users SET username = @UserName, email = @Email, age = @Age, subscription_id = @SubscriptionId WHERE user_id = @Id";
 
             var command = CreateCommand(query, new
             { @Id = entity.Id, @UserName = entity.UserName, @Email = entity.Email, @Age = entity.Age, @SubscriptionId = entity.SubscriptionId },

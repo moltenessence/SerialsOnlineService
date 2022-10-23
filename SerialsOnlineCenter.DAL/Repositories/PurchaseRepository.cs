@@ -22,7 +22,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
 
             SqlMapper.AddTypeHandler(new SqlDateOnlyTypeHandler());
 
-            var query = "SELECT FROM Purchases WHERE id = @Id";
+            var query = "SELECT * FROM purchases WHERE purchase_id = @Id";
 
             var command = CreateCommand(query, new { @Id = id }, cancellationToken: cancellationToken);
 
@@ -37,7 +37,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
 
             SqlMapper.AddTypeHandler(new SqlDateOnlyTypeHandler());
 
-            var result = await connection.QueryAsync<PurchaseEntity>("SELECT * FROM Purchases", cancellationToken);
+            var result = await connection.QueryAsync<PurchaseEntity>("SELECT * FROM purchases", cancellationToken);
 
             return result.ToList();
         }
@@ -47,8 +47,8 @@ namespace SerialsOnlineCenter.DAL.Repositories
 
             await using var connection = new MySqlConnection(_connectionString);
 
-            var query = "UPDATE Purchases SET AmountOfMonths = @AmountOfMonths, Date = @Date, TotalPrice = @TotalPrice, " +
-                        "UserId = @UserId, SubscriptionId = @SubscriptionId WHERE Id = @Id)";
+            var query = "UPDATE purchases SET amount_of_months = @AmountOfMonths, date = @Date, total_price = @TotalPrice, " +
+                        "user_id = @UserId, subscription_id = @SubscriptionId WHERE purchase_id = @Id";
 
             var command = CreateCommand(query, new
             {
@@ -72,7 +72,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
 
             SqlMapper.AddTypeHandler(new SqlDateOnlyTypeHandler());
 
-            var query = "DELETE FROM Purchases WHERE id = @Id;";
+            var query = "DELETE FROM purchases WHERE purchase_id = @Id;";
 
             var command = CreateCommand(query, new { @Id = id, @DefaultSubscriptionId = 1 }, cancellationToken: cancellationToken);
 
@@ -87,9 +87,9 @@ namespace SerialsOnlineCenter.DAL.Repositories
 
             SqlMapper.AddTypeHandler(new SqlDateOnlyTypeHandler());
 
-            var query = "INSERT INTO Purchases (Date, AmountOfMonths, TotalPrice, UserId, SubscriptionId) " +
+            var query = "INSERT INTO purchases (date, amount_of_months, total_price, user_id, subscription_id) " +
                         "values (@Date, @AmountOfMonths, @TotalPrice, @UserId ,@SubscriptionId); " +
-                        "UPDATE Users SET SubscriptionId = @SubscriptionId WHERE Id = @UserId";
+                        "UPDATE users SET subscription_id = @SubscriptionId WHERE user_id = @UserId";
 
             var command = CreateCommand(query, new
             { @Date = entity.Date, @AmountOfMonths = entity.AmountOfMonths, @TotalPrice = entity.TotalPrice, @UserId = entity.UserId, @SubscriptionId = entity.SubscriptionId },
@@ -106,7 +106,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
 
             SqlMapper.AddTypeHandler(new SqlDateOnlyTypeHandler());
 
-            var query = "SELECT * FROM Purchases ORDER BY TotalPrice LIMIT @AmountOfPurchases";
+            var query = "SELECT * FROM purchases ORDER BY total_price LIMIT @AmountOfPurchases";
 
             var command = CreateCommand(query, new { @AmountOfPurchases = amountOfPurchases });
 

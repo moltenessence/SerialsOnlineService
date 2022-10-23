@@ -1,6 +1,8 @@
-﻿using FluentMigrator.Runner;
+﻿using Dapper.FluentMap;
+using FluentMigrator.Runner;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SerialsOnlineCenter.DAL.FluentMap;
 using SerialsOnlineCenter.DAL.Helpers;
 using SerialsOnlineCenter.DAL.Interfaces;
 using SerialsOnlineCenter.DAL.Interfaces.Repositories;
@@ -22,6 +24,17 @@ namespace SerialsOnlineCenter.DAL
             services.AddTransient<IPurchaseRepository, PurchaseRepository>();
             services.AddTransient<ISerialRepository, SerialRepository>();
             services.AddTransient<IRatingRepository, RatingRepository>();
+
+            FluentMapper.Initialize(config =>
+            {
+                config.AddMap(new RatingMap());
+                config.AddMap(new SerialMap());
+                config.AddMap(new UserMap());
+                config.AddMap(new SubscriptionMap());
+                config.AddMap(new PurchaseMap());
+                config.AddMap(new UserRatingMap());
+                config.AddMap(new SerialRatingMap());
+            });
 
             services.AddFluentMigratorCore().ConfigureRunner(config =>
                     config.AddMySql5().WithGlobalConnectionString(RepositoryHelper.ConnectionString)

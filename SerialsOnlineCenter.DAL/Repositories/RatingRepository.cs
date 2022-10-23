@@ -20,7 +20,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var query = "SELECT FROM Ratings WHERE id = @Id";
+            var query = "SELECT * FROM ratings WHERE rating_id = @Id";
 
             var command = CreateCommand(query, new { @Id = id }, cancellationToken: cancellationToken);
 
@@ -33,12 +33,12 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var query = "INSERT INTO Ratings (Value, Annotation) values (@Value, @Annotation)";
+            var query = "INSERT INTO ratings (value, annotation) values (@Value, @Annotation)";
 
             var command = CreateCommand(query, new
             {
                 @Value = entity.Value,
-                @Annonation = entity.Annotation
+                @Annotation = entity.Annotation
             },
                 cancellationToken: cancellationToken);
 
@@ -51,7 +51,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var result = await connection.QueryAsync<RatingEntity>("SELECT * FROM Ratings", cancellationToken);
+            var result = await connection.QueryAsync<RatingEntity>("SELECT * FROM ratings", cancellationToken);
 
             return result.ToList();
         }
@@ -60,7 +60,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var insertRatingQuery = "INSERT INTO Ratings (Value, Annotation) values (@Value, @Annotation)";
+            var insertRatingQuery = "INSERT INTO ratings (value, annotation) values (@Value, @Annotation)";
 
             var insertRatingCommand = CreateCommand(insertRatingQuery, new
             {
@@ -72,8 +72,8 @@ namespace SerialsOnlineCenter.DAL.Repositories
 
             if (rating != null)
             {
-                var query = "INSERT INTO UsersRatings (UserId, RatingId) values (@UserId, @RatingId);" +
-                            "INSERT INTO SerialsRatings (SerialId, RatingId) values (@SerialId, @RatingId);";
+                var query = "INSERT INTO users_ratings (user_id, rating_id) values (@UserId, @RatingId);" +
+                            "INSERT INTO serials_ratings (serial_id, rating_id) values (@SerialId, @RatingId);";
 
                 var command = CreateCommand(insertRatingQuery, new
                 {
@@ -94,7 +94,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var query = "SELECT AVG(SerialRatings.Value) FROM SerialRatings WHERE @Id = RatingId";
+            var query = "SELECT AVG(serials_ratings.value) FROM serials_ratings WHERE @rating_id = RatingId";
 
             var command = CreateCommand(query, new { @Id = serialId }, cancellationToken: cancellationToken);
 
@@ -107,12 +107,12 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var query = "SELECT Ratings.Value, Ratings.Annotation, Users.UserName, Serials.Name AS SerialName " +
-                        "FROM Ratings " +
-                        "JOIN UsersRatings ON UsersRatings.UserId = UsersRatings.RatingId " +
-                        "JOIN SerialsRatings ON SerialsRatings.SerialId = SerialsRatings.RatingId " +
-                        "JOIN Users ON Users.Id = UsersRatings.UserId " +
-                        "JOIN Serials ON Serials.Id = SerialsRatings.SerialId";
+            var query = "SELECT ratings.value, ratings.annotation, users.username, serials.name AS SerialName " +
+                        "FROM ratings " +
+                        "JOIN users_ratings ON users_ratings.user_id = users_ratings.rating_id " +
+                        "JOIN serials_ratings ON serials_ratings.serial_id = serials_ratings.rating_id " +
+                        "JOIN users ON users.user_id = users_ratings.user_id " +
+                        "JOIN serials ON serials.serial_id = serials_ratings.serial_id";
 
             var result = await connection.QueryAsync<RatingWithUserAndSerialNames>(query, cancellationToken);
 
@@ -123,12 +123,13 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var query = "UPDATE Ratings SET Value = @Value, Annotation = @Annotation WHERE Id = @Id)";
+            var query = "UPDATE ratings SET value = @Value, annotation = @Annotation WHERE rating_id = @Id";
 
             var command = CreateCommand(query, new
             {
                 @Id = entity.Id,
                 @Value = entity.Value,
+                @Annotation = entity.Annotation,
             },
                 cancellationToken: cancellationToken);
 
@@ -142,7 +143,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var query = "DELETE FROM Ratings WHERE id = @Id";
+            var query = "DELETE FROM ratings WHERE rating_id = @Id";
 
             var command = CreateCommand(query, new { @Id = id }, cancellationToken: cancellationToken);
 
