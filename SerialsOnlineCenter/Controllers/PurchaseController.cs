@@ -8,12 +8,12 @@ namespace SerialsOnlineCenter.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : GenericController<IUserService, User, UserViewModel>
+    public class PurchaseController : GenericController<IPurchaseService, Purchase, PurchaseViewModel>
     {
-        private readonly IUserService _service;
+        private readonly IPurchaseService _service;
         private readonly IMapper _mapper;
 
-        public UsersController(IUserService service, IMapper mapper) : base(service, mapper)
+        public PurchaseController(IPurchaseService service, IMapper mapper) : base(service, mapper)
         {
             _service = service;
         }
