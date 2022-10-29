@@ -58,7 +58,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
             return result.ToList();
         }
 
-        public async Task<SerialRatingEntityView> GetSerialRatings(int serialId, CancellationToken cancellationToken)
+        public async Task<SerialRatingsEntityView> GetSerialRatings(int serialId, CancellationToken cancellationToken)
         {
             await using var connection = new MySqlConnection(_connectionString);
 
@@ -78,12 +78,12 @@ namespace SerialsOnlineCenter.DAL.Repositories
 
                 var avgRatingResult = await connection.QueryFirstOrDefaultAsync<SerialAverageRating>(avgRatingCommand);
 
-                var result = new SerialRatingEntityView(ratings.ToList(), avgRatingResult.AverageRating);
+                var result = new SerialRatingsEntityView(ratings.ToList(), avgRatingResult.AverageRating);
 
                 return result;
             }
 
-            return new SerialRatingEntityView(new List<SerialRating>(), 0.0M); ;
+            return new SerialRatingsEntityView(new List<SerialRating>(), 0.0M); ;
         }
 
         public async Task<IReadOnlyList<RatingWithUserAndSerialNames>> GetWithUsersAndSerialNames(CancellationToken cancellationToken)

@@ -33,7 +33,7 @@ namespace SerialsOnlineCenter.Mapper
             CreateMap<SerialWithRequiredSubscriptionDTO, SerialWithRequiredSubscriptionViewModel>();
             CreateMap<RatingWithUserAndSerialNamesDTO, RatingWithUserAndSerialNamesViewModel>();
             CreateMap<SerialsGroupedByGenreDTO, SerialsGroupedByGenreViewModel>();
-            CreateMap<SerialRatingDTO, SerialRatingViewModel>();
+            CreateMap<SerialRatingsDTO, SerialRatingsViewModel>();
         }
     }
 }

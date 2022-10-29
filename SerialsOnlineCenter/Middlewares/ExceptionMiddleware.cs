@@ -1,4 +1,6 @@
-﻿namespace SerialsOnlineCenter.Middelwares
+﻿using SerialsOnlineService.BLL.Exceptions;
+
+namespace SerialsOnlineCenter.Middelwares
 {
     public class ExceptionMiddleware
     {
@@ -16,6 +18,11 @@
             try
             {
                 await _next(context);
+            }
+            catch (ModelNotFoundException ex)
+            {
+                context.Response.StatusCode = ex.StatusCode;
+                await HandleException(context, ex);
             }
             catch (Exception ex)
             {

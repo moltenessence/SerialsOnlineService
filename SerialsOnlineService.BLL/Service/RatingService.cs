@@ -24,11 +24,11 @@ namespace SerialsOnlineService.BLL.Service
             return result;
         }
 
-        public async Task<SerialRatingDTO> GetSerialRatings(int serialId, CancellationToken cancellationToken)
+        public async Task<SerialRatingsDTO> GetSerialRatings(int serialId, CancellationToken cancellationToken)
         {
             var entityView = await _repository.GetSerialRatings(serialId, cancellationToken);
 
-            var result = _mapper.Map<SerialRatingDTO>(entityView);
+            var result = _mapper.Map<SerialRatingsDTO>(entityView);
 
             return result;
         }

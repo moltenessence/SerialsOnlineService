@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SerialsOnlineCenter.DAL.Entities;
 using SerialsOnlineCenter.DAL.Interfaces.Repositories;
+using SerialsOnlineService.BLL.Exceptions;
 using SerialsOnlineService.BLL.Interface.Services;
 using SerialsOnlineService.BLL.Models;
 
@@ -19,6 +20,8 @@ namespace SerialsOnlineService.BLL.Service
 
         public override async Task<Purchase> Update(int id, Purchase model, CancellationToken cancellationToken)
         {
+            if (!await CheckIfEntityExists(id, cancellationToken)) throw new ModelNotFoundException(id);
+
             var entityToUpdate = _mapper.Map<PurchaseEntity>(model);
             entityToUpdate.Id = id;
 

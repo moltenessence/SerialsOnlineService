@@ -45,11 +45,11 @@ namespace SerialsOnlineCenter.Controllers
         }
 
         [HttpGet("serial/{serialId}")]
-        public async Task<SerialRatingViewModel> GetSerialRatings(int serialId, CancellationToken cancellationToken)
+        public async Task<SerialRatingsViewModel> GetSerialRatings(int serialId, CancellationToken cancellationToken)
         {
             var ratings = await _service.GetSerialRatings(serialId, cancellationToken);
 
-            var result = _mapper.Map<SerialRatingViewModel>(ratings);
+            var result = _mapper.Map<SerialRatingsViewModel>(ratings);
 
             return result;
         }

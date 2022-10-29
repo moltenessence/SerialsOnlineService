@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SerialsOnlineCenter.DAL.Interfaces;
 using SerialsOnlineCenter.DAL.Interfaces.Repositories;
+using SerialsOnlineService.BLL.Exceptions;
 using SerialsOnlineService.BLL.Interface.Models;
 using SerialsOnlineService.BLL.Interface.Services;
 
@@ -20,6 +21,8 @@ namespace SerialsOnlineService.BLL.Service
 
         public virtual async Task<TModel> Delete(int id, CancellationToken cancellationToken)
         {
+            if (!await CheckIfEntityExists(id, cancellationToken)) throw new ModelNotFoundException(id);
+
             var entity = await _repository.DeleteById(id, cancellationToken);
 
             var result = _mapper.Map<TModel>(entity);
@@ -57,6 +60,8 @@ namespace SerialsOnlineService.BLL.Service
 
         public virtual async Task<TModel> Update(int id, TModel model, CancellationToken cancellationToken)
         {
+            if (!await CheckIfEntityExists(id, cancellationToken)) throw new ModelNotFoundException(id);
+
             var entityToUpdate = _mapper.Map<TEntity>(model);
             entityToUpdate.Id = id;
             var entity = await _repository.Update(entityToUpdate, cancellationToken);
@@ -64,6 +69,15 @@ namespace SerialsOnlineService.BLL.Service
             var result = _mapper.Map<TModel>(entity);
 
             return result;
+        }
+
+        protected async Task<bool> CheckIfEntityExists(int id, CancellationToken cancellationToken)
+        {
+            var entity = await _repository.GetById(id, cancellationToken);
+
+            if (entity is null) return false;
+
+            return true;
         }
     }
 }
