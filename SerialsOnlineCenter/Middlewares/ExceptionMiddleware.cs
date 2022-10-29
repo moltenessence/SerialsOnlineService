@@ -48,7 +48,6 @@ namespace SerialsOnlineCenter.Middelwares
         private void SetResponseParameters(HttpContext context)
         {
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = context.Response.StatusCode;
         }
     }
 }
