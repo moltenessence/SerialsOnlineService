@@ -100,8 +100,8 @@ namespace SerialsOnlineCenter.DAL.Repositories
             await using var connection = new MySqlConnection(_connectionString);
 
             var query = "SELECT ratings.value as Value, ratings.annotation as Annotation, users.username as UserName, serials.name as SerialName FROM ratings " +
-                        "JOIN users_ratings ON users_ratings.user_id = users_ratings.rating_id " +
-                        "JOIN serials_ratings ON serials_ratings.serial_id = serials_ratings.rating_id " +
+                        "JOIN users_ratings ON users_ratings.rating_id = ratings.rating_id " +
+                        "JOIN serials_ratings ON serials_ratings.rating_id = users_ratings.rating_id " +
                         "JOIN users ON users.user_id = users_ratings.user_id " +
                         "JOIN serials ON serials.serial_id = serials_ratings.serial_id";
 
