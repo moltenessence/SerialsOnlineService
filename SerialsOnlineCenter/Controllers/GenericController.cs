@@ -33,26 +33,6 @@ namespace SerialsOnlineCenter.Controllers
             return result;
         }
 
-        [HttpPost]
-        public async Task<TViewModel> Add(TViewModel model, CancellationToken cancellationToken)
-        {
-            var modelToInsert = _mapper.Map<TModel>(model);
-
-            var result = await _service.Insert(modelToInsert, cancellationToken);
-
-            return _mapper.Map<TViewModel>(result);
-        }
-
-        [HttpPut]
-        public async Task<TViewModel> Update(TViewModel model, CancellationToken cancellationToken)
-        {
-            var modelToInsert = _mapper.Map<TModel>(model);
-
-            var result = await _service.Update(modelToInsert, cancellationToken);
-
-            return _mapper.Map<TViewModel>(result);
-        }
-
         [HttpDelete("{id}")]
         public async Task<TViewModel> DeleteById(int id, CancellationToken cancellationToken)
         {

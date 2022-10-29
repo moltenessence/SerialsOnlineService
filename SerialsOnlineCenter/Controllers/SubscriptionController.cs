@@ -14,6 +14,26 @@ namespace SerialsOnlineCenter.Controllers
         {
         }
 
+        [HttpPost]
+        public async Task<SubscriptionViewModel> Add(PostSubscriptionViewModel viewModel, CancellationToken cancellationToken)
+        {
+            var modelToInsert = _mapper.Map<Subscription>(viewModel);
+
+            var result = await _service.Insert(modelToInsert, cancellationToken);
+
+            return _mapper.Map<SubscriptionViewModel>(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<SubscriptionViewModel> Update(int id, UpdateSubscriptionViewModel viewModel, CancellationToken cancellationToken)
+        {
+            var modelToUpdate = _mapper.Map<Subscription>(viewModel);
+
+            var result = await _service.Update(id, modelToUpdate, cancellationToken);
+
+            return _mapper.Map<SubscriptionViewModel>(result);
+        }
+
         [HttpGet("price/max")]
         public async Task<SubscriptionViewModel> GetByMaxPrice(CancellationToken cancellationToken)
         {

@@ -42,9 +42,9 @@ namespace SerialsOnlineCenter.DAL.Repositories
             },
                 cancellationToken: cancellationToken);
 
-            var result = await connection.QuerySingleOrDefaultAsync<RatingEntity>(command);
+            await connection.QuerySingleOrDefaultAsync<RatingEntity>(command);
 
-            return result;
+            return entity;
         }
 
         public async Task<IReadOnlyList<RatingEntity>> GetAll(CancellationToken cancellationToken)
@@ -124,9 +124,9 @@ namespace SerialsOnlineCenter.DAL.Repositories
             },
                 cancellationToken: cancellationToken);
 
-            var result = await connection.QuerySingleOrDefaultAsync<RatingEntity>(command);
+            await connection.QuerySingleOrDefaultAsync<RatingEntity>(command);
 
-            return result;
+            return entity;
         }
 
 

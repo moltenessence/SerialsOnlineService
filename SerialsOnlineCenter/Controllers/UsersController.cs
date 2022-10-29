@@ -13,5 +13,25 @@ namespace SerialsOnlineCenter.Controllers
         public UsersController(IUserService service, IMapper mapper) : base(service, mapper)
         {
         }
+
+        [HttpPost]
+        public async Task<UserViewModel> Add(PostUserViewModel viewModel, CancellationToken cancellationToken)
+        {
+            var modelToInsert = _mapper.Map<User>(viewModel);
+
+            var result = await _service.Insert(modelToInsert, cancellationToken);
+
+            return _mapper.Map<UserViewModel>(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<UserViewModel> Update(int id, UpdateUserViewModel viewModel, CancellationToken cancellationToken)
+        {
+            var modelToUpdate = _mapper.Map<User>(viewModel);
+
+            var result = await _service.Update(id, modelToUpdate, cancellationToken);
+
+            return _mapper.Map<UserViewModel>(result);
+        }
     }
 }

@@ -60,9 +60,9 @@ namespace SerialsOnlineCenter.DAL.Repositories
             { @UserName = entity.UserName, @Email = entity.Email, @Age = entity.Age, @SubscriptionId = entity.SubscriptionId },
                 cancellationToken: cancellationToken);
 
-            var result = await connection.QuerySingleOrDefaultAsync<UserEntity>(command);
+            await connection.QuerySingleOrDefaultAsync<UserEntity>(command);
 
-            return result;
+            return entity;
         }
 
         public async Task<UserEntity> Update(UserEntity entity, CancellationToken cancellationToken)
@@ -75,9 +75,9 @@ namespace SerialsOnlineCenter.DAL.Repositories
             { @Id = entity.Id, @UserName = entity.UserName, @Email = entity.Email, @Age = entity.Age, @SubscriptionId = entity.SubscriptionId },
                 cancellationToken: cancellationToken);
 
-            var result = await connection.QuerySingleOrDefaultAsync<UserEntity>(command);
+            await connection.QuerySingleOrDefaultAsync<UserEntity>(command);
 
-            return result;
+            return entity;
         }
     }
 }

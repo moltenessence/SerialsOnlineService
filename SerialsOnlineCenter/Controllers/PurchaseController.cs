@@ -12,6 +12,25 @@ namespace SerialsOnlineCenter.Controllers
     {
         public PurchaseController(IPurchaseService service, IMapper mapper) : base(service, mapper) { }
 
+        [HttpPost]
+        public async Task<PurchaseViewModel> Add(PostPurchaseViewModel viewModel, CancellationToken cancellationToken)
+        {
+            var modelToInsert = _mapper.Map<Purchase>(viewModel);
+
+            var result = await _service.Insert(modelToInsert, cancellationToken);
+
+            return _mapper.Map<PurchaseViewModel>(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<PurchaseViewModel> Update(int id, UpdatePurchaseViewModel viewModel, CancellationToken cancellationToken)
+        {
+            var modelToUpdate = _mapper.Map<Purchase>(viewModel);
+
+            var result = await _service.Update(id, modelToUpdate, cancellationToken);
+
+            return _mapper.Map<PurchaseViewModel>(result);
+        }
 
         [HttpGet("maxprice/{amount}")]
         public async Task<IReadOnlyList<PurchaseViewModel>> GetTopPurchasesByMaxTotalPrice(int amount, CancellationToken cancellationToken)

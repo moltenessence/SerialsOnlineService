@@ -55,9 +55,10 @@ namespace SerialsOnlineService.BLL.Service
             return result;
         }
 
-        public async Task<TModel> Update(TModel model, CancellationToken cancellationToken)
+        public async Task<TModel> Update(int id, TModel model, CancellationToken cancellationToken)
         {
             var entityToUpdate = _mapper.Map<TEntity>(model);
+            entityToUpdate.Id = id;
             var entity = await _repository.Update(entityToUpdate, cancellationToken);
 
             var result = _mapper.Map<TModel>(entity);

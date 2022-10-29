@@ -140,9 +140,9 @@ namespace SerialsOnlineCenter.DAL.Repositories
             },
                 cancellationToken: cancellationToken);
 
-            var result = await connection.QuerySingleOrDefaultAsync<SerialEntity>(command);
+            await connection.QuerySingleOrDefaultAsync<SerialEntity>(command);
 
-            return result;
+            return entity;
         }
 
         public async Task<SerialEntity> Update(SerialEntity entity, CancellationToken cancellationToken)
@@ -164,9 +164,9 @@ namespace SerialsOnlineCenter.DAL.Repositories
             },
                cancellationToken: cancellationToken);
 
-            var result = await connection.QuerySingleOrDefaultAsync<SerialEntity>(command);
+            await connection.QuerySingleOrDefaultAsync<SerialEntity>(command);
 
-            return result;
+            return entity;
         }
 
         public async Task<IReadOnlyList<SerialWithRequiredSubscription>> GetWithRequiredSubscription(CancellationToken cancellationToken)

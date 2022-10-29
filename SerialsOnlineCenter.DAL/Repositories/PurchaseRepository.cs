@@ -61,9 +61,9 @@ namespace SerialsOnlineCenter.DAL.Repositories
             },
                 cancellationToken: cancellationToken);
 
-            var result = await connection.QuerySingleOrDefaultAsync<PurchaseEntity>(command);
+            await connection.QuerySingleOrDefaultAsync<PurchaseEntity>(command);
 
-            return result;
+            return entity;
         }
 
         public async Task<PurchaseEntity> DeleteById(int id, CancellationToken cancellationToken)
@@ -95,9 +95,9 @@ namespace SerialsOnlineCenter.DAL.Repositories
             { @Date = entity.Date, @AmountOfMonths = entity.AmountOfMonths, @TotalPrice = entity.TotalPrice, @UserId = entity.UserId, @SubscriptionId = entity.SubscriptionId },
                 cancellationToken: cancellationToken);
 
-            var result = await connection.QuerySingleOrDefaultAsync<PurchaseEntity>(command);
+            await connection.QuerySingleOrDefaultAsync<PurchaseEntity>(command);
 
-            return result;
+            return entity;
         }
 
         public async Task<IReadOnlyList<PurchaseEntity>> GetTopPurchasesByMaxTotalPrice(int amountOfPurchases, CancellationToken cancellationToken)

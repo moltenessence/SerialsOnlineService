@@ -2,5 +2,5 @@
 
 namespace SerialsOnlineService.BLL.Models
 {
-    public record Subscription(int Id, string Name, decimal PricePerMonth) : IModel;
+    public record Subscription(int Id = default, string Name = null, decimal PricePerMonth = default) : IModel;
 }

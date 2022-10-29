@@ -14,6 +14,26 @@ namespace SerialsOnlineCenter.Controllers
         {
         }
 
+        [HttpPost]
+        public async Task<SerialViewModel> Add(PostSerialViewModel viewModel, CancellationToken cancellationToken)
+        {
+            var modelToInsert = _mapper.Map<Serial>(viewModel);
+
+            var result = await _service.Insert(modelToInsert, cancellationToken);
+
+            return _mapper.Map<SerialViewModel>(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<SerialViewModel> Update(int id, UpdateSerialViewModel viewModel, CancellationToken cancellationToken)
+        {
+            var modelToUpdate = _mapper.Map<Serial>(viewModel);
+
+            var result = await _service.Update(id, modelToUpdate, cancellationToken);
+
+            return _mapper.Map<SerialViewModel>(result);
+        }
+
         [HttpGet("minSeries/{amountOfSerials}")]
         public async Task<IReadOnlyList<SerialViewModel>> GetOrderedByMinimalAmountOfSeries(int amountOfSerials, CancellationToken cancellationToken)
         {

@@ -2,5 +2,5 @@
 
 namespace SerialsOnlineService.BLL.Models
 {
-    public record Rating(int Id, int Value, string? Annotation) : IModel;
+    public record Rating(int Id = default, int Value = default, string? Annotation = null) : IModel;
 }

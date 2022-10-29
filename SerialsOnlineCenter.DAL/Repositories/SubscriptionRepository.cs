@@ -108,9 +108,9 @@ namespace SerialsOnlineCenter.DAL.Repositories
             { @Id = entity.Id, @Name = entity.Name, @PricePetMonth = entity.PricePerMonth },
                 cancellationToken: cancellationToken);
 
-            var result = await connection.QuerySingleOrDefaultAsync<SubscriptionEntity>(command);
+            await connection.QuerySingleOrDefaultAsync<SubscriptionEntity>(command);
 
-            return result;
+            return entity;
         }
     }
 }

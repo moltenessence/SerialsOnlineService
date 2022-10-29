@@ -2,10 +2,10 @@
 
 namespace SerialsOnlineService.BLL.Models
 {
-    public record Purchase(int Id,
-        DateOnly Date,
-        int AmountOfMonths,
-        int UserId,
-        int SubscriptionId,
-        decimal TotalPrice) : IModel;
+    public record Purchase(int Id = default,
+        DateOnly Date = default,
+        int AmountOfMonths = default,
+        int UserId = default,
+        int SubscriptionId = default,
+        decimal TotalPrice = default) : IModel;
 }

@@ -19,6 +19,16 @@ namespace SerialsOnlineCenter.Mapper
             CreateMap<Serial, SerialViewModel>().ReverseMap();
 
             CreateMap<PostRatingViewModel, Rating>();
+            CreateMap<PostPurchaseViewModel, Purchase>();
+            CreateMap<PostSerialViewModel, Serial>();
+            CreateMap<PostSubscriptionViewModel, Subscription>();
+            CreateMap<PostUserViewModel, User>();
+
+            CreateMap<UpdateRatingViewModel, Rating>();
+            CreateMap<UpdatePurchaseViewModel, Purchase>();
+            CreateMap<UpdateSerialViewModel, Serial>();
+            CreateMap<UpdateSubscriptionViewModel, Subscription>();
+            CreateMap<UpdateUserViewModel, User>();
 
             CreateMap<SerialWithRequiredSubscriptionViewModel, SerialWithRequiredSubscriptionDTO>().ReverseMap();
             CreateMap<RatingWithUserAndSerialNamesViewModel, RatingWithUserAndSerialNamesDTO>().ReverseMap();
