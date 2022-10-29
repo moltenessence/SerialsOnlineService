@@ -32,7 +32,7 @@ namespace SerialsOnlineCenter.Controllers
             return _mapper.Map<PurchaseViewModel>(result);
         }
 
-        [HttpGet("maxprice/{amount}")]
+        [HttpGet("price/max/{amount}")]
         public async Task<IReadOnlyList<PurchaseViewModel>> GetTopPurchasesByMaxTotalPrice(int amount, CancellationToken cancellationToken)
         {
             var purchases = await _service.GetTopPurchasesByMaxTotalPrice(amount, cancellationToken);

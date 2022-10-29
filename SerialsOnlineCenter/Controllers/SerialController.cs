@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using SerialsOnlineCenter.FilterQuery;
 using SerialsOnlineCenter.ViewModels.Serial;
+using SerialsOnlineService.BLL.Filter;
 using SerialsOnlineService.BLL.Interface.Services;
 using SerialsOnlineService.BLL.Models;
 
@@ -34,40 +36,11 @@ namespace SerialsOnlineCenter.Controllers
             return _mapper.Map<SerialViewModel>(result);
         }
 
-        [HttpGet("minSeries/{amountOfSerials}")]
-        public async Task<IReadOnlyList<SerialViewModel>> GetOrderedByMinimalAmountOfSeries(int amountOfSerials, CancellationToken cancellationToken)
+        [HttpGet("filter")]
+        public async Task<IReadOnlyList<SerialViewModel>> GetByFilter([FromQuery] SerialsFilterQuery filterQuery, CancellationToken cancellationToken)
         {
-            var serials = await _service.GetTopWithTheMinimalAmountOfSeries(amountOfSerials, cancellationToken);
-
-            var result = _mapper.Map<IReadOnlyList<SerialViewModel>>(serials);
-
-            return result;
-        }
-
-        [HttpGet("maxSeries/{amountOfSerials}")]
-        public async Task<IReadOnlyList<SerialViewModel>> GetOrderedByLargestAmountOfSeries(int amountOfSerials, CancellationToken cancellationToken)
-        {
-            var serials = await _service.GetTopWithTheLargestAmountOfSeries(amountOfSerials, cancellationToken);
-
-            var result = _mapper.Map<IReadOnlyList<SerialViewModel>>(serials);
-
-            return result;
-        }
-
-        [HttpGet("latestRelease")]
-        public async Task<IReadOnlyList<SerialViewModel>> GetOrderedByLatestReleaseYear(CancellationToken cancellationToken)
-        {
-            var serials = await _service.GetOrderedByLatestReleaseYear(cancellationToken);
-
-            var result = _mapper.Map<IReadOnlyList<SerialViewModel>>(serials);
-
-            return result;
-        }
-
-        [HttpGet("oldestRelease")]
-        public async Task<IReadOnlyList<SerialViewModel>> GetOrderedByOldestReleaseYear(CancellationToken cancellationToken)
-        {
-            var serials = await _service.GetOrderedByOldestReleaseYear(cancellationToken);
+            var filter = _mapper.Map<SerialsFilter>(filterQuery);
+            var serials = await _service.GetByFilter(filter, cancellationToken);
 
             var result = _mapper.Map<IReadOnlyList<SerialViewModel>>(serials);
 
@@ -94,7 +67,7 @@ namespace SerialsOnlineCenter.Controllers
             return result;
         }
 
-        [HttpGet("byGenres")]
+        [HttpGet("genres/group")]
         public async Task<IReadOnlyList<SerialsGroupedByGenreViewModel>> GetGroupedByGenres(CancellationToken cancellationToken)
         {
             var serials = await _service.GetGroupedByGenre(cancellationToken);
@@ -104,7 +77,7 @@ namespace SerialsOnlineCenter.Controllers
             return result;
         }
 
-        [HttpGet("genres")]
+        [HttpGet("genres/all")]
         public async Task<IReadOnlyList<string>> GetAllByGenres(CancellationToken cancellationToken)
         {
             var result = await _service.GetAllGenres(cancellationToken);

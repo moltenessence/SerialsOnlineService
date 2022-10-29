@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using SerialsOnlineCenter.DAL.Entities;
 using SerialsOnlineCenter.DAL.EntityViews;
+using SerialsOnlineCenter.DAL.FilterProperties;
+using SerialsOnlineService.BLL.Filter;
 using SerialsOnlineService.BLL.Models;
 
 namespace SerialsOnlineCenter.Mapper
@@ -19,6 +21,8 @@ namespace SerialsOnlineCenter.Mapper
             CreateMap<RatingWithUserAndSerialNames, RatingWithUserAndSerialNamesDTO>().ReverseMap();
             CreateMap<SerialsGroupedByGenre, SerialsGroupedByGenreDTO>().ReverseMap();
             CreateMap<SerialRatingsEntityView, SerialRatingsDTO>().ReverseMap();
+
+            CreateMap<SerialsFilter, SerialFilterProperties>();
         }
 
     }

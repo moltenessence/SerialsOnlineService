@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using SerialsOnlineCenter.FilterQuery;
 using SerialsOnlineCenter.ViewModels.Purchase;
 using SerialsOnlineCenter.ViewModels.Rating;
 using SerialsOnlineCenter.ViewModels.Serial;
 using SerialsOnlineCenter.ViewModels.Subscription;
 using SerialsOnlineCenter.ViewModels.User;
+using SerialsOnlineService.BLL.Filter;
 using SerialsOnlineService.BLL.Models;
 
 namespace SerialsOnlineCenter.Mapper
@@ -34,6 +36,8 @@ namespace SerialsOnlineCenter.Mapper
             CreateMap<RatingWithUserAndSerialNamesDTO, RatingWithUserAndSerialNamesViewModel>();
             CreateMap<SerialsGroupedByGenreDTO, SerialsGroupedByGenreViewModel>();
             CreateMap<SerialRatingsDTO, SerialRatingsViewModel>();
+
+            CreateMap<SerialsFilterQuery, SerialsFilter>();
         }
     }
 }

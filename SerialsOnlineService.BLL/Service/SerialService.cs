@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using SerialsOnlineCenter.DAL.Entities;
+using SerialsOnlineCenter.DAL.FilterProperties;
 using SerialsOnlineCenter.DAL.Interfaces.Repositories;
+using SerialsOnlineService.BLL.Exceptions;
+using SerialsOnlineService.BLL.Filter;
 using SerialsOnlineService.BLL.Interface.Services;
 using SerialsOnlineService.BLL.Models;
 
@@ -15,42 +18,6 @@ namespace SerialsOnlineService.BLL.Service
             _repository = repository;
         }
 
-        public async Task<IReadOnlyList<Serial>> GetOrderedByOldestReleaseYear(CancellationToken cancellationToken)
-        {
-            var entities = await _repository.GetOrderedByOldestReleaseYear(cancellationToken);
-
-            var result = _mapper.Map<IReadOnlyList<Serial>>(entities);
-
-            return result;
-        }
-
-        public async Task<IReadOnlyList<Serial>> GetOrderedByLatestReleaseYear(CancellationToken cancellationToken)
-        {
-            var entities = await _repository.GetOrderedByLatestReleaseYear(cancellationToken);
-
-            var result = _mapper.Map<IReadOnlyList<Serial>>(entities);
-
-            return result;
-        }
-
-        public async Task<IReadOnlyList<Serial>> GetTopWithTheLargestAmountOfSeries(int amountOfSerials, CancellationToken cancellationToken)
-        {
-            var entities = await _repository.GetTopWithTheLargestAmountOfSeries(amountOfSerials, cancellationToken);
-
-            var result = _mapper.Map<IReadOnlyList<Serial>>(entities);
-
-            return result;
-        }
-
-        public async Task<IReadOnlyList<Serial>> GetTopWithTheMinimalAmountOfSeries(int amountOfSerials, CancellationToken cancellationToken)
-        {
-            var entities = await _repository.GetTopWithTheMinimalAmountOfSeries(amountOfSerials, cancellationToken);
-
-            var result = _mapper.Map<IReadOnlyList<Serial>>(entities);
-
-            return result;
-        }
-
         public async Task<IReadOnlyList<Serial>> GetAccordingToSubscription(int subscriptionId, CancellationToken cancellationToken)
         {
             var entities = await _repository.GetAccordingToSubscription(subscriptionId, cancellationToken);
@@ -60,9 +27,13 @@ namespace SerialsOnlineService.BLL.Service
             return result;
         }
 
-        public async Task<IReadOnlyList<Serial>> GetByGenre(string genre, CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<Serial>> GetByFilter(SerialsFilter filter, CancellationToken cancellationToken)
         {
-            var entities = await _repository.GetByGenre(genre, cancellationToken);
+            if (!CheckIfFilterIsValid(filter))
+                throw new InvalidFilterParametersException("You can't get data sorted by asc and desc simultaneously.");
+
+            var properties = _mapper.Map<SerialFilterProperties>(filter);
+            var entities = await _repository.GetByFilterProperties(properties, cancellationToken);
 
             var result = _mapper.Map<IReadOnlyList<Serial>>(entities);
 
@@ -91,6 +62,16 @@ namespace SerialsOnlineService.BLL.Service
         public async Task<IReadOnlyList<string>> GetAllGenres(CancellationToken cancellationToken)
         {
             return await _repository.GetAllGenres(cancellationToken);
+        }
+
+        private bool CheckIfFilterIsValid(SerialsFilter filter)
+        {
+            if (filter is null || true == filter?.AmountOfSeries < 0)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

@@ -2,7 +2,9 @@
 using MySql.Data.MySqlClient;
 using SerialsOnlineCenter.DAL.Entities;
 using SerialsOnlineCenter.DAL.EntityViews;
+using SerialsOnlineCenter.DAL.FilterProperties;
 using SerialsOnlineCenter.DAL.Interfaces.Repositories;
+using System.Text;
 using static SerialsOnlineCenter.DAL.Helpers.RepositoryHelper;
 
 namespace SerialsOnlineCenter.DAL.Repositories
@@ -29,50 +31,6 @@ namespace SerialsOnlineCenter.DAL.Repositories
             return result;
         }
 
-        public async Task<IReadOnlyList<SerialEntity>> GetOrderedByOldestReleaseYear(CancellationToken cancellationToken)
-        {
-            await using var connection = new MySqlConnection(_connectionString);
-
-            var result = await connection.QueryAsync<SerialEntity>("SELECT * FROM serials ORDER BY release_year", cancellationToken);
-
-            return result.ToList();
-        }
-
-        public async Task<IReadOnlyList<SerialEntity>> GetOrderedByLatestReleaseYear(CancellationToken cancellationToken)
-        {
-            await using var connection = new MySqlConnection(_connectionString);
-
-            var result = await connection.QueryAsync<SerialEntity>("SELECT * FROM serials ORDER BY release_year DESC", cancellationToken);
-
-            return result.ToList();
-        }
-
-        public async Task<IReadOnlyList<SerialEntity>> GetTopWithTheLargestAmountOfSeries(int amountOfSerials, CancellationToken cancellationToken)
-        {
-            await using var connection = new MySqlConnection(_connectionString);
-
-            var query = "SELECT * FROM Serials ORDER BY amount_of_series DESC LIMIT @AmountOfSeries";
-
-            var command = CreateCommand(query, new { @AmountOfSeries = amountOfSerials }, cancellationToken: cancellationToken);
-
-            var result = await connection.QueryAsync<SerialEntity>(command);
-
-            return result.ToList();
-        }
-
-        public async Task<IReadOnlyList<SerialEntity>> GetTopWithTheMinimalAmountOfSeries(int amountOfSerials, CancellationToken cancellationToken)
-        {
-            await using var connection = new MySqlConnection(_connectionString);
-
-            var query = "SELECT * FROM serials ORDER BY amount_of_series LIMIT @AmountOfSeries";
-
-            var command = CreateCommand(query, new { @AmountOfSerials = amountOfSerials }, cancellationToken: cancellationToken);
-
-            var result = await connection.QueryAsync<SerialEntity>(command);
-
-            return result.ToList();
-        }
-
         public async Task<IReadOnlyList<SerialEntity>> GetAccordingToSubscription(int subscriptionId, CancellationToken cancellationToken)
         {
             await using var connection = new MySqlConnection(_connectionString);
@@ -85,20 +43,6 @@ namespace SerialsOnlineCenter.DAL.Repositories
 
             return result.ToList();
         }
-
-        public async Task<IReadOnlyList<SerialEntity>> GetByGenre(string genre, CancellationToken cancellationToken)
-        {
-            await using var connection = new MySqlConnection(_connectionString);
-
-            var query = "SELECT * FROM serials WHERE genre LIKE %@Genre%";
-
-            var command = CreateCommand(query, new { @Genre = genre }, cancellationToken: cancellationToken);
-
-            var result = await connection.QueryAsync<SerialEntity>(command);
-
-            return result.ToList();
-        }
-
 
         public async Task<IReadOnlyList<SerialEntity>> GetAll(CancellationToken cancellationToken)
         {
@@ -188,6 +132,78 @@ namespace SerialsOnlineCenter.DAL.Repositories
             var query = "SELECT genre AS Genre, COUNT(*) AS Amount FROM serials GROUP BY genre";
 
             var result = await connection.QueryAsync<SerialsGroupedByGenre>(query, cancellationToken);
+
+            return result.ToList();
+        }
+
+        public async Task<IReadOnlyList<SerialEntity>> GetByFilterProperties(SerialFilterProperties? props, CancellationToken cancellationToken)
+        {
+            await using var connection = new MySqlConnection(_connectionString);
+
+            StringBuilder sb = new StringBuilder("SELECT * FROM serials ");
+
+            var whereCondition = false;
+
+            if (!String.IsNullOrEmpty(props?.Name))
+            {
+                sb.Append("WHERE name LIKE @SerialName ");
+                whereCondition = true;
+            }
+
+
+            if (props?.AmountOfSeries > 0)
+            {
+                if (whereCondition)
+                {
+                    sb.Append("AND amount_of_series > @AmountOfSeries ");
+                }
+                else
+                {
+                    sb.Append("WHERE amount_of_series > @AmountOfSeries ");
+                    whereCondition = true;
+                }
+            }
+
+            if (props?.ReleaseYear > 0)
+            {
+                if (whereCondition)
+                {
+                    sb.Append("AND release_year > @ReleaseYear ");
+                }
+                else
+                {
+                    sb.Append("WHERE release_year > @ReleaseYear ");
+                    whereCondition = true;
+                }
+            }
+
+            if (props?.OderByAmountOfSeriesDesc == true)
+            {
+                sb.Append("ORDER BY amount_of_series DESC ");
+            }
+            else
+            {
+                sb.Append("ORDER BY amount_of_series ");
+            }
+
+            if (props?.OrderByReleaseDesc == true)
+            {
+                sb.Append(", release_year DESC ");
+            }
+            else
+            {
+                sb.Append(", release_year ");
+            }
+
+            var command = CreateCommand(sb.ToString(), new
+            {
+                @SerialName = props?.Name,
+                @AmountOfSeries = props?.AmountOfSeries,
+                @ReleaseYear = props?.ReleaseYear,
+            },
+                cancellationToken: cancellationToken);
+
+            var result = await connection.QueryAsync<SerialEntity>(command);
 
             return result.ToList();
         }

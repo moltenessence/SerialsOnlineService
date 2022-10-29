@@ -55,7 +55,7 @@ namespace SerialsOnlineCenter.Controllers
         }
 
         [HttpGet("price/avg")]
-        public async Task<decimal> GetByAveragePrice(CancellationToken cancellationToken)
+        public async Task<decimal> GetAveragePrice(CancellationToken cancellationToken)
         {
             var result = await _service.GetAveragePrice(cancellationToken);
 
