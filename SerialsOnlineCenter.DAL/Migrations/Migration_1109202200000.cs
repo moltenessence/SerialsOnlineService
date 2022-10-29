@@ -40,17 +40,9 @@ namespace SerialsOnlineCenter.DAL.Migrations
             Create.Table("ratings")
                 .WithColumn("rating_id").AsInt32().NotNullable().Identity().PrimaryKey()
                 .WithColumn("value").AsInt32().NotNullable()
-                .WithColumn("annotation").AsString(1000);
-
-            Create.Table("users_ratings")
-                .WithColumn("users_ratings_id").AsInt32().NotNullable().Identity().PrimaryKey()
-                .WithColumn("user_id").AsInt32().NotNullable().ForeignKey("users", "user_id")
-                .WithColumn("rating_id").AsInt32().NotNullable().ForeignKey("ratings", "rating_id");
-
-            Create.Table("serials_ratings")
-                .WithColumn("serials_ratings_id").AsInt32().NotNullable().Identity().PrimaryKey()
+                .WithColumn("annotation").AsString(1000)
                 .WithColumn("serial_id").AsInt32().NotNullable().ForeignKey("serials", "serial_id").OnDelete(Rule.Cascade)
-                .WithColumn("rating_id").AsInt32().NotNullable().ForeignKey("ratings", "rating_id");
+                .WithColumn("user_id").AsInt32().NotNullable().ForeignKey("users", "user_id").OnDelete(Rule.Cascade);
         }
 
         public override void Down()
@@ -60,8 +52,6 @@ namespace SerialsOnlineCenter.DAL.Migrations
             Delete.Table("serials");
             Delete.Table("users");
             Delete.Table("subscriptions");
-            Delete.Table("users_ratings");
-            Delete.Table("serials_ratings");
         }
     }
 }

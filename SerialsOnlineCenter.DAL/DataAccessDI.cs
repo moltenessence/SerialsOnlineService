@@ -32,8 +32,6 @@ namespace SerialsOnlineCenter.DAL
                 config.AddMap(new UserMap());
                 config.AddMap(new SubscriptionMap());
                 config.AddMap(new PurchaseMap());
-                config.AddMap(new UserRatingMap());
-                config.AddMap(new SerialRatingMap());
             });
 
             services.AddFluentMigratorCore().ConfigureRunner(config =>

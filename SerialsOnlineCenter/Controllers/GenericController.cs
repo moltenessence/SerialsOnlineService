@@ -15,7 +15,7 @@ namespace SerialsOnlineCenter.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         public async Task<IReadOnlyList<TViewModel>> GetAll(CancellationToken cancellationToken)
         {
             var models = await _service.GetAll(cancellationToken);

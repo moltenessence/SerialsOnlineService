@@ -14,7 +14,6 @@ namespace SerialsOnlineCenter.Controllers
         {
         }
 
-
         [HttpPost]
         public async Task<RatingViewModel> Add(PostRatingViewModel viewModel, CancellationToken cancellationToken)
         {
@@ -35,30 +34,22 @@ namespace SerialsOnlineCenter.Controllers
             return _mapper.Map<RatingViewModel>(result);
         }
 
-        [HttpGet("serial/{serialId}")]
-        public async Task<double> GetSerialRating(int serialId, CancellationToken cancellationToken)
-        {
-            var result = await _service.GetSerialRating(serialId, cancellationToken);
-
-            return result;
-        }
-
-        [HttpPost("serial")]
-        public async Task<RatingViewModel> SetRatingForSerial(SetSerialRatingViewModel viewModel, CancellationToken cancellationToken)
-        {
-            var rating = await _service.SetForSerial(viewModel.UserId, viewModel.SerialId, viewModel.RatingId, cancellationToken);
-
-            var result = _mapper.Map<RatingViewModel>(rating);
-
-            return result;
-        }
-
-        [HttpGet("serials")]
+        [HttpGet]
         public async Task<IReadOnlyList<RatingWithUserAndSerialNamesViewModel>> GetRatingsWithUserAndSerialNames(CancellationToken cancellationToken)
         {
             var rating = await _service.GetWithUsersAndSerialNames(cancellationToken);
 
             var result = _mapper.Map<IReadOnlyList<RatingWithUserAndSerialNamesViewModel>>(rating);
+
+            return result;
+        }
+
+        [HttpGet("serial/{serialId}")]
+        public async Task<SerialRatingViewModel> GetSerialRatings(int serialId, CancellationToken cancellationToken)
+        {
+            var ratings = await _service.GetSerialRatings(serialId, cancellationToken);
+
+            var result = _mapper.Map<SerialRatingViewModel>(ratings);
 
             return result;
         }

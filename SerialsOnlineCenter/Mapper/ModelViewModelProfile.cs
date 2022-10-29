@@ -30,9 +30,10 @@ namespace SerialsOnlineCenter.Mapper
             CreateMap<UpdateSubscriptionViewModel, Subscription>();
             CreateMap<UpdateUserViewModel, User>();
 
-            CreateMap<SerialWithRequiredSubscriptionViewModel, SerialWithRequiredSubscriptionDTO>().ReverseMap();
-            CreateMap<RatingWithUserAndSerialNamesViewModel, RatingWithUserAndSerialNamesDTO>().ReverseMap();
-            CreateMap<SerialsGroupedByGenreViewModel, SerialsGroupedByGenreDTO>().ReverseMap();
+            CreateMap<SerialWithRequiredSubscriptionDTO, SerialWithRequiredSubscriptionViewModel>();
+            CreateMap<RatingWithUserAndSerialNamesDTO, RatingWithUserAndSerialNamesViewModel>();
+            CreateMap<SerialsGroupedByGenreDTO, SerialsGroupedByGenreViewModel>();
+            CreateMap<SerialRatingDTO, SerialRatingViewModel>();
         }
     }
 }

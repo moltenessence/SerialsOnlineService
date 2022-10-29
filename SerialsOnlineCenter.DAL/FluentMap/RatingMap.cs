@@ -8,6 +8,8 @@ namespace SerialsOnlineCenter.DAL.FluentMap
         public RatingMap()
         {
             Map(x => x.Id).ToColumn("rating_id");
+            Map(x => x.SerialId).ToColumn("serial_id");
+            Map(x => x.UserId).ToColumn("user_id");
         }
     }
 }
