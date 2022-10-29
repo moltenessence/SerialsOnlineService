@@ -4,7 +4,7 @@ using SerialsOnlineCenter.DAL.Entities;
 using SerialsOnlineCenter.DAL.EntityViews;
 using SerialsOnlineCenter.DAL.FilterProperties;
 using SerialsOnlineCenter.DAL.Interfaces.Repositories;
-using System.Text;
+using SerialsOnlineCenter.DAL.QueryCreators.Serials;
 using static SerialsOnlineCenter.DAL.Helpers.RepositoryHelper;
 
 namespace SerialsOnlineCenter.DAL.Repositories
@@ -140,72 +140,22 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            StringBuilder sb = new StringBuilder("SELECT * FROM serials ");
+            var query = new GetSerialsQueryCreator(props).Query();
 
-            var whereCondition = false;
-
-            if (!String.IsNullOrEmpty(props?.Name))
-            {
-                sb.Append("WHERE name LIKE @SerialName ");
-                whereCondition = true;
-            }
-
-
-            if (props?.AmountOfSeries > 0)
-            {
-                if (whereCondition)
-                {
-                    sb.Append("AND amount_of_series > @AmountOfSeries ");
-                }
-                else
-                {
-                    sb.Append("WHERE amount_of_series > @AmountOfSeries ");
-                    whereCondition = true;
-                }
-            }
-
-            if (props?.ReleaseYear > 0)
-            {
-                if (whereCondition)
-                {
-                    sb.Append("AND release_year > @ReleaseYear ");
-                }
-                else
-                {
-                    sb.Append("WHERE release_year > @ReleaseYear ");
-                    whereCondition = true;
-                }
-            }
-
-            if (props?.OderByAmountOfSeriesDesc == true)
-            {
-                sb.Append("ORDER BY amount_of_series DESC ");
-            }
-            else
-            {
-                sb.Append("ORDER BY amount_of_series ");
-            }
-
-            if (props?.OrderByReleaseDesc == true)
-            {
-                sb.Append(", release_year DESC ");
-            }
-            else
-            {
-                sb.Append(", release_year ");
-            }
-
-            var command = CreateCommand(sb.ToString(), new
+            var command = CreateCommand(query, new
             {
                 @SerialName = props?.Name,
                 @AmountOfSeries = props?.AmountOfSeries,
                 @ReleaseYear = props?.ReleaseYear,
-            },
-                cancellationToken: cancellationToken);
+            }, cancellationToken: cancellationToken);
 
-            var result = await connection.QueryAsync<SerialEntity>(command);
+            var serials = await connection.QueryAsync<SerialEntity>(command);
 
-            return result.ToList();
+            var result = serials.ToList();
+
+            if (!result.Any()) return await GetAll(cancellationToken);
+
+            return result;
         }
 
         public async Task<IReadOnlyList<string>> GetAllGenres(CancellationToken cancellationToken)
