@@ -18,7 +18,7 @@ namespace SerialsOnlineService.BLL.Service
             _repository = repository ?? throw new NullReferenceException();
         }
 
-        public async Task<TModel> Delete(int id, CancellationToken cancellationToken)
+        public virtual async Task<TModel> Delete(int id, CancellationToken cancellationToken)
         {
             var entity = await _repository.DeleteById(id, cancellationToken);
 
@@ -27,7 +27,7 @@ namespace SerialsOnlineService.BLL.Service
             return result;
         }
 
-        public async Task<IReadOnlyList<TModel>> GetAll(CancellationToken cancellationToken)
+        public virtual async Task<IReadOnlyList<TModel>> GetAll(CancellationToken cancellationToken)
         {
             var entities = await _repository.GetAll(cancellationToken);
 
@@ -36,7 +36,7 @@ namespace SerialsOnlineService.BLL.Service
             return result;
         }
 
-        public async Task<TModel> GetById(int id, CancellationToken cancellationToken)
+        public virtual async Task<TModel> GetById(int id, CancellationToken cancellationToken)
         {
             var entity = await _repository.GetById(id, cancellationToken);
 
@@ -45,7 +45,7 @@ namespace SerialsOnlineService.BLL.Service
             return result;
         }
 
-        public async Task<TModel> Insert(TModel model, CancellationToken cancellationToken)
+        public virtual async Task<TModel> Insert(TModel model, CancellationToken cancellationToken)
         {
             var entityToInsert = _mapper.Map<TEntity>(model);
             var entity = await _repository.Insert(entityToInsert, cancellationToken);
@@ -55,7 +55,7 @@ namespace SerialsOnlineService.BLL.Service
             return result;
         }
 
-        public async Task<TModel> Update(int id, TModel model, CancellationToken cancellationToken)
+        public virtual async Task<TModel> Update(int id, TModel model, CancellationToken cancellationToken)
         {
             var entityToUpdate = _mapper.Map<TEntity>(model);
             entityToUpdate.Id = id;

@@ -3,6 +3,5 @@
     public record UpdatePurchaseViewModel(DateOnly Date,
         int AmountOfMonths,
         int UserId,
-        int SubscriptionId,
-        decimal TotalPrice);
+        int SubscriptionId);
 }
