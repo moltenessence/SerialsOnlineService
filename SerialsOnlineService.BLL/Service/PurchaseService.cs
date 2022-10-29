@@ -9,11 +9,10 @@ namespace SerialsOnlineService.BLL.Service
     public class PurchaseService : GenericService<Purchase, PurchaseEntity>, IPurchaseService
     {
         private readonly IPurchaseRepository _repository;
-        private readonly IMapper _mapper;
 
         public PurchaseService(IPurchaseRepository repository, IMapper mapper) : base(repository, mapper)
         {
-
+            _repository = repository;
         }
 
         public async Task<IReadOnlyList<Purchase>> GetTopPurchasesByMaxTotalPrice(int amountOfPurchases, CancellationToken cancellationToken)

@@ -106,13 +106,13 @@ namespace SerialsOnlineCenter.DAL.Repositories
 
             SqlMapper.AddTypeHandler(new SqlDateOnlyTypeHandler());
 
-            var query = "SELECT * FROM purchases ORDER BY total_price LIMIT @AmountOfPurchases";
+            var query = "SELECT * FROM purchases ORDER BY total_price DESC LIMIT @AmountOfPurchases";
 
-            var command = CreateCommand(query, new { @AmountOfPurchases = amountOfPurchases });
+            var command = CreateCommand(query, new { @AmountOfPurchases = amountOfPurchases }, cancellationToken: cancellationToken);
 
-            var result = await connection.QuerySingleOrDefaultAsync<IReadOnlyList<PurchaseEntity>>(command);
+            var result = await connection.QueryAsync<PurchaseEntity>(command);
 
-            return result;
+            return result.ToList();
         }
     }
 }

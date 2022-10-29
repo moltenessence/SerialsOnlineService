@@ -9,11 +9,10 @@ namespace SerialsOnlineService.BLL.Service
     public class RatingService : GenericService<Rating, RatingEntity>, IRatingService
     {
         private readonly IRatingRepository _repository;
-        private readonly IMapper _mapper;
 
         public RatingService(IRatingRepository repository, IMapper mapper) : base(repository, mapper)
         {
-
+            _repository = repository;
         }
 
         public async Task<Rating> SetForSerial(int userId, int serialId, Rating entity, CancellationToken cancellationToken)

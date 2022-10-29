@@ -9,10 +9,10 @@ namespace SerialsOnlineService.BLL.Service
     public class SerialService : GenericService<Serial, SerialEntity>, ISerialService
     {
         private readonly ISerialRepository _repository;
-        private readonly IMapper _mapper;
+
         public SerialService(ISerialRepository repository, IMapper mapper) : base(repository, mapper)
         {
-
+            _repository = repository;
         }
 
         public async Task<IReadOnlyList<Serial>> GetOrderedByOldestReleaseYear(CancellationToken cancellationToken)

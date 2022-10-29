@@ -10,12 +10,8 @@ namespace SerialsOnlineCenter.Controllers
     [ApiController]
     public class SubscriptionController : GenericController<ISubscriptionService, Subscription, SubscriptionViewModel>
     {
-        private readonly ISubscriptionService _service;
-        private readonly IMapper _mapper;
-
         public SubscriptionController(ISubscriptionService service, IMapper mapper) : base(service, mapper)
         {
-            _service = service;
         }
     }
 }

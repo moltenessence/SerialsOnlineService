@@ -10,12 +10,8 @@ namespace SerialsOnlineCenter.Controllers
     [ApiController]
     public class UsersController : GenericController<IUserService, User, UserViewModel>
     {
-        private readonly IUserService _service;
-        private readonly IMapper _mapper;
-
         public UsersController(IUserService service, IMapper mapper) : base(service, mapper)
         {
-            _service = service;
         }
     }
 }

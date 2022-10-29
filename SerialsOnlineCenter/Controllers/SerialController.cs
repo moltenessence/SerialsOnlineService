@@ -10,12 +10,8 @@ namespace SerialsOnlineCenter.Controllers
     [ApiController]
     public class SerialController : GenericController<ISerialService, Serial, SerialViewModel>
     {
-        private readonly ISerialService _service;
-        private readonly IMapper _mapper;
-
         public SerialController(ISerialService service, IMapper mapper) : base(service, mapper)
         {
-            _service = service;
         }
     }
 }

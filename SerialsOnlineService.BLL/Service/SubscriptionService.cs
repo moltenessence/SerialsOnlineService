@@ -9,11 +9,10 @@ namespace SerialsOnlineService.BLL.Service
     public class SubscriptionService : GenericService<Subscription, SubscriptionEntity>, ISubscriptionService
     {
         private readonly ISubscriptionRepository _repository;
-        private readonly IMapper _mapper;
 
         public SubscriptionService(ISubscriptionRepository repository, IMapper mapper) : base(repository, mapper)
         {
-
+            _repository = repository;
         }
 
         public async Task<decimal> GetAveragePrice(CancellationToken cancellationToken)

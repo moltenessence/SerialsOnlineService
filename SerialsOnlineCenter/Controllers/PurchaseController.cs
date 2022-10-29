@@ -10,12 +10,18 @@ namespace SerialsOnlineCenter.Controllers
     [ApiController]
     public class PurchaseController : GenericController<IPurchaseService, Purchase, PurchaseViewModel>
     {
-        private readonly IPurchaseService _service;
-        private readonly IMapper _mapper;
+        public PurchaseController(IPurchaseService service, IMapper mapper) : base(service, mapper) { }
 
-        public PurchaseController(IPurchaseService service, IMapper mapper) : base(service, mapper)
+
+        [HttpGet("maxprice/{amount}")]
+        public async Task<IReadOnlyList<PurchaseViewModel>> GetTopPurchasesByMaxTotalPrice(int amount, CancellationToken cancellationToken)
         {
-            _service = service;
+            var purchases = await _service.GetTopPurchasesByMaxTotalPrice(amount, cancellationToken);
+
+            var result = _mapper.Map<IReadOnlyList<PurchaseViewModel>>(purchases);
+
+            return result;
         }
+
     }
 }
