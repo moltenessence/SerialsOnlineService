@@ -1,73 +1,69 @@
 ﻿using SerialsOnlineCenter.DAL.FilterProperties;
+using SerialsOnlineCenter.DAL.Interfaces.QueryCreators;
 using System.Text;
 
 namespace SerialsOnlineCenter.DAL.QueryCreators.Serials
 {
-    public class GetSerialsQueryCreator
+    public class GetSerialsQueryCreator : IQueryCreator
     {
         private readonly SerialFilterProperties? _filterProperties;
+        private StringBuilder _sb;
+
         public GetSerialsQueryCreator(SerialFilterProperties filterProperties)
         {
             _filterProperties = filterProperties;
+            _sb = new StringBuilder();
         }
 
-        public string Query()
+        public string Query() => Initialize().
+            FindByName().
+            FindByReleaseYear().
+            FindByAmountOfSeries().
+            OrderByAmountOfSeries().
+            OrderByReleaseYear().
+            _sb.ToString();
+
+        private GetSerialsQueryCreator Initialize()
         {
-            StringBuilder sb = new StringBuilder("SELECT * FROM serials ");
+            _sb = new InitialState().Handle(_sb, _filterProperties);
 
-            var whereCondition = false;
+            return this;
+        }
 
-            if (!String.IsNullOrEmpty(_filterProperties?.Name))
-            {
-                sb.Append("WHERE name LIKE @SerialName ");
-                whereCondition = true;
-            }
+        private GetSerialsQueryCreator FindByName()
+        {
+            _sb = new FindByNameState().Handle(_sb, _filterProperties);
 
-            if (_filterProperties?.AmountOfSeries > 0)
-            {
-                if (whereCondition)
-                {
-                    sb.Append("AND amount_of_series > @AmountOfSeries ");
-                }
-                else
-                {
-                    sb.Append("WHERE amount_of_series > @AmountOfSeries ");
-                    whereCondition = true;
-                }
-            }
+            return this;
+        }
 
-            if (_filterProperties?.ReleaseYear > 0)
-            {
-                if (whereCondition)
-                {
-                    sb.Append("AND release_year > @ReleaseYear ");
-                }
-                else
-                {
-                    sb.Append("WHERE release_year > @ReleaseYear ");
-                    whereCondition = true;
-                }
-            }
+        private GetSerialsQueryCreator FindByReleaseYear()
+        {
+            _sb = new FindByReleaseYearState().Handle(_sb, _filterProperties);
 
-            if (_filterProperties?.OderByAmountOfSeriesDesc == true)
-            {
-                sb.Append("ORDER BY amount_of_series DESC ");
-            }
-            else
-            {
-                sb.Append("ORDER BY amount_of_series ");
-            }
+            return this;
+        }
 
-            if (_filterProperties?.OrderByReleaseDesc == true)
-            {
-                sb.Append(", release_year DESC ");
-            }
-            else
-            {
-                sb.Append(", release_year ");
-            }
+        private GetSerialsQueryCreator FindByAmountOfSeries()
+        {
+            _sb = new FindByAmountOfSeriesState().Handle(_sb, _filterProperties);
 
-            return sb.ToString();
+            return this;
+        }
+
+
+        private GetSerialsQueryCreator OrderByAmountOfSeries()
+        {
+            _sb = new OrderByAmountOfSeriesState().Handle(_sb, _filterProperties);
+
+            return this;
+        }
+
+        private GetSerialsQueryCreator OrderByReleaseYear()
+        {
+            _sb = new OrderByReleaseYearState().Handle(_sb, _filterProperties);
+
+            return this;
         }
     }
 }

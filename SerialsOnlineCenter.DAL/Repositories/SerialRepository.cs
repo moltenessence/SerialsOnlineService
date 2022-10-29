@@ -153,8 +153,6 @@ namespace SerialsOnlineCenter.DAL.Repositories
 
             var result = serials.ToList();
 
-            if (!result.Any()) return await GetAll(cancellationToken);
-
             return result;
         }
 
