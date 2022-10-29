@@ -25,9 +25,7 @@ namespace SerialsOnlineCenter.Controllers
         [HttpPost("serial")]
         public async Task<RatingViewModel> SetRatingForSerial(SetRatingViewModel viewModel, CancellationToken cancellationToken)
         {
-            var ratingToSet = _mapper.Map<Rating>(viewModel.Rating);
-
-            var rating = await _service.SetForSerial(viewModel.UserId, viewModel.SerialId, ratingToSet, cancellationToken);
+            var rating = await _service.SetForSerial(viewModel.UserId, viewModel.SerialId, viewModel.RatingId, cancellationToken);
 
             var result = _mapper.Map<RatingViewModel>(rating);
 

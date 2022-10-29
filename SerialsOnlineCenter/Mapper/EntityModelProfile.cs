@@ -15,9 +15,9 @@ namespace SerialsOnlineCenter.Mapper
             CreateMap<PurchaseEntity, Purchase>().ReverseMap();
             CreateMap<SubscriptionEntity, Subscription>().ReverseMap();
 
-            CreateMap<SerialWithRequiredSubscription, SerialWithRequiredSubscriptionDTO>();
-            CreateMap<RatingWithUserAndSerialNames, RatingWithUserAndSerialNamesDTO>();
-            CreateMap<SerialsGroupedByGenre, SerialsGroupedByGenreDTO>();
+            CreateMap<SerialWithRequiredSubscription, SerialWithRequiredSubscriptionDTO>().ReverseMap();
+            CreateMap<RatingWithUserAndSerialNames, RatingWithUserAndSerialNamesDTO>().ReverseMap();
+            CreateMap<SerialsGroupedByGenre, SerialsGroupedByGenreDTO>().ReverseMap();
         }
 
     }

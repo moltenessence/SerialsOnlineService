@@ -2,5 +2,5 @@
 
 namespace SerialsOnlineCenter.DAL.EntityViews
 {
-    public record SerialsGroupedByGenre(string Genre, int Amount) : IEntityView;
+    public record SerialsGroupedByGenre(string Genre, long Amount) : IEntityView;
 }

@@ -47,26 +47,26 @@ namespace SerialsOnlineCenter.DAL.Repositories
             return result.ToList();
         }
 
-        public async Task<IReadOnlyList<SerialEntity>> GetTopWithTheLargestAmountOfSeries(int amountOfSeries, CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<SerialEntity>> GetTopWithTheLargestAmountOfSeries(int amountOfSerials, CancellationToken cancellationToken)
         {
             await using var connection = new MySqlConnection(_connectionString);
 
             var query = "SELECT * FROM Serials ORDER BY amount_of_series DESC LIMIT @AmountOfSeries";
 
-            var command = CreateCommand(query, new { @AmountOfSeries = amountOfSeries }, cancellationToken: cancellationToken);
+            var command = CreateCommand(query, new { @AmountOfSeries = amountOfSerials }, cancellationToken: cancellationToken);
 
             var result = await connection.QueryAsync<SerialEntity>(command);
 
             return result.ToList();
         }
 
-        public async Task<IReadOnlyList<SerialEntity>> GetTopWithTheMinimalAmountOfSeries(int amountOfSeries, CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<SerialEntity>> GetTopWithTheMinimalAmountOfSeries(int amountOfSerials, CancellationToken cancellationToken)
         {
             await using var connection = new MySqlConnection(_connectionString);
 
             var query = "SELECT * FROM serials ORDER BY amount_of_series LIMIT @AmountOfSeries";
 
-            var command = CreateCommand(query, new { @AmountOfSerials = amountOfSeries }, cancellationToken: cancellationToken);
+            var command = CreateCommand(query, new { @AmountOfSerials = amountOfSerials }, cancellationToken: cancellationToken);
 
             var result = await connection.QueryAsync<SerialEntity>(command);
 
@@ -90,7 +90,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var query = "SELECT FROM serials WHERE genre LIKE %@Genre%";
+            var query = "SELECT * FROM serials WHERE genre LIKE %@Genre%";
 
             var command = CreateCommand(query, new { @Genre = genre }, cancellationToken: cancellationToken);
 
@@ -173,7 +173,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var query = "SELECT serials.name, serials.description, serials.genre, subscriptions.name AS RequiredSubscription" +
+            var query = "SELECT serials.name AS Name, serials.description AS Description, serials.genre AS Genre, subscriptions.name AS RequiredSubscription" +
                         " FROM serials JOIN subscriptions ON serials.subscription_id = subscriptions.subscription_id";
 
             var result = await connection.QueryAsync<SerialWithRequiredSubscription>(query, cancellationToken);
@@ -185,7 +185,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var query = "SELECT genre, COUNT(*) AS amount FROM serials GROUP BY genre";
+            var query = "SELECT genre AS Genre, COUNT(*) AS Amount FROM serials GROUP BY genre";
 
             var result = await connection.QueryAsync<SerialsGroupedByGenre>(query, cancellationToken);
 

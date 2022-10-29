@@ -2,5 +2,5 @@
 
 namespace SerialsOnlineCenter.DAL.EntityViews
 {
-    public record RatingWithUserAndSerialNames(int Value, string UserName, string SerialName, string? Description) : IEntityView;
+    public record RatingWithUserAndSerialNames(int Value, string Annotation, string UserName, string SerialName) : IEntityView;
 }

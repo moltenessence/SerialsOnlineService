@@ -56,33 +56,25 @@ namespace SerialsOnlineCenter.DAL.Repositories
             return result.ToList();
         }
 
-        public async Task<RatingEntity> SetForSerial(int userId, int serialId, RatingEntity entity, CancellationToken cancellationToken)
+        public async Task<RatingEntity> SetForSerial(int userId, int serialId, int ratingId, CancellationToken cancellationToken)
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var insertRatingQuery = "INSERT INTO ratings (value, annotation) values (@Value, @Annotation)";
-
-            var insertRatingCommand = CreateCommand(insertRatingQuery, new
-            {
-                @Value = entity.Value,
-                @Annotation = entity.Annotation
-            }, cancellationToken: cancellationToken);
-
-            var rating = await connection.QuerySingleOrDefaultAsync<RatingEntity>(insertRatingCommand);
+            var rating = await GetById(ratingId, cancellationToken);
 
             if (rating != null)
             {
                 var query = "INSERT INTO users_ratings (user_id, rating_id) values (@UserId, @RatingId);" +
                             "INSERT INTO serials_ratings (serial_id, rating_id) values (@SerialId, @RatingId);";
 
-                var command = CreateCommand(insertRatingQuery, new
+                var command = CreateCommand(query, new
                 {
                     @UserId = userId,
                     @SerialId = serialId,
                     @RatingId = rating.Id,
                 }, cancellationToken: cancellationToken);
 
-                var result = await connection.QuerySingleOrDefaultAsync<RatingEntity>(insertRatingCommand);
+                var result = await connection.QuerySingleOrDefaultAsync<RatingEntity>(command);
 
                 return result;
             }
@@ -94,21 +86,20 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var query = "SELECT AVG(serials_ratings.value) FROM serials_ratings WHERE @rating_id = RatingId";
+            var query = "SELECT AVG(ratings.value) AS AverageRating FROM ratings WHERE rating_id = ANY (SELECT rating_id from serials_ratings WHERE serial_id = @Id)";
 
             var command = CreateCommand(query, new { @Id = serialId }, cancellationToken: cancellationToken);
 
-            var result = await connection.QueryFirstOrDefaultAsync<double>(query, cancellationToken);
+            var result = await connection.QueryFirstOrDefaultAsync<SerialAverageRating>(command);
 
-            return result;
+            return Convert.ToDouble(result.AverageRating);
         }
 
         public async Task<IReadOnlyList<RatingWithUserAndSerialNames>> GetWithUsersAndSerialNames(CancellationToken cancellationToken)
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var query = "SELECT ratings.value, ratings.annotation, users.username, serials.name AS SerialName " +
-                        "FROM ratings " +
+            var query = "SELECT ratings.value as Value, ratings.annotation as Annotation, users.username as UserName, serials.name as SerialName FROM ratings " +
                         "JOIN users_ratings ON users_ratings.user_id = users_ratings.rating_id " +
                         "JOIN serials_ratings ON serials_ratings.serial_id = serials_ratings.rating_id " +
                         "JOIN users ON users.user_id = users_ratings.user_id " +

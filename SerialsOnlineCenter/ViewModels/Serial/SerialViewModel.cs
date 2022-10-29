@@ -1,4 +1,4 @@
-﻿namespace SerialsOnlineCenter.ViewModels
+﻿namespace SerialsOnlineCenter.ViewModels.Serial
 {
     public record SerialViewModel(int Id,
         string Name,

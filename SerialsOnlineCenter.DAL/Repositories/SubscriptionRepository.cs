@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using MySql.Data.MySqlClient;
 using SerialsOnlineCenter.DAL.Entities;
+using SerialsOnlineCenter.DAL.EntityViews;
 using SerialsOnlineCenter.DAL.Interfaces.Repositories;
 using static SerialsOnlineCenter.DAL.Helpers.RepositoryHelper;
 
@@ -63,11 +64,11 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var query = "SELECT AVG(price) FROM subscriptions";
+            var query = "SELECT AVG(price_per_month) AS AveragePrice FROM subscriptions";
 
-            var result = await connection.QueryFirstOrDefaultAsync(query, cancellationToken);
+            var result = await connection.QueryFirstOrDefaultAsync<SubscriptionAveragePrice>(query, cancellationToken);
 
-            return result.ToList();
+            return result.AveragePrice;
         }
 
         public async Task<SubscriptionEntity> DeleteById(int id, CancellationToken cancellationToken)

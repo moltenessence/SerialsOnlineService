@@ -2,5 +2,5 @@
 
 namespace SerialsOnlineService.BLL.Models
 {
-    public record SerialsGroupedByGenreDTO(string Genre, int Amount) : IModel;
+    public record SerialsGroupedByGenreDTO(string Genre, long Amount) : IModel;
 }

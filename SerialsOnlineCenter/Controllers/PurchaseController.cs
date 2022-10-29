@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using SerialsOnlineCenter.ViewModels;
+using SerialsOnlineCenter.ViewModels.Purchase;
 using SerialsOnlineService.BLL.Interface.Services;
 using SerialsOnlineService.BLL.Models;
 

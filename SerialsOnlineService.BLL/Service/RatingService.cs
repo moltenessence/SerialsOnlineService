@@ -15,11 +15,9 @@ namespace SerialsOnlineService.BLL.Service
             _repository = repository;
         }
 
-        public async Task<Rating> SetForSerial(int userId, int serialId, Rating entity, CancellationToken cancellationToken)
+        public async Task<Rating> SetForSerial(int userId, int serialId, int ratingId, CancellationToken cancellationToken)
         {
-            var rating = _mapper.Map<RatingEntity>(entity);
-
-            var ratingEntity = await _repository.SetForSerial(userId, serialId, rating, cancellationToken);
+            var ratingEntity = await _repository.SetForSerial(userId, serialId, ratingId, cancellationToken);
 
             var result = _mapper.Map<Rating>(ratingEntity);
 
