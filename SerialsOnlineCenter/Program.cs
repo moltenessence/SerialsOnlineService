@@ -1,8 +1,8 @@
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using SerialsOnlineCenter.Converters;
-using SerialsOnlineCenter.DAL;
 using SerialsOnlineCenter.Extensions;
+using SerialsOnlineCenter.Middelwares;
 using SerialsOnlineService.BLL;
 using ConfigurationManager = Microsoft.Extensions.Configuration.ConfigurationManager;
 
@@ -27,6 +27,8 @@ builder.Services.AddSwaggerGen(options => options.MapType<DateOnly>(() => new Op
 builder.Services.RegisterBusinessLogicDependencies(configuration);
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
