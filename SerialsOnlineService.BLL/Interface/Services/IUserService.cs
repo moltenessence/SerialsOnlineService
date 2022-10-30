@@ -2,5 +2,9 @@
 
 namespace SerialsOnlineService.BLL.Interface.Services
 {
-    public interface IUserService : IGenericService<User> { }
+    public interface IUserService : IGenericService<User>
+    {
+        Task<IReadOnlyList<UserWithPurchasesDTO>> GetWithPurchases(decimal? minPrice,
+            CancellationToken cancellationToken);
+    }
 }

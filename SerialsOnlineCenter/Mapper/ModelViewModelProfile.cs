@@ -36,6 +36,7 @@ namespace SerialsOnlineCenter.Mapper
             CreateMap<RatingWithUserAndSerialNamesDTO, RatingWithUserAndSerialNamesViewModel>();
             CreateMap<SerialsGroupedByGenreDTO, SerialsGroupedByGenreViewModel>();
             CreateMap<SerialRatingsDTO, SerialRatingsViewModel>();
+            CreateMap<UserWithPurchasesDTO, UserWithPurchasesViewModel>();
 
             CreateMap<SerialsFilterQuery, SerialsFilter>();
         }

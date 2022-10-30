@@ -21,6 +21,7 @@ namespace SerialsOnlineCenter.Mapper
             CreateMap<RatingWithUserAndSerialNames, RatingWithUserAndSerialNamesDTO>().ReverseMap();
             CreateMap<SerialsGroupedByGenre, SerialsGroupedByGenreDTO>().ReverseMap();
             CreateMap<SerialRatingsEntityView, SerialRatingsDTO>().ReverseMap();
+            CreateMap<UserWithPurchasesEntityView, UserWithPurchasesDTO>().ReverseMap();
 
             CreateMap<SerialsFilter, SerialFilterProperties>();
         }

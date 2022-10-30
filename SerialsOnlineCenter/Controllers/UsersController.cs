@@ -33,5 +33,14 @@ namespace SerialsOnlineCenter.Controllers
 
             return _mapper.Map<UserViewModel>(result);
         }
+
+        [HttpGet("purchases")]
+        public async Task<IReadOnlyList<UserWithPurchasesViewModel>> GetWithPurchases(decimal? minPrice, CancellationToken cancellationToken)
+        {
+            var result = await _service.GetWithPurchases(minPrice, cancellationToken);
+
+            return _mapper.Map<IReadOnlyList<UserWithPurchasesViewModel>>(result);
+        }
+
     }
 }
