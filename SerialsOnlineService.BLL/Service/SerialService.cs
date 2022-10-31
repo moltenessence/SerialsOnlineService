@@ -64,6 +64,15 @@ namespace SerialsOnlineService.BLL.Service
             return await _repository.GetAllGenres(cancellationToken);
         }
 
+        public async Task<IReadOnlyList<Serial>> GetAvailableForUser(int userId, CancellationToken cancellationToken)
+        {
+            var entities = await _repository.GetAvailableForUser(userId, cancellationToken);
+
+            var result = _mapper.Map<IReadOnlyList<Serial>>(entities);
+
+            return result;
+        }
+
         private bool CheckIfFilterIsValid(SerialsFilter filter)
         {
             if (filter is null || true == filter?.AmountOfSeries < 0)

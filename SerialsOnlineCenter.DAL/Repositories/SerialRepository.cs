@@ -22,7 +22,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var query = "SELECT FROM serials WHERE serial_id = @Id";
+            var query = "SELECT * FROM serials WHERE serial_id = @Id";
 
             var command = CreateCommand(query, new { @Id = id }, cancellationToken: cancellationToken);
 
@@ -163,6 +163,21 @@ namespace SerialsOnlineCenter.DAL.Repositories
             var query = "SELECT genre FROM serials";
 
             var result = await connection.QueryAsync<string>(query, cancellationToken);
+
+            return result.ToList();
+        }
+
+        public async Task<IReadOnlyList<SerialEntity>> GetAvailableForUser(int userId, CancellationToken cancellationToken)
+        {
+            await using var connection = new MySqlConnection(_connectionString);
+
+            var query = "SELECT * FROM serials " +
+                        "JOIN users AS u on users.user_id = @Id " +
+                        "JOIN subscriptions AS s ON serials.subscription_id = u.subscription_id";
+
+            var command = CreateCommand(query, new { @Id = userId }, cancellationToken: cancellationToken);
+
+            var result = await connection.QueryAsync<SerialEntity>(command);
 
             return result.ToList();
         }

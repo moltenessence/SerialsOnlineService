@@ -10,5 +10,6 @@ namespace SerialsOnlineService.BLL.Interface.Services
         Task<IReadOnlyList<SerialsGroupedByGenreDTO>> GetGroupedByGenre(CancellationToken cancellationToken);
         Task<IReadOnlyList<string>> GetAllGenres(CancellationToken cancellationToken);
         Task<IReadOnlyList<Serial>> GetByFilter(SerialsFilter filter, CancellationToken cancellationToken);
+        Task<IReadOnlyList<Serial>> GetAvailableForUser(int userId, CancellationToken cancellationToken);
     }
 }

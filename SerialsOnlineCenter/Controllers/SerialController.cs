@@ -85,5 +85,15 @@ namespace SerialsOnlineCenter.Controllers
             return result;
         }
 
+        [HttpGet("user/{userId}")]
+        public async Task<IReadOnlyList<SerialViewModel>> GetAvailableForUser(int userId, CancellationToken cancellationToken)
+        {
+            var serials = await _service.GetAvailableForUser(userId, cancellationToken);
+
+            var result = _mapper.Map<IReadOnlyList<SerialViewModel>>(serials);
+
+            return result;
+        }
+
     }
 }

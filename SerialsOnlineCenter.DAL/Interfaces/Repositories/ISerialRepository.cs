@@ -11,5 +11,6 @@ namespace SerialsOnlineCenter.DAL.Interfaces.Repositories
         Task<IReadOnlyList<string>> GetAllGenres(CancellationToken cancellationToken);
         Task<IReadOnlyList<SerialsGroupedByGenre>> GetGroupedByGenre(CancellationToken cancellationToken);
         Task<IReadOnlyList<SerialEntity>> GetByFilterProperties(SerialFilterProperties? props, CancellationToken cancellationToken);
+        Task<IReadOnlyList<SerialEntity>> GetAvailableForUser(int userId, CancellationToken cancellationToken);
     }
 }
