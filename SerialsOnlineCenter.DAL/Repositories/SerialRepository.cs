@@ -171,9 +171,9 @@ namespace SerialsOnlineCenter.DAL.Repositories
         {
             await using var connection = new MySqlConnection(_connectionString);
 
-            var query = "SELECT * FROM serials " +
-                        "JOIN users AS u on users.user_id = @Id " +
-                        "JOIN subscriptions AS s ON serials.subscription_id = u.subscription_id";
+            var query = "SELECT s.serial_id, s.name, s.amount_of_series, s.description, s.genre, s.release_year, s.subscription_id FROM serials AS s " +
+                        "JOIN users AS u on u.user_id = @Id " +
+                        "JOIN subscriptions ON s.subscription_id = u.subscription_id ";
 
             var command = CreateCommand(query, new { @Id = userId }, cancellationToken: cancellationToken);
 
