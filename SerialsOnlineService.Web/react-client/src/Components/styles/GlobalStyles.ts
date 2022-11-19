@@ -12,5 +12,7 @@ export const GlobalStyles  = createGlobalStyle`
     body {
         font-family: 'Crimson Pro', Open Sans, sans-serif;
         font-size: 20px;
+        max-width: 1680px;
+        margin: 0 auto;
     }
 `

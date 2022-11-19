@@ -1,6 +1,8 @@
 export const darkTheme = {
     background: '#232423',
-    text: 'white'
+    header: '#221c26',
+    text: 'white',
+    nav: '#221c26'
 }
 
 export const lightTheme = {

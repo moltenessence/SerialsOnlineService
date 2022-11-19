@@ -1,18 +1,21 @@
 import { ThemeProvider } from 'styled-components';
-import { darkTheme } from './Common/themes';
+import { darkTheme } from './Common/Themes';
 import { AppContainer } from './Components/styles/App.style';
 import { GlobalStyles } from './Components/styles/GlobalStyles';
+import Header from './Components/Header';
+import Navigation from './Components/Navigation';
+import ApplicationRouter from './Components/routing/ApplicationRouter';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div>
-      <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={darkTheme}>
       <GlobalStyles />
-        <AppContainer>
-          hello
-        </AppContainer>
-      </ThemeProvider>
-    </div>
+      <Header />
+      <Navigation/>
+      <AppContainer>
+        <ApplicationRouter />
+      </AppContainer>
+    </ThemeProvider>
   );
 }
 
