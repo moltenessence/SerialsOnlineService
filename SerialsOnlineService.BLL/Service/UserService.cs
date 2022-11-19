@@ -17,7 +17,7 @@ namespace SerialsOnlineService.BLL.Service
 
         public async Task<IReadOnlyList<UserWithPurchasesDTO>> GetWithPurchases(decimal? minPrice, CancellationToken cancellationToken)
         {
-            if (minPrice is null) minPrice = 0;
+            minPrice ??= 0;
 
             var entities = await _repository.GetWithPurchases(minPrice, cancellationToken);
 
