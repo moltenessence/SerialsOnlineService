@@ -15,6 +15,7 @@ namespace SerialsOnlineService.BLL
             services.AddTransient<IPurchaseService, PurchaseService>();
             services.AddTransient<ISerialService, SerialService>();
             services.AddTransient<IRatingService, RatingService>();
+            services.AddTransient<IAuthService, AuthService>();
 
             services.RegisterDataAccessDependencies(configuration);
         }

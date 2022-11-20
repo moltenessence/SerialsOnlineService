@@ -25,5 +25,14 @@ namespace SerialsOnlineService.BLL.Service
 
             return result;
         }
+
+        public async Task<User> GetByEmail(string email, CancellationToken cancellationToken)
+        {
+            var entity = await _repository.GetByEmail(email, cancellationToken);
+
+            var result = _mapper.Map<User>(entity);
+
+            return result;
+        }
     }
 }

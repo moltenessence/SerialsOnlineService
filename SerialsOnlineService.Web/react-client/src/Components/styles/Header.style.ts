@@ -13,10 +13,18 @@ export const HeaderWrapper  = styled.header`
         color: ${props => props.theme.text};
         padding-right: 2em;
         padding-top: 0.6em;
+        position: relative;
     }
 
     h1 {
         color: ${props => props.theme.text};
+    }
+
+    div {
+        opacity: 0;
+        position: absolute;
+        top: 0px;
+        width: 100%;
     }
 
 `

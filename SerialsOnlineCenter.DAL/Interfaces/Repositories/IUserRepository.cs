@@ -7,5 +7,7 @@ namespace SerialsOnlineCenter.DAL.Interfaces.Repositories
     {
         Task<IReadOnlyList<UserWithPurchasesEntityView>> GetWithPurchases(decimal? minPrice,
             CancellationToken cancellationToken);
+
+        Task<UserEntity> GetByEmail(string email, CancellationToken cancellationToken);
     }
 }

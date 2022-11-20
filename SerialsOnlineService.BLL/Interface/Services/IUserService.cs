@@ -6,5 +6,7 @@ namespace SerialsOnlineService.BLL.Interface.Services
     {
         Task<IReadOnlyList<UserWithPurchasesDTO>> GetWithPurchases(decimal? minPrice,
             CancellationToken cancellationToken);
+
+        Task<User> GetByEmail(string email, CancellationToken cancellationToken);
     }
 }

@@ -2,9 +2,12 @@
 
 namespace SerialsOnlineService.BLL.Models
 {
-    public record User(int Id = default,
-        string UserName = null,
-        string Email = null,
-        int? Age = default,
-        int SubscriptionId = default) : IModel;
+    public class User : IModel
+    {
+        public int Id { get; set; }
+        public string? UserName { get; set; }
+        public string? Email { get; set; }
+        public int? Age { get; set; }
+        public int? SubscriptionId { get; set; }
+    };
 }

@@ -29,6 +29,19 @@ namespace SerialsOnlineCenter.DAL.Repositories
             return result;
         }
 
+        public async Task<UserEntity> GetByEmail(string email, CancellationToken cancellationToken)
+        {
+            await using var connection = new MySqlConnection(_connectionString);
+
+            var query = "SELECT * FROM users WHERE email = @Email";
+
+            var command = CreateCommand(query, new { @Email = email }, cancellationToken: cancellationToken);
+
+            var result = await connection.QuerySingleOrDefaultAsync<UserEntity>(command);
+
+            return result;
+        }
+
         public async Task<IReadOnlyList<UserWithPurchasesEntityView>> GetWithPurchases(decimal? minPrice, CancellationToken cancellationToken)
         {
             await using var connection = new MySqlConnection(_connectionString);

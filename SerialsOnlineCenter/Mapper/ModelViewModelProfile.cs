@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SerialsOnlineCenter.FilterQuery;
+using SerialsOnlineCenter.ViewModels.Login;
 using SerialsOnlineCenter.ViewModels.Purchase;
 using SerialsOnlineCenter.ViewModels.Rating;
 using SerialsOnlineCenter.ViewModels.Serial;
@@ -39,6 +40,8 @@ namespace SerialsOnlineCenter.Mapper
             CreateMap<UserWithPurchasesDTO, UserWithPurchasesViewModel>();
 
             CreateMap<SerialsFilterQuery, SerialsFilter>();
+
+            CreateMap<LoginViewModel, LoginModel>().ReverseMap();
         }
     }
 }
