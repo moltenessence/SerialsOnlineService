@@ -1,4 +1,3 @@
-
 import { SET_IS_FETCHING, SET_SERIALS, SET_SERIAL } from "./constants";
 import { ISerial } from "../../Common/Models/ISerial";
 

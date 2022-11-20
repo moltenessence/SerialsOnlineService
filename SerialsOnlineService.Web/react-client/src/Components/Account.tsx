@@ -6,6 +6,7 @@ import * as  userActionCreators from '../redux/User/actionCreators';
 import { ReactJSXIntrinsicAttributes } from '@emotion/react/types/jsx-namespace';
 import Preloader from './other/Preloader';
 import { connect } from 'react-redux';
+import { AccountWrapper } from './styles/Account.style';
 
 function mapStateToProps(state: RootState) {
     return {
@@ -30,12 +31,12 @@ const Account: React.FC<AccountProps> = ({ user, isFetching, fetchUser, updateUs
     return (
         <div>
             {isFetching ? <Preloader /> : null}
-            {user ? <div>
+            {user ? <AccountWrapper>
                 <h1>Account</h1>
                 <h3>{user.userName}</h3>
                 <p>Email: {user.email}</p>
                 <p>Age: {user.age}</p>
-            </div> : 'You need to login.'}
+            </AccountWrapper> : 'You need to login.'}
         </div>
     );
 };
