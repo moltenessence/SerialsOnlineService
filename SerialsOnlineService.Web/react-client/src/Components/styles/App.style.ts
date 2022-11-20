@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const AppContainer  = styled.main`
-    height: 100vh;
+    min-height: 100vh;
 
     background: ${props => props.theme.background};
     color: ${props => props.theme.text};

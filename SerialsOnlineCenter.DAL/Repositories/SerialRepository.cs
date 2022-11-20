@@ -15,6 +15,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
 
         public SerialRepository()
         {
+
             _connectionString = ConnectionString;
         }
 

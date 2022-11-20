@@ -1,48 +1,67 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SerialModal from './modals/SerialModal';
 import InfoButton from "./other/InfoButton";
 import { SerialsWrapper, SerialItem, Rating } from "./styles/Serials.style";
+import { Dispatch, bindActionCreators } from "redux";
+import { RootState } from "../redux/store";
+import { ReactJSXIntrinsicAttributes } from '@emotion/react/types/jsx-namespace';
+import * as serialsActionCreators from '../redux/Serials/actionCreators'
+import { getIsFetching, getSerials, getModalContent } from '../redux/Serials/selectors';
+import Preloader from './other/Preloader';
+import { connect } from 'react-redux';
+import { ISerial } from '../Common/Models/ISerial';
+import { NavLink } from "react-router-dom";
+import { RoutePaths } from '../Common/Routes';
 
-type SerialsProps = { }
+function mapStateToProps(state: RootState) {
+    return {
+        serials: getSerials(state),
+        isFetching: getIsFetching(state),
+        modalContent: getModalContent(state)
+    };
+}
 
-const Serials: React.FC<SerialsProps> = () => {
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
+    fetchSerials: serialsActionCreators.fetchSerials,
+    fetchSerialById: serialsActionCreators.fetchSerialById,
+}, dispatch);
+
+type SerialsProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & ReactJSXIntrinsicAttributes
+
+const Serials: React.FC<SerialsProps> = ({ serials, isFetching, fetchSerials, fetchSerialById, modalContent }) => {
+
+    useEffect(() => {
+        fetchSerials();
+    }, []);
 
     const [isSerialInfoOpened, openSerialInfo] = useState<boolean>(false);
 
+    const serialsList = serials.map((serial: ISerial) => {
+        return (
+                <SerialItem key={serial.id}>
+                    <h3>{serial.name}</h3>
+                    <p>Amount of series: {serial.amountOfSeries}</p>
+                    <p>Released: {serial.releaseYear}</p>
+                    <p>Genre: {serial.genre}</p>
+                    <p>Subscription: {serial.subscription}</p>
+                    <NavLink to={RoutePaths.SerialsRoute + '/' + serial.id}>
+                        <InfoButton callback={() => {
+                            openSerialInfo(true);
+                            fetchSerialById(serial.id);
+                        }} />
+                    </NavLink>
+                </SerialItem>
+        );
+    });
+
     return (
-        <React.Fragment>
-            {isSerialInfoOpened ? <SerialModal openSerialInfo={openSerialInfo} /> : null}
-            <SerialsWrapper>
-                <SerialItem>
-                    <h3>King of Thrones</h3>
-                    <p>Amount of series: 15</p>
-                    <p>Released: 2012</p>
-                    <p>Genre: Fantasy</p>
-                    <p>Subscription: Basic</p>
-                    <Rating>Rating: 9.5</Rating>
-                    <InfoButton callback={openSerialInfo} />
-                </SerialItem>
-                <SerialItem>
-                    <h3>King of Thrones</h3>
-                    <p>Amount of series: 15</p>
-                    <p>Released: 2012</p>
-                    <p>Genre: Fantasy</p>
-                    <p>Subscription: Basic</p>
-                    <Rating>Rating: 9.5</Rating>
-                    <InfoButton callback={() => openSerialInfo(true)} />
-                </SerialItem>
-                <SerialItem>
-                    <h3>King of Thrones</h3>
-                    <p>Amount of series: 15</p>
-                    <p>Released: 2012</p>
-                    <p>Genre: Fantasy</p>
-                    <p>Subscription: Basic</p>
-                    <Rating>Rating: 9.5</Rating>
-                    <InfoButton callback={() => openSerialInfo(true)} />
-                </SerialItem>
-            </SerialsWrapper>
-        </React.Fragment>
+        <SerialsWrapper>
+            {isFetching ? <Preloader /> : null}
+            {isSerialInfoOpened ? <SerialModal openSerialInfo={openSerialInfo} serial={modalContent} /> : null}
+            {serialsList.length ? serialsList : <p>No serials.</p>}
+        </SerialsWrapper>
     );
 };
 
-export default Serials;
+
+export default connect(mapStateToProps, mapDispatchToProps)(Serials);

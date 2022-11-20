@@ -10,6 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 ConfigurationManager configuration = builder.Configuration;
 
+builder.Services.AddCors(config =>
+{
+    config.AddPolicy("DefaultPolicy",
+        builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+});
+
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
@@ -38,7 +44,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseCors("DefaultPolicy");
 
 app.MapControllers();
 

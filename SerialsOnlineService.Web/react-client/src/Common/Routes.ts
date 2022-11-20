@@ -1,4 +1,5 @@
 const SerialsRoute: string = '/serials';
+const ConcreteSerialRoute: string = '/serials/:id';
 const HomeRoute: string = '/';
 const LoginRoute: string = '/login';
 const RegisterRoute: string = '/register';
@@ -13,5 +14,6 @@ export const RoutePaths = {
     RegisterRoute: RegisterRoute,
     AccountRoute: AccountRoute,
     SubscriptionsRoute: SubscriptionsRoute,
-    PurchasesRoute: PurchasesRoute
+    PurchasesRoute: PurchasesRoute,
+    ConcreteSerialRoute: ConcreteSerialRoute
 }
