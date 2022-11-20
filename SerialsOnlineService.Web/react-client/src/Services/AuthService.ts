@@ -10,7 +10,7 @@ class AuthService {
             userName: reponse.profileObj.name,
             age: 18
         }
-
+        
         const request: ILogin = {
             user: user
         }

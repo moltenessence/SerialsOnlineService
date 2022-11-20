@@ -16,6 +16,12 @@ class UsersService {
             then((response) => response.data);
         return result;
     }
+
+    public static async getByEmail(email: string | undefined): Promise<IUser> {
+        const result = await axiosInstance.get(`api/Users/email/${email}`).
+            then((response) => response.data);
+        return result;
+    }
 }
 
 export default UsersService;

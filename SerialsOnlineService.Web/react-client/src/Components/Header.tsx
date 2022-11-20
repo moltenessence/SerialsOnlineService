@@ -1,7 +1,8 @@
 import { HeaderWrapper } from "./styles/Header.style";
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import authService from "../Services/AuthService";
-import { redirect } from "react-router-dom";
+import tokenStorage from "../Services/TokenStorage";
+import { GOOGLE_CLIENT_ID } from "../Common/Constants";
 
 const Header = () => {
 
@@ -10,7 +11,8 @@ const Header = () => {
             if (result) {
                 console.log('success');
 
-                localStorage.setItem('access_token', response.tokenId);
+                tokenStorage.setToken(response.tokenId);
+                tokenStorage.setUserDataFromToken(response.profileObj);
 
                 window.history.replaceState({},
                     window.document.title,
@@ -21,32 +23,29 @@ const Header = () => {
     };
 
     const onLogout = () => {
-        localStorage.removeItem('access_token');
-        redirect('/');
+        tokenStorage.removeToken();
+        tokenStorage.removeUserDataFromToken();
+        window.location.href = '/';
     };
 
     const onFailure = () => {
-        console.log('zaloopa');
+        console.log('Failure while logging in.');
     };
 
     return (
         <HeaderWrapper>
             <h1>SerialsOnlineCenter</h1>
-            {localStorage.getItem('access_token') ?
-            
+            {tokenStorage.getToken() ?
                 <a>Logout
                     <div>
-                        <GoogleLogout clientId="364153709208-56ucs5l2p4jc9aao37jb6ek0ubal7g3l.apps.googleusercontent.com"
+                        <GoogleLogout clientId={GOOGLE_CLIENT_ID}
                             buttonText="login"
-                            onLogoutSuccess={ () =>{
-                                 localStorage.removeItem('access_token');
-                                 window.location.href = '/';
-                            } } />
+                            onLogoutSuccess={onLogout} />
                     </div>
                 </a> :
                 <a>Login
                 <div>
-                    <GoogleLogin clientId="364153709208-56ucs5l2p4jc9aao37jb6ek0ubal7g3l.apps.googleusercontent.com"
+                    <GoogleLogin clientId={GOOGLE_CLIENT_ID}
                         buttonText="Login"
                         onSuccess={onSuccess}
                         onFailure={onFailure}

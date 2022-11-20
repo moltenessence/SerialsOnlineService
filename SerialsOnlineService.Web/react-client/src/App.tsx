@@ -7,13 +7,14 @@ import Header from './Components/Header';
 import Navigation from './Components/Navigation';
 import ApplicationRouter from './Components/routing/ApplicationRouter';
 import { gapi } from 'gapi-script';
+import { GOOGLE_CLIENT_ID } from './Common/Constants';
 
 const App: React.FC = () => {
     
   useEffect(() => {
     function start() {
       gapi.client.init({
-        clientId: '364153709208-56ucs5l2p4jc9aao37jb6ek0ubal7g3l.apps.googleusercontent.com',
+        clientId: {GOOGLE_CLIENT_ID},
         scope: ''
     })
   };

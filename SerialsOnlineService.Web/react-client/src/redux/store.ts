@@ -4,10 +4,12 @@ import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import serialsReducer from './Serials/serialsReducer';
 import subscriptionsReducer from './Subscriptions/subscriptionsReducer';
+import userReducer from './User/userReducer';
 
 const RootReducer = combineReducers({
     serialsPage: serialsReducer,
-    subscriptionsPage: subscriptionsReducer
+    subscriptionsPage: subscriptionsReducer,
+    usersPage: userReducer
 });
 
 const store = createStore(RootReducer, applyMiddleware(thunkMiddleware));

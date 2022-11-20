@@ -42,5 +42,13 @@ namespace SerialsOnlineCenter.Controllers
             return _mapper.Map<IReadOnlyList<UserWithPurchasesViewModel>>(result);
         }
 
+        [HttpGet("email/{email}")]
+        public async Task<UserViewModel> GetByEmail(string email, CancellationToken cancellationToken)
+        {
+            var result = await _service.GetByEmail(email, cancellationToken);
+
+            return _mapper.Map<UserViewModel>(result);
+        }
+
     }
 }

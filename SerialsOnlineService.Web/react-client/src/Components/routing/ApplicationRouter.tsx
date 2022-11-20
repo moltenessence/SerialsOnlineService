@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route } from "react-router-dom";
 import { RoutePaths } from '../../Common/Routes';
+import Account from '../Account';
 import Home from '../Home';
 import Serials from '../Serials';
 import { SerialModal } from '../styles/Serials.style';
@@ -15,7 +16,7 @@ const ApplicationRouter: React.FC = () => {
             </Route>
             <Route path={RoutePaths.SubscriptionsRoute} element={<Subscriptions />} />
             <Route path={RoutePaths.PurchasesRoute} element={<div>Purchases</div>} />
-            <Route path={RoutePaths.AccountRoute} element={<div>Account</div>} />
+            <Route path={RoutePaths.AccountRoute} element={<Account />} />
         </Routes>
     );
 }
