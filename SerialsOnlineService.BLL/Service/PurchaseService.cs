@@ -56,6 +56,15 @@ namespace SerialsOnlineService.BLL.Service
             return result;
         }
 
+        public async Task<IReadOnlyList<PurchaseDTO>> GetByUserId(int userId, CancellationToken cancellationToken)
+        {
+            var entities = await _repository.GetByUserId(userId, cancellationToken);
+
+            var result = _mapper.Map<IReadOnlyList<PurchaseDTO>>(entities);
+
+            return result;
+        }
+
         private async Task<decimal> CalculateTotalPrice(Purchase model, CancellationToken cancellationToken)
         {
             var subscription = await _subscriptionRepository.GetById(model.SubscriptionId, cancellationToken);

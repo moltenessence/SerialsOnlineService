@@ -24,6 +24,7 @@ namespace SerialsOnlineCenter.Mapper
             CreateMap<UserWithPurchasesEntityView, UserWithPurchasesDTO>().ReverseMap();
 
             CreateMap<SerialsFilter, SerialFilterProperties>();
+            CreateMap<PurchaseDTO, PurchaseEntityView>().ReverseMap();
         }
 
     }

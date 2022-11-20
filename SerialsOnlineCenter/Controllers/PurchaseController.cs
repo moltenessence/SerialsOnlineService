@@ -42,5 +42,15 @@ namespace SerialsOnlineCenter.Controllers
             return result;
         }
 
+        [HttpGet("user/{userId}")]
+        public async Task<IReadOnlyList<UserPurchaseViewModel>> GetPurchasesByUserId(int userId, CancellationToken cancellationToken)
+        {
+            var purchases = await _service.GetByUserId(userId, cancellationToken);
+
+            var result = _mapper.Map<IReadOnlyList<UserPurchaseViewModel>>(purchases);
+
+            return result;
+        }
+
     }
 }

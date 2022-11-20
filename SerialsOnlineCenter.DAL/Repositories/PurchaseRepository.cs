@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using MySql.Data.MySqlClient;
 using SerialsOnlineCenter.DAL.Entities;
+using SerialsOnlineCenter.DAL.EntityViews;
 using SerialsOnlineCenter.DAL.Helpers;
 using SerialsOnlineCenter.DAL.Interfaces.Repositories;
 using static SerialsOnlineCenter.DAL.Helpers.RepositoryHelper;
@@ -29,6 +30,24 @@ namespace SerialsOnlineCenter.DAL.Repositories
             var result = await connection.QuerySingleOrDefaultAsync<PurchaseEntity>(command);
 
             return result;
+        }
+
+        public async Task<IReadOnlyList<PurchaseEntityView>> GetByUserId(int userId, CancellationToken cancellationToken)
+        {
+            await using var connection = new MySqlConnection(_connectionString);
+
+            SqlMapper.AddTypeHandler(new SqlDateOnlyTypeHandler());
+
+            var query = "SELECT purchase_id as Id, amount_of_months as AmountOfMonths, date as Date, " +
+                        "total_price as TotalPrice, subscriptions.name as Subscription FROM purchases " +
+                        "JOIN subscriptions " +
+                        "WHERE user_id = @Id";
+
+            var command = CreateCommand(query, new { @Id = userId }, cancellationToken: cancellationToken);
+
+            var result = await connection.QueryAsync<PurchaseEntityView>(command);
+
+            return result.ToList();
         }
 
         public async Task<IReadOnlyList<PurchaseEntity>> GetAll(CancellationToken cancellationToken)

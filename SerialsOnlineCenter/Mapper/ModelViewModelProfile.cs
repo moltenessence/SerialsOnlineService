@@ -42,6 +42,7 @@ namespace SerialsOnlineCenter.Mapper
             CreateMap<SerialsFilterQuery, SerialsFilter>();
 
             CreateMap<LoginViewModel, LoginModel>().ReverseMap();
+            CreateMap<PurchaseDTO, UserPurchaseViewModel>().ReverseMap();
         }
     }
 }
