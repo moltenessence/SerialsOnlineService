@@ -7,6 +7,7 @@ import { ReactJSXIntrinsicAttributes } from '@emotion/react/types/jsx-namespace'
 import Preloader from './other/Preloader';
 import { connect } from 'react-redux';
 import {useEffect} from "react";
+import tokenStorage from "../Services/TokenStorage";
 
 function mapStateToProps(state: RootState) {
     return {
@@ -25,13 +26,13 @@ const Purchases : React.FC<PurchasesProps> = ({purchases, isFetching, fetchPurch
 
     useEffect(() => {
         fetchPurchases();
-    }, []);
+    }, [purchases]);
 
     return (
         <PurchasesWrapper>
             {isFetching ? <Preloader /> : null}
             <h1>Purchases</h1>
-            {purchases?.map(purchase => {
+            {tokenStorage.getUserDataFromToken() ? purchases?.map(purchase => {
                 return (
                     <PurchaseItem key={purchase.id}>
                         <h3>Purchase #{purchase.id}</h3>
@@ -41,7 +42,7 @@ const Purchases : React.FC<PurchasesProps> = ({purchases, isFetching, fetchPurch
                         <p>Total Price: {purchase.totalPrice}</p>
                     </PurchaseItem>
                 );
-            })}
+            }) : <p>You need to login.</p>}
         </PurchasesWrapper>
     );
 };

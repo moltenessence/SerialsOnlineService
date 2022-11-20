@@ -11,11 +11,10 @@ export const fetchPurchases = () => {
         if (tokenStorage.getUserDataFromToken() !== null) {
             const userId = await usersService.getByEmail(tokenStorage.getUserDataFromToken()?.email).then((user) => { return user.id });
             await purchaseService.getByUserId(userId).then((purchases) => {
-                console.log(purchases);
-                
                 dispatch(setPurchases(purchases));
-                dispatch(setisFetching(false));
             });
         }
+
+        dispatch(setisFetching(false));
     };
 };
