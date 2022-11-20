@@ -2,7 +2,8 @@ export const darkTheme = {
     background: '#232423',
     header: '#221c26',
     text: 'white',
-    nav: '#221c26'
+    nav: '#221c26',
+    item: '#22162e'
 }
 
 export const lightTheme = {
