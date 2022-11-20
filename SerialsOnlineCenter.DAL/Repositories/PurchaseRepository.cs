@@ -40,7 +40,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
 
             var query = "SELECT purchase_id as Id, amount_of_months as AmountOfMonths, date as Date, " +
                         "total_price as TotalPrice, subscriptions.name as Subscription FROM purchases " +
-                        "JOIN subscriptions " +
+                        "JOIN subscriptions ON purchases.subscription_id = subscriptions.subscription_id " +
                         "WHERE user_id = @Id";
 
             var command = CreateCommand(query, new { @Id = userId }, cancellationToken: cancellationToken);
