@@ -43,6 +43,8 @@ namespace SerialsOnlineCenter.Mapper
 
             CreateMap<LoginViewModel, LoginModel>().ReverseMap();
             CreateMap<PurchaseDTO, UserPurchaseViewModel>().ReverseMap();
+
+            CreateMap<SerialWithRatings, SerialWithRatingsViewModel>().ReverseMap();
         }
     }
 }

@@ -36,6 +36,14 @@ namespace SerialsOnlineCenter.Controllers
             return _mapper.Map<SerialViewModel>(result);
         }
 
+        [HttpGet("ratings/{id}")]
+        public async Task<SerialWithRatingsViewModel> GetWithRatings(int id, CancellationToken cancellationToken)
+        {
+            var result = await _service.GetWithRatings(id, cancellationToken);
+
+            return _mapper.Map<SerialWithRatingsViewModel>(result);
+        }
+
         [HttpGet("filter")]
         public async Task<IReadOnlyList<SerialViewModel>> GetByFilter([FromQuery] SerialsFilterQuery filterQuery, CancellationToken cancellationToken)
         {

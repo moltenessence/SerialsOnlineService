@@ -11,16 +11,19 @@ namespace SerialsOnlineService.BLL.Service
 {
     public class SerialService : GenericService<Serial, SerialEntity>, ISerialService
     {
-        private readonly ISerialRepository _repository;
+        private readonly ISerialRepository _serialRepository;
 
-        public SerialService(ISerialRepository repository, IMapper mapper) : base(repository, mapper)
+        private readonly IRatingRepository _ratingRepository;
+
+        public SerialService(ISerialRepository repository, IRatingRepository ratingRepository, IMapper mapper) : base(repository, mapper)
         {
-            _repository = repository;
+            _serialRepository = repository;
+            _ratingRepository = ratingRepository;
         }
 
         public async Task<IReadOnlyList<Serial>> GetAccordingToSubscription(int subscriptionId, CancellationToken cancellationToken)
         {
-            var entities = await _repository.GetAccordingToSubscription(subscriptionId, cancellationToken);
+            var entities = await _serialRepository.GetAccordingToSubscription(subscriptionId, cancellationToken);
 
             var result = _mapper.Map<IReadOnlyList<Serial>>(entities);
 
@@ -33,9 +36,22 @@ namespace SerialsOnlineService.BLL.Service
                 throw new InvalidFilterParametersException("You can't get data sorted by asc and desc simultaneously.");
 
             var properties = _mapper.Map<SerialFilterProperties>(filter);
-            var entities = await _repository.GetByFilterProperties(properties, cancellationToken);
+            var entities = await _serialRepository.GetByFilterProperties(properties, cancellationToken);
 
             var result = _mapper.Map<IReadOnlyList<Serial>>(entities);
+
+            return result;
+        }
+
+        public async Task<SerialWithRatings> GetWithRatings(int serialId, CancellationToken cancellationToken)
+        {
+            var serialEntity = await _serialRepository.GetById(serialId, cancellationToken);
+            var ratingEntities = await _ratingRepository.GetSerialRatings(serialId, cancellationToken);
+
+            var serial = _mapper.Map<Serial>(serialEntity);
+            var ratings = _mapper.Map<SerialRatingsDTO>(ratingEntities);
+
+            var result = new SerialWithRatings(serial, ratings);
 
             return result;
         }
@@ -43,7 +59,7 @@ namespace SerialsOnlineService.BLL.Service
 
         public async Task<IReadOnlyList<SerialWithRequiredSubscriptionDTO>> GetWithRequiredSubscription(CancellationToken cancellationToken)
         {
-            var entityView = await _repository.GetWithRequiredSubscription(cancellationToken);
+            var entityView = await _serialRepository.GetWithRequiredSubscription(cancellationToken);
 
             var result = _mapper.Map<IReadOnlyList<SerialWithRequiredSubscriptionDTO>>(entityView);
 
@@ -52,7 +68,7 @@ namespace SerialsOnlineService.BLL.Service
 
         public async Task<IReadOnlyList<SerialsGroupedByGenreDTO>> GetGroupedByGenre(CancellationToken cancellationToken)
         {
-            var entityView = await _repository.GetGroupedByGenre(cancellationToken);
+            var entityView = await _serialRepository.GetGroupedByGenre(cancellationToken);
 
             var result = _mapper.Map<IReadOnlyList<SerialsGroupedByGenreDTO>>(entityView);
 
@@ -61,12 +77,12 @@ namespace SerialsOnlineService.BLL.Service
 
         public async Task<IReadOnlyList<string>> GetAllGenres(CancellationToken cancellationToken)
         {
-            return await _repository.GetAllGenres(cancellationToken);
+            return await _serialRepository.GetAllGenres(cancellationToken);
         }
 
         public async Task<IReadOnlyList<Serial>> GetAvailableForUser(int userId, CancellationToken cancellationToken)
         {
-            var entities = await _repository.GetAvailableForUser(userId, cancellationToken);
+            var entities = await _serialRepository.GetAvailableForUser(userId, cancellationToken);
 
             var result = _mapper.Map<IReadOnlyList<Serial>>(entities);
 

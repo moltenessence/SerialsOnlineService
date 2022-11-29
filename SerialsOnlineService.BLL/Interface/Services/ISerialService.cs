@@ -11,5 +11,6 @@ namespace SerialsOnlineService.BLL.Interface.Services
         Task<IReadOnlyList<string>> GetAllGenres(CancellationToken cancellationToken);
         Task<IReadOnlyList<Serial>> GetByFilter(SerialsFilter filter, CancellationToken cancellationToken);
         Task<IReadOnlyList<Serial>> GetAvailableForUser(int userId, CancellationToken cancellationToken);
+        Task<SerialWithRatings> GetWithRatings(int id, CancellationToken cancellationToken);
     }
 }
