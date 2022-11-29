@@ -1,5 +1,6 @@
 import { axiosInstance } from '../utils/axios';
 import { ISerial } from '../Common/Models/ISerial';
+import { ISerialWithRatings } from '../Common/Models/ISerialWithRatings';
 
 class SerialsService {
     public static async getAll(): Promise<Array<ISerial>> {
@@ -8,8 +9,8 @@ class SerialsService {
         return result;
     }
 
-    public static async getById(id: number): Promise<ISerial> {
-        const result = await axiosInstance.get(`api/Serial/${id}`).
+    public static async getById(id: number): Promise<ISerialWithRatings> {
+        const result = await axiosInstance.get(`api/Serial/ratings/${id}`).
             then((response) => response.data);
         return result;
     }

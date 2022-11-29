@@ -43,7 +43,6 @@ const Serials: React.FC<SerialsProps> = ({ serials, isFetching, fetchSerials, fe
                     <p>Amount of series: {serial.amountOfSeries}</p>
                     <p>Released: {serial.releaseYear}</p>
                     <p>Genre: {serial.genre}</p>
-                    <p>Subscription: {serial.subscription}</p>
                     <NavLink to={RoutePaths.SerialsRoute + '/' + serial.id}>
                         <InfoButton callback={() => {
                             openSerialInfo(true);
@@ -57,7 +56,7 @@ const Serials: React.FC<SerialsProps> = ({ serials, isFetching, fetchSerials, fe
     return (
         <SerialsWrapper>
             {isFetching ? <Preloader /> : null}
-            {isSerialInfoOpened ? <SerialModal openSerialInfo={openSerialInfo} serial={modalContent} /> : null}
+            {isSerialInfoOpened ? <SerialModal openSerialInfo={openSerialInfo} serialInfo={modalContent} /> : null}
             {serialsList.length ? serialsList : <p>No serials.</p>}
         </SerialsWrapper>
     );

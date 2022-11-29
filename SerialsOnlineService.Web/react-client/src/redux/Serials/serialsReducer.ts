@@ -1,10 +1,11 @@
 import { ISerial } from "../../Common/Models/ISerial";
 import { SET_IS_FETCHING, SET_SERIALS, SET_SERIAL } from "./constants";
 import * as actions from './actions';
+import { ISerialWithRatings } from "../../Common/Models/ISerialWithRatings";
 
 export type SerialsState = {
     serials: Array<ISerial>,
-    modalContent: ISerial | null,
+    modalContent: ISerialWithRatings | null,
     isFetching: boolean
 };
 
