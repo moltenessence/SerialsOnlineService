@@ -10,10 +10,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 ConfigurationManager configuration = builder.Configuration;
 
-builder.Services.AddCors(config =>
+builder.Services.AddCors(options =>
 {
-    config.AddPolicy("DefaultPolicy",
-        builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+    options.AddPolicy(name: "DefaultPolicy",
+         policy =>
+         {
+             policy.WithOrigins("http://localhost:3000");
+             policy.AllowAnyHeader();
+             policy.AllowAnyMethod();
+             policy.AllowCredentials();
+         });
 });
 
 builder.Services.AddControllers().AddJsonOptions(options =>
