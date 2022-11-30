@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getUser, isFetching } from '../redux/User/selectors';
 import { RootState } from '../redux/store';
 import { Dispatch, bindActionCreators } from 'redux';
@@ -6,7 +6,10 @@ import * as  userActionCreators from '../redux/User/actionCreators';
 import { ReactJSXIntrinsicAttributes } from '@emotion/react/types/jsx-namespace';
 import Preloader from './other/Preloader';
 import { connect } from 'react-redux';
-import { AccountWrapper, AccountItem } from './styles/Account.style';
+import { AccountWrapper, AccountItem, AccountHeader, AccountField } from './styles/Account.style';
+import UpdateButton from './other/UpdateButton';
+import UpdateUserForm from './forms/UpdateUserForm';
+
 
 function mapStateToProps(state: RootState) {
     return {
@@ -24,6 +27,8 @@ type AccountProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDi
 
 const Account: React.FC<AccountProps> = ({ user, isFetching, fetchUser, updateUser }) => {
 
+    const [isFormOpened, setFormOpened] = useState(false);
+
     useEffect(() => {
         fetchUser();
     }, [user]);
@@ -33,10 +38,16 @@ const Account: React.FC<AccountProps> = ({ user, isFetching, fetchUser, updateUs
             {isFetching ? <Preloader /> : null}
             <h1>Account</h1>
             {user ? <AccountItem>
-                <h3>{user.userName}</h3>
-                <p>Email: {user.email}</p>
-                <p>Age: {user.age}</p>
-            </AccountItem> : 'You need to login.'}
+                <AccountHeader>{user.userName}</AccountHeader>
+                <AccountField>Email: {user.email}</AccountField>
+                <AccountField>Age: {user.age}</AccountField>
+                <UpdateButton callback={() => {
+                    setFormOpened(!isFormOpened);
+                }} />
+
+                {isFormOpened && <UpdateUserForm user={user} updateUser={updateUser}/>}
+            </AccountItem> : 'You need to login.'
+            }
         </AccountWrapper>
     );
 };

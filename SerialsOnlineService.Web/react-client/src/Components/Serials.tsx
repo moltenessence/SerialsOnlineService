@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SerialModal from './modals/SerialModal';
 import InfoButton from "./other/InfoButton";
-import { SerialsWrapper, SerialItem, Rating } from "./styles/Serials.style";
+import { SerialsWrapper, SerialItem } from "./styles/Serials.style";
 import { Dispatch, bindActionCreators } from "redux";
 import { RootState } from "../redux/store";
 import { ReactJSXIntrinsicAttributes } from '@emotion/react/types/jsx-namespace';

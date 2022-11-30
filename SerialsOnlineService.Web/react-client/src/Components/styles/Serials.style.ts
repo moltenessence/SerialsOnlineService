@@ -30,7 +30,7 @@ export const SerialItem  = styled.div`
     }
 `
 
-export const Rating = styled.p`
+export const RatingText = styled.p`
     font-size: 1.5em;
     letter-spacing: 0.12em;
 `

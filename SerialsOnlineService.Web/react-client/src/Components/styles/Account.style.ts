@@ -11,3 +11,11 @@ p {
     padding: 0.5em 0;
 }
 `
+
+export const AccountHeader= styled.h3`
+
+`
+
+export const AccountField= styled.p`
+
+`

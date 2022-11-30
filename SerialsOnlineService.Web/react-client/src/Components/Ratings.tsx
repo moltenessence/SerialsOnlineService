@@ -1,6 +1,7 @@
 import React from 'react';
 import { ReactJSXIntrinsicAttributes } from '@emotion/react/types/jsx-namespace';
 import { IRating } from '../Common/Models/IRating';
+import { RatingsWrapper, RatingItem, RatingField } from './styles/Ratings.style';
 
 type Payload = {
     ratings: Array<IRating> | undefined;
@@ -8,24 +9,33 @@ type Payload = {
 
 type RatingsProps = Payload & ReactJSXIntrinsicAttributes
 
-const Ratings: React.FC<RatingsProps> = ({ ratings }) => {
-    console.log('suka', ratings);
+function getRatingAsStars(ratingValue : number) : Array<string>
+{
+    const stars = [];
 
+    for (let i = 0; i < ratingValue; i++) {
+        stars.push(String.fromCharCode(9733));
+      }
+
+    return stars;
+}
+
+const Ratings: React.FC<RatingsProps> = ({ ratings }) => {
     const ratingsList = ratings?.map((rating: IRating) => {
         return (
-                <div>
-                    <p>User: {rating.userName}</p>
-                    <p>Value: {rating.value}</p>
-                    <p>Comment{rating.annotation ?? 'User has not left any comments.'}</p>
-                </div>
+            <RatingItem>
+                <RatingField><strong>Username:</strong> {rating.userName}</RatingField>
+                <RatingField><strong>Rating:</strong> {getRatingAsStars(rating.value)}</RatingField>
+                <RatingField><strong>Comment:</strong> {rating.annotation ?? 'User has not left any comments.'}</RatingField>
+            </RatingItem>
         );
     }
     );
 
     return (
-        <div>
+        <RatingsWrapper>
             {ratingsList ?? 'No ratings for this serial.'}
-        </div>
+        </RatingsWrapper>
     );
 };
 
