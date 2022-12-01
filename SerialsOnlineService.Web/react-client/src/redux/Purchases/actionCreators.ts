@@ -4,6 +4,7 @@ import { PurchasesActions } from "./purchasesReducer";
 import { AppDispatch } from "../store";
 import { setisFetching, setPurchases } from "./actions";
 import purchaseService from "../../Services/PurchaseService";
+import { IMakePurchaseRequest } from "../../Common/Requests/IMakePurchaseRequest";
 
 export const fetchPurchases = () => {
     return async (dispatch: AppDispatch<PurchasesActions>) => {
@@ -16,5 +17,18 @@ export const fetchPurchases = () => {
         }
 
         dispatch(setisFetching(false));
+    };
+};
+
+export const makePurchase = (request : IMakePurchaseRequest) => {
+    return async (dispatch: AppDispatch<PurchasesActions>) => {
+        if (tokenStorage.getUserDataFromToken() !== null) {
+            const userId = await usersService.getByEmail(tokenStorage.getUserDataFromToken()?.email).then((user) => { return user.id });
+            request.userId = userId;
+            
+            await purchaseService.makePurchase(request).then((result) => {
+                fetchPurchases();
+            });
+        }
     };
 };

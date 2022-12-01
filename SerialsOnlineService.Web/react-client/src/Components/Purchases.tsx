@@ -17,7 +17,7 @@ function mapStateToProps(state: RootState) {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
-    fetchPurchases: purchasesActionCreators.fetchPurchases
+    fetchPurchases: purchasesActionCreators.fetchPurchases,
 }, dispatch);
 
 type PurchasesProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & ReactJSXIntrinsicAttributes
@@ -39,7 +39,7 @@ const Purchases : React.FC<PurchasesProps> = ({purchases, isFetching, fetchPurch
                         <p> Amount of months: {purchase.amountOfMonths}</p>
                         <p> Purchase date: {purchase.date}</p>
                         <p> Subscription: {purchase.subscription}</p>
-                        <p>Total Price: {purchase.totalPrice}</p>
+                        <p>Total Price: {purchase.totalPrice}$</p>
                     </PurchaseItem>
                 );
             }) : <p>You need to login.</p>}

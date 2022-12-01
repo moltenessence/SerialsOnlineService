@@ -14,6 +14,7 @@ export const PurchaseItem = styled.div`
     background-color: ${props => props.theme.item};
     opacity: 0.9;
     border-radius: 1em;
+    margin-bottom: 5px;
 
    h3 {
     margin-bottom: 0.5em;
