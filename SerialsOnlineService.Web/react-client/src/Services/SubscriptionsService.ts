@@ -7,6 +7,12 @@ class SubscriptionsService {
             then((response) => response.data);
         return result;
     }
+
+    public static async getById(id: number){
+        const result = await axiosInstance.get<ISubscription>(`api/Subscription/${id}`).
+            then((response) => response.data);
+        return result;
+    }
 }
 
 export default SubscriptionsService;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getUser, isFetching } from '../redux/User/selectors';
+import { getSubscription, getUser, isFetching } from '../redux/User/selectors';
 import { RootState } from '../redux/store';
 import { Dispatch, bindActionCreators } from 'redux';
 import * as  userActionCreators from '../redux/User/actionCreators';
@@ -15,6 +15,7 @@ function mapStateToProps(state: RootState) {
     return {
         user: getUser(state),
         isFetching: isFetching(state),
+        subscription: getSubscription(state)
     };
 }
 
@@ -25,7 +26,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
 
 type AccountProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & ReactJSXIntrinsicAttributes
 
-const Account: React.FC<AccountProps> = ({ user, isFetching, fetchUser, updateUser }) => {
+const Account: React.FC<AccountProps> = ({ user, isFetching, fetchUser, updateUser, subscription }) => {
 
     const [isFormOpened, setFormOpened] = useState(false);
 
@@ -41,6 +42,7 @@ const Account: React.FC<AccountProps> = ({ user, isFetching, fetchUser, updateUs
                 <AccountHeader>{user.userName}</AccountHeader>
                 <AccountField>Email: {user.email}</AccountField>
                 <AccountField>Age: {user.age}</AccountField>
+                <AccountField>Subscription: {subscription?.name}</AccountField>
                 <UpdateButton callback={() => {
                     setFormOpened(!isFormOpened);
                 }} />

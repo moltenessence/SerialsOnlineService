@@ -42,7 +42,7 @@ const Purchases : React.FC<PurchasesProps> = ({purchases, isFetching, fetchPurch
                         <p>Total Price: {purchase.totalPrice}$</p>
                     </PurchaseItem>
                 );
-            }) : <p>You need to login.</p>}
+            }).reverse() : <p>You need to login.</p>}
         </PurchasesWrapper>
     );
 };
