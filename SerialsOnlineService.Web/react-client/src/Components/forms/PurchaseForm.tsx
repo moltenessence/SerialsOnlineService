@@ -1,5 +1,5 @@
 import { Field, Form, Formik } from "formik";
-import { redirect } from "react-router-dom";
+import { Navigate, redirect } from "react-router-dom";
 import { Button, FormItem, FormWrapper } from "../styles/Form.style";
 
 type PurchaseFormValuesType = {
@@ -20,9 +20,8 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({ subscriptionId, makePurchas
                 initialValues={{ amountOfMonths: 1, subscriptionId: subscriptionId, userId: 0 }}
                 onSubmit={(values, actions) => {
                         makePurchase(values);
-                        actions.setSubmitting(false);
 
-                        redirect('/purchases');
+                        actions.setSubmitting(false);
                   }}
             >
                 {({ isSubmitting }) => (

@@ -4,8 +4,6 @@ import { RatingText } from "../styles/Serials.style";
 import { ISerialWithRatings } from '../../Common/Models/ISerialWithRatings';
 import Ratings from '../Ratings';
 import RateSerialForm from '../forms/RateSerialForm';
-import tokenStorage from '../../Services/TokenStorage';
-import UsersService from '../../Services/UsersService';
 
 type ModalProps = {
     openSerialInfo: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,29 +11,27 @@ type ModalProps = {
 }
 
 const SerialModal: React.FC<ModalProps> = ({ openSerialInfo, serialInfo }) => {
+    const [serialId, setSerialId] = useState<number>(1);
 
-    const serial = serialInfo?.serial;
-
-    const [userId, setUserId] = useState<number>(1);
-
-        async function setUser() {
-            const userEmail = tokenStorage.getUserDataFromToken()?.email;
-            const userId = await UsersService.getByEmail(userEmail).then((user)=> user.id) as number;
-    
-            setUserId(userId);
+        async function setSerialData() {
+            setSerialId(serialInfo?.serial.id as number);
+            console.log(serialId);
         }
 
-        setUser();
+        useEffect(()=>{
+            setSerialData();
+        }, []);
+
 
     return (
-        <Modal bodyStyle={{overflow: 'auto', maxHeight: 'calc(100vh - 200px)' }} title={serial?.name} centered open={true} onOk={()=>openSerialInfo(false)} onCancel={()=>openSerialInfo(false)}>
-            <p>Amount of series: {serial?.amountOfSeries}</p>
-            <p>Released: {serial?.releaseYear}</p>
-            <p>Genre: {serial?.genre}</p>
-            <p>Description: {serial?.description}</p>
+        <Modal bodyStyle={{overflow: 'auto', maxHeight: 'calc(100vh - 200px)' }} title={serialInfo?.serial.name} centered open={true} onOk={()=>openSerialInfo(false)} onCancel={()=>openSerialInfo(false)}>
+            <p>Amount of series: {serialInfo?.serial.amountOfSeries}</p>
+            <p>Released: {serialInfo?.serial.releaseYear}</p>
+            <p>Genre: {serialInfo?.serial.genre}</p>
+            <p>Description: {serialInfo?.serial.description}</p>
             <RatingText>Rating: {serialInfo?.ratings.average}</RatingText>
             <Ratings ratings={serialInfo?.ratings.serialRatings}/>
-            <RateSerialForm userId={userId} serialId={serialInfo?.serial.id as number}/>
+            <RateSerialForm serialId={serialId}/>
         </Modal>
     );
 };

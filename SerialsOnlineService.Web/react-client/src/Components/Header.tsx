@@ -9,15 +9,10 @@ const Header = () => {
     const onSuccess = (response: any) => {
         authService.login(response).then((result) => {
             if (result) {
-                console.log('success');
-
                 tokenStorage.setToken(response.tokenId);
                 tokenStorage.setUserDataFromToken(response.profileObj);
 
-                window.history.replaceState({},
-                    window.document.title,
-                    window.location.origin + window.location.pathname);
-                window.location.reload();
+                window.location.href = '/';
             }
         });
     };
@@ -25,6 +20,7 @@ const Header = () => {
     const onLogout = () => {
         tokenStorage.removeToken();
         tokenStorage.removeUserDataFromToken();
+        
         window.location.href = '/';
     };
 
