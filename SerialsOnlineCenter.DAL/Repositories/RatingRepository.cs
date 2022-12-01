@@ -72,7 +72,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
 
             if (ratings is not null)
             {
-                var avgRatingQuery = "SELECT AVG(ratings.value) AS AverageRating FROM ratings";
+                var avgRatingQuery = "SELECT AVG(ratings.value) AS AverageRating FROM ratings WHERE serial_id = @Id";
 
                 var avgRatingCommand = CreateCommand(avgRatingQuery, new { @Id = serialId }, cancellationToken: cancellationToken);
 
