@@ -23,6 +23,12 @@ namespace SerialsOnlineCenter.Middelwares
             {
                 context.Response.StatusCode = ex.StatusCode;
                 await HandleException(context, ex);
+
+            }
+            catch (DomainException ex)
+            {
+                context.Response.StatusCode = ex.StatusCode;
+                await HandleException(context, ex);
             }
             catch (Exception ex)
             {

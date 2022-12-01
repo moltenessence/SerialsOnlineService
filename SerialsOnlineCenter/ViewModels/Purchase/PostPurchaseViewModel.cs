@@ -1,7 +1,6 @@
 ﻿namespace SerialsOnlineCenter.ViewModels.Purchase
 {
-    public record PostPurchaseViewModel(DateOnly Date,
-        int AmountOfMonths,
+    public record PostPurchaseViewModel(int AmountOfMonths,
         int UserId,
         int SubscriptionId);
 }

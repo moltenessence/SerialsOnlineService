@@ -11,11 +11,16 @@ namespace SerialsOnlineService.BLL.Service
     {
         private readonly IPurchaseRepository _repository;
         private readonly ISubscriptionRepository _subscriptionRepository;
+        private readonly IUserRepository _userRepository;
 
-        public PurchaseService(IPurchaseRepository repository, IMapper mapper, ISubscriptionRepository subscriptionRepository) : base(repository, mapper)
+        public PurchaseService(IPurchaseRepository repository,
+            IMapper mapper,
+            ISubscriptionRepository subscriptionRepository,
+            IUserRepository userRepository) : base(repository, mapper)
         {
             _repository = repository;
             _subscriptionRepository = subscriptionRepository;
+            _userRepository = userRepository;
         }
 
         public override async Task<Purchase> Update(int id, Purchase model, CancellationToken cancellationToken)
@@ -36,9 +41,17 @@ namespace SerialsOnlineService.BLL.Service
 
         public override async Task<Purchase> Insert(Purchase model, CancellationToken cancellationToken)
         {
+            var relatedUser = await _userRepository.GetById(model.UserId, cancellationToken);
+
+            if (relatedUser.SubscriptionId == model.SubscriptionId)
+            {
+                throw new DomainException("User already has this type of subcription.");
+            }
+
             var entityToInsert = _mapper.Map<PurchaseEntity>(model);
 
             entityToInsert.TotalPrice = await CalculateTotalPrice(model, cancellationToken);
+            entityToInsert.Date = new DateOnly(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
 
             var entity = await _repository.Insert(entityToInsert, cancellationToken);
 
@@ -61,7 +74,6 @@ namespace SerialsOnlineService.BLL.Service
             var entities = await _repository.GetByUserId(userId, cancellationToken);
 
             var result = _mapper.Map<IReadOnlyList<PurchaseDTO>>(entities);
-
             return result;
         }
 
@@ -71,5 +83,7 @@ namespace SerialsOnlineService.BLL.Service
 
             return model.AmountOfMonths * subscription.PricePerMonth;
         }
+
+
     }
 }
