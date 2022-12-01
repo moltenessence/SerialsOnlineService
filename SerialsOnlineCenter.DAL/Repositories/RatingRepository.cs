@@ -78,7 +78,7 @@ namespace SerialsOnlineCenter.DAL.Repositories
 
                 var avgRatingResult = await connection.QueryFirstOrDefaultAsync<SerialAverageRating>(avgRatingCommand);
 
-                var result = new SerialRatingsEntityView(ratings.ToList(), avgRatingResult.AverageRating);
+                var result = new SerialRatingsEntityView(ratings.ToList(), Math.Round(avgRatingResult.AverageRating, 2));
 
                 return result;
             }
