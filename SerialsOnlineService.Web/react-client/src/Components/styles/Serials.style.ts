@@ -37,3 +37,11 @@ export const RatingText = styled.p`
 export const SerialModal = styled.div`
   position: fixed;
 `;
+
+export const Available = styled.div`
+  padding:5px;
+  margin-top:2px;
+  color: green;
+  opacity:0.9;
+  font-size:15px;
+`

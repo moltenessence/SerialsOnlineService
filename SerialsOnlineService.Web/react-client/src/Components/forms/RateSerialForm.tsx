@@ -12,6 +12,8 @@ type RateSerialFormValuesType = {
 
 type RateSerialFormProps = {
     serialId: number;
+    rateSerial: any;
+    openSerialInfo:any;
 }
 
 function validateRatingValue(value: number) {
@@ -33,21 +35,24 @@ function validateRatingValue(value: number) {
   return error;
 }
 
+const RateSerialForm: React.FC<RateSerialFormProps> = ({ serialId, rateSerial, openSerialInfo }) => {
 
-const handleSubmit = (values: RateSerialFormValuesType, { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }): void => {
-    ratingsService.rateSerial(values);
+    const handleSubmit = (values: RateSerialFormValuesType, { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }): void => {
+        values.serialId = serialId;
+        console.log(values);
+        rateSerial(values);
+    
+        setSubmitting(false);
+        openSerialInfo(false);
+    }
 
-    setSubmitting(false);
-}
-
-const RateSerialForm: React.FC<RateSerialFormProps> = ({ serialId }) => {
     return (
         <FormWrapper>
             <FormItem>
                 <h3>Leave your own rating:</h3>
             </FormItem>
             <Formik
-                initialValues={{ value: 10, annotation: '', serialId: serialId, userId: 0}}
+                initialValues={{ value: 10, annotation: '', serialId: 0, userId: 0}}
                 onSubmit={handleSubmit}
             >
                 {({ isSubmitting, errors, touched }) => (

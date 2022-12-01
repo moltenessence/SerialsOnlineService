@@ -1,18 +1,21 @@
 import { ISerial } from "../../Common/Models/ISerial";
-import { SET_IS_FETCHING, SET_SERIALS, SET_SERIAL } from "./constants";
+import { SET_IS_FETCHING, SET_SERIALS, SET_SERIAL, SET_RATINGS } from "./constants";
 import * as actions from './actions';
 import { ISerialWithRatings } from "../../Common/Models/ISerialWithRatings";
+import { ISerialRatings } from "../../Common/Models/ISerialRatings";
 
 export type SerialsState = {
     serials: Array<ISerial>,
     modalContent: ISerialWithRatings | null,
-    isFetching: boolean
+    isFetching: boolean,
+    ratings:  ISerialRatings | null
 };
 
 let initialState: SerialsState = {
     serials: [],
     modalContent: null,
-    isFetching: false
+    isFetching: false,
+    ratings: null
 };
 
 export type SerialsActions = ReturnType<typeof actions[keyof typeof actions]>;
@@ -27,6 +30,9 @@ const serialsReducer = (state = initialState, action: SerialsActions): SerialsSt
         }
         case SET_IS_FETCHING: {
             return { ...state, isFetching: action.payload }
+        }
+        case SET_RATINGS: {
+            return { ...state, ratings: action.payload }
         }
         default:
             return state;

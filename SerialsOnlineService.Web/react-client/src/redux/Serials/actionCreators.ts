@@ -1,7 +1,9 @@
 import serialsService from "../../Services/SerialsService";
 import { SerialsActions } from "./serialsReducer";
-import { setSerials, setisFetching, setSerial } from "./actions";
+import { setSerials, setisFetching, setSerial, setRatings } from "./actions";
 import { AppDispatch } from "../store";
+import ratingsService from "../../Services/RatingsService";
+import { IRateSerialRequest } from "../../Common/Requests/RateSerialRequest";
 
 export const fetchSerials = () => {
     return async (dispatch: AppDispatch<SerialsActions>) => {
@@ -18,7 +20,16 @@ export const fetchSerialById = (id: number) => {
         dispatch(setisFetching(true));
         await serialsService.getById(id).then((serial) => {
             dispatch(setSerial(serial));
+            dispatch(setRatings(serial.ratings));
             dispatch(setisFetching(false));
         });
+    };
+};
+
+export const rateSerial = (request : IRateSerialRequest) => {
+    return async (dispatch: AppDispatch<SerialsActions>) => {
+       await ratingsService.rateSerial(request).then(()=>{
+            fetchSerialById(request.serialId);
+       });
     };
 };

@@ -6,5 +6,5 @@ export interface ISerial {
     genre: string;
     releaseYear: number;
     rating: number;
-    subscription?: string;
+    subscriptionId?: number;
 }
