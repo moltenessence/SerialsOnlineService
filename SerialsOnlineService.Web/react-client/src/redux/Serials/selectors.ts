@@ -4,6 +4,7 @@ import { ISerial } from "../../Common/Models/ISerial";
 import { RootState } from "../store";
 import { ISerialWithRatings } from "../../Common/Models/ISerialWithRatings";
 import { ISerialRatings } from "../../Common/Models/ISerialRatings";
+import { IRating } from "../../Common/Models/IRating";
 
 const selectSerials = (state: RootState) => state.serialsPage.serials;
 
@@ -21,7 +22,7 @@ export const getModalContent = createSelector(selectModalContent, (modalContent:
     return modalContent;
 });
 
-export const getRatings = createSelector(selectRatings, (ratings: ISerialRatings | null) => {
+export const getRatings = createSelector(selectRatings, (ratings: Array<IRating> | null) => {
     return ratings;
 });
 

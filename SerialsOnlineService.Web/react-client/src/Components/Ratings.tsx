@@ -4,7 +4,7 @@ import { IRating } from '../Common/Models/IRating';
 import { RatingsWrapper, RatingItem, RatingField } from './styles/Ratings.style';
 
 type Payload = {
-    ratings: Array<IRating> | undefined;
+    ratings: Array<IRating> | null | undefined;
 }
 
 type RatingsProps = Payload & ReactJSXIntrinsicAttributes
@@ -20,11 +20,7 @@ function getRatingAsStars(ratingValue: number): Array<string> {
 }
 
 const Ratings: React.FC<RatingsProps> = ({ ratings }) => {
-
-    const [ratingsList, setRatings] = useState<JSX.Element[]>();
-
-    useEffect(() => {
-        const items = ratings?.map((rating: IRating) => {
+        const ratingsList = ratings?.map((rating: IRating) => {
             return (
                 <RatingItem>
                     <RatingField><strong>Username:</strong> {rating.userName}</RatingField>
@@ -34,10 +30,6 @@ const Ratings: React.FC<RatingsProps> = ({ ratings }) => {
             );
         }
         );
-
-        setRatings(items)
-
-    }, [ratings?.length])
 
     return (
         <RatingsWrapper>

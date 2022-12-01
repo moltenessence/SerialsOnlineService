@@ -2,13 +2,13 @@ import { ISerial } from "../../Common/Models/ISerial";
 import { SET_IS_FETCHING, SET_SERIALS, SET_SERIAL, SET_RATINGS } from "./constants";
 import * as actions from './actions';
 import { ISerialWithRatings } from "../../Common/Models/ISerialWithRatings";
-import { ISerialRatings } from "../../Common/Models/ISerialRatings";
+import { IRating } from "../../Common/Models/IRating";
 
 export type SerialsState = {
     serials: Array<ISerial>,
     modalContent: ISerialWithRatings | null,
     isFetching: boolean,
-    ratings:  ISerialRatings | null
+    ratings:  Array<IRating> | null
 };
 
 let initialState: SerialsState = {

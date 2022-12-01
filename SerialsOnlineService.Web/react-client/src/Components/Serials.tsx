@@ -38,7 +38,7 @@ const Serials: React.FC<SerialsProps> = ({ serials, isFetching, fetchSerials, fe
     useEffect(() => {
         fetchSerials();
         fetchUser();
-    }, [ratings?.serialRatings.length]);
+    }, []);
 
     const [isSerialInfoOpened, openSerialInfo] = useState<boolean>(false);
     const userSubscriprionId : number = user?.subscriptionId as number;

@@ -5,11 +5,12 @@ import { ISerialWithRatings } from '../../Common/Models/ISerialWithRatings';
 import Ratings from '../Ratings';
 import RateSerialForm from '../forms/RateSerialForm';
 import { ISerialRatings } from '../../Common/Models/ISerialRatings';
+import { IRating } from '../../Common/Models/IRating';
 
 type ModalProps = {
     openSerialInfo: React.Dispatch<React.SetStateAction<boolean>>;
     serialInfo: ISerialWithRatings | null;
-    ratings: ISerialRatings | null,
+    ratings: Array<IRating> | null,
     rateSerial: any
 }
 
@@ -23,7 +24,7 @@ const SerialModal: React.FC<ModalProps> = ({ openSerialInfo, serialInfo, ratings
 
         useEffect(()=>{
             setSerialData();
-        }, [ratings?.serialRatings.length]);
+        }, [ratings]);
 
 
     return (
@@ -32,8 +33,8 @@ const SerialModal: React.FC<ModalProps> = ({ openSerialInfo, serialInfo, ratings
             <p>Released: {serialInfo?.serial.releaseYear}</p>
             <p>Genre: {serialInfo?.serial.genre}</p>
             <p>Description: {serialInfo?.serial.description}</p>
-            <RatingText>Rating: {ratings?.average}</RatingText>
-            <Ratings ratings={ratings?.serialRatings}/>
+            <RatingText>Rating: {serialInfo?.ratings.average}</RatingText>
+            <Ratings ratings={ratings}/>
             <RateSerialForm serialId={serialId} rateSerial={rateSerial} openSerialInfo={openSerialInfo}/>
         </Modal>
     );

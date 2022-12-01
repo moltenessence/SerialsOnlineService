@@ -20,7 +20,8 @@ export const fetchSerialById = (id: number) => {
         dispatch(setisFetching(true));
         await serialsService.getById(id).then((serial) => {
             dispatch(setSerial(serial));
-            dispatch(setRatings(serial.ratings));
+            dispatch(setRatings(serial.ratings.serialRatings));
+
             dispatch(setisFetching(false));
         });
     };
