@@ -12,12 +12,14 @@ import { connect } from 'react-redux';
 import { ISerial } from '../Common/Models/ISerial';
 import { NavLink } from "react-router-dom";
 import { RoutePaths } from '../Common/Routes';
+import tokenStorage from '../Services/TokenStorage';
+import { ITokenInfo } from '../Common/Models/ITokenInfo';
 
 function mapStateToProps(state: RootState) {
     return {
         serials: getSerials(state),
         isFetching: getIsFetching(state),
-        modalContent: getModalContent(state)
+        modalContent: getModalContent(state),
     };
 }
 
@@ -30,26 +32,30 @@ type SerialsProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDi
 
 const Serials: React.FC<SerialsProps> = ({ serials, isFetching, fetchSerials, fetchSerialById, modalContent }) => {
 
+    const [user, setUser] = useState<ITokenInfo | null>(null);
+
     useEffect(() => {
         fetchSerials();
+        const user = tokenStorage.getUserDataFromToken();
+        setUser(user);
     }, []);
 
     const [isSerialInfoOpened, openSerialInfo] = useState<boolean>(false);
 
     const serialsList = serials.map((serial: ISerial) => {
         return (
-                <SerialItem key={serial.id}>
-                    <h3>{serial.name}</h3>
-                    <p>Amount of series: {serial.amountOfSeries}</p>
-                    <p>Released: {serial.releaseYear}</p>
-                    <p>Genre: {serial.genre}</p>
-                    <NavLink to={RoutePaths.SerialsRoute + '/' + serial.id}>
-                        <InfoButton callback={() => {
-                            openSerialInfo(true);
-                            fetchSerialById(serial.id);
-                        }} />
-                    </NavLink>
-                </SerialItem>
+            <SerialItem key={serial.id}>
+                <h3>{serial.name}</h3>
+                <p>Amount of series: {serial.amountOfSeries}</p>
+                <p>Released: {serial.releaseYear}</p>
+                <p>Genre: {serial.genre}</p>
+                <NavLink to={RoutePaths.SerialsRoute + '/' + serial.id}>
+                    <InfoButton callback={() => {
+                        openSerialInfo(true);
+                        fetchSerialById(serial.id);
+                    }} />
+                </NavLink>
+            </SerialItem>
         );
     });
 
@@ -57,7 +63,7 @@ const Serials: React.FC<SerialsProps> = ({ serials, isFetching, fetchSerials, fe
         <SerialsWrapper>
             {isFetching ? <Preloader /> : null}
             {isSerialInfoOpened ? <SerialModal openSerialInfo={openSerialInfo} serialInfo={modalContent} /> : null}
-            {serialsList.length ? serialsList : <p>No serials.</p>}
+            {user ? serialsList.length ? serialsList : <p>No serials.</p> : 'You need to login. '}
         </SerialsWrapper>
     );
 };
