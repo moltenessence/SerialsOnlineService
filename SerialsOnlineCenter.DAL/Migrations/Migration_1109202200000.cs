@@ -6,6 +6,7 @@ namespace SerialsOnlineCenter.DAL.Migrations
     [Migration(1109202200000)]
     public class Migration_1109202200000 : Migration
     {
+
         public override void Up()
         {
             Create.Table("subscriptions")
