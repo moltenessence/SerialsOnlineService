@@ -25,6 +25,16 @@ function validateRatingValue(value: number) {
     return error;
   }
 
+  function validateAnnotation(value:string)
+{
+  let error;
+  if (value.length > 100) {
+    error = 'Too long annotation.';
+  }
+  return error;
+}
+
+
 const handleSubmit = (values: RateSerialFormValuesType, { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }): void => {
     ratingsService.rateSerial(values);
 
@@ -44,12 +54,12 @@ const RateSerialForm: React.FC<RateSerialFormProps> = ({ userId, serialId }) => 
                 {({ isSubmitting, errors, touched }) => (
                     <Form>
                         <FormItem>
-                            <label>Rating:</label>
+                            <div><label>Rating:</label></div>
                             <Field type="number" name="value" validate={validateRatingValue} />
                         </FormItem>
                         <FormItem>
                             <label>Annotation (optional):</label>
-                            <Field type="text" name="annotation" />
+                            <Field type="text" name="annotation" validate={validateAnnotation} />
                         </FormItem>
                         <FormItem>
                             <RatingButton type="submit" disabled={isSubmitting}>

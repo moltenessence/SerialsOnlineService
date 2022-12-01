@@ -17,6 +17,15 @@ function validateAge(value: number) {
   return error;
 }
 
+function validateUsername(value:string)
+{
+  let error;
+  if (value.length > 20) {
+    error = 'Too long username.';
+  }
+  return error;
+}
+
 
 const UpdateUserForm: React.FC<Props> = ({ user, updateUser }) => {
   return (
@@ -35,7 +44,7 @@ const UpdateUserForm: React.FC<Props> = ({ user, updateUser }) => {
             </FormItem>
             <FormItem>
               <div>Username: </div>
-              <Field type="text" name="username" />
+              <Field type="text" name="username" validate={validateUsername} />
             </FormItem>
             <FormItem>
               <Button type="submit" disabled={false}>
