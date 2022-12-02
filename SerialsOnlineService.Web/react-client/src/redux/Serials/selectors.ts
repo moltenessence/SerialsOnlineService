@@ -3,7 +3,6 @@ import { createSelector } from "reselect";
 import { ISerial } from "../../Common/Models/ISerial";
 import { RootState } from "../store";
 import { ISerialWithRatings } from "../../Common/Models/ISerialWithRatings";
-import { ISerialRatings } from "../../Common/Models/ISerialRatings";
 import { IRating } from "../../Common/Models/IRating";
 
 const selectSerials = (state: RootState) => state.serialsPage.serials;

@@ -14,6 +14,7 @@ import { ISerial } from '../Common/Models/ISerial';
 import { NavLink } from "react-router-dom";
 import { RoutePaths } from '../Common/Routes';
 import { getUser } from '../redux/User/selectors';
+import SerialsFilterForm from './forms/SerialsFilterForm';
 
 function mapStateToProps(state: RootState) {
     return {
@@ -29,19 +30,20 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
     fetchSerials: serialsActionCreators.fetchSerials,
     fetchSerialById: serialsActionCreators.fetchSerialById,
     rateSerial: serialsActionCreators.rateSerial,
-    fetchUser: userActionCreators.fetchUser
+    fetchUser: userActionCreators.fetchUser,
+    filterSerials: serialsActionCreators.filterSerials
 }, dispatch);
 
 type SerialsProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & ReactJSXIntrinsicAttributes
 
-const Serials: React.FC<SerialsProps> = ({ serials, isFetching, fetchSerials, fetchSerialById, modalContent, ratings, user, rateSerial, fetchUser }) => {
+const Serials: React.FC<SerialsProps> = ({ serials, isFetching, fetchSerials, fetchSerialById, filterSerials, modalContent, ratings, user, rateSerial, fetchUser }) => {
     useEffect(() => {
         fetchSerials();
         fetchUser();
     }, []);
 
     const [isSerialInfoOpened, openSerialInfo] = useState<boolean>(false);
-    const userSubscriprionId : number = user?.subscriptionId as number;
+    const userSubscriprionId: number = user?.subscriptionId as number;
 
     const serialsList = serials.map((serial: ISerial) => {
         return (
@@ -63,11 +65,20 @@ const Serials: React.FC<SerialsProps> = ({ serials, isFetching, fetchSerials, fe
     });
 
     return (
-        <SerialsWrapper>
-            {isFetching ? <Preloader /> : null}
-            {isSerialInfoOpened ? <SerialModal openSerialInfo={openSerialInfo} serialInfo={modalContent} ratings={ratings} rateSerial={rateSerial}/> : null}
-            {user ? serialsList.length ? serialsList : <p>No serials.</p> : 'You need to login. '}
-        </SerialsWrapper>
+        <React.Fragment>
+            <div>
+                <SerialsFilterForm filterData={filterSerials} />
+            </div>
+
+            <SerialsWrapper>
+                {isFetching ? <Preloader /> : null}
+                <div>
+                    {isSerialInfoOpened ? <SerialModal openSerialInfo={openSerialInfo} serialInfo={modalContent} ratings={ratings} rateSerial={rateSerial} /> : null}
+                    {user ? serialsList.length ? serialsList : <p>No serials.</p> : 'You need to login. '}
+                </div>
+            </SerialsWrapper>
+
+        </React.Fragment>
     );
 };
 

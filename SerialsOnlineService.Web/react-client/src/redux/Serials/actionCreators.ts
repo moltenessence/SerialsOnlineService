@@ -4,11 +4,22 @@ import { setSerials, setisFetching, setSerial, setRatings } from "./actions";
 import { AppDispatch } from "../store";
 import ratingsService from "../../Services/RatingsService";
 import { IRateSerialRequest } from "../../Common/Requests/RateSerialRequest";
+import { ISerialsQueryFilter } from "../../Common/Models/ISerialsQueryFilter";
 
 export const fetchSerials = () => {
     return async (dispatch: AppDispatch<SerialsActions>) => {
         dispatch(setisFetching(true));
         await serialsService.getAll().then((serials) => {
+            dispatch(setSerials(serials));
+            dispatch(setisFetching(false));
+        });
+    };
+};
+
+export const filterSerials = (filter: ISerialsQueryFilter) => {
+    return async (dispatch: AppDispatch<SerialsActions>) => {
+        dispatch(setisFetching(true));
+        await serialsService.getSerialsByFilter(filter).then((serials) => {
             dispatch(setSerials(serials));
             dispatch(setisFetching(false));
         });

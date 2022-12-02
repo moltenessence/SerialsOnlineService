@@ -1,5 +1,5 @@
 import { ISerial } from "../../Common/Models/ISerial";
-import { SET_IS_FETCHING, SET_SERIALS, SET_SERIAL, SET_RATINGS } from "./constants";
+import { SET_IS_FETCHING, SET_SERIALS, SET_SERIAL, SET_RATINGS, FILTER_SERIALS } from "./constants";
 import * as actions from './actions';
 import { ISerialWithRatings } from "../../Common/Models/ISerialWithRatings";
 import { IRating } from "../../Common/Models/IRating";
@@ -23,6 +23,9 @@ export type SerialsActions = ReturnType<typeof actions[keyof typeof actions]>;
 const serialsReducer = (state = initialState, action: SerialsActions): SerialsState => {
     switch (action.type) {
         case SET_SERIALS: {
+            return { ...state, serials: action.payload }
+        }
+        case FILTER_SERIALS: {
             return { ...state, serials: action.payload }
         }
         case SET_SERIAL: {

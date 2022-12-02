@@ -6,7 +6,7 @@ export const SerialsWrapper = styled.section`
 `;
 
 export const SerialItem = styled.div`
-  width: 30vw;
+  width: 90vw;
   padding: 1em;
   background-color: ${(props) => props.theme.item};
   opacity: 0.96;
