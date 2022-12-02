@@ -8,10 +8,10 @@ import Preloader from './other/Preloader';
 import { connect } from 'react-redux';
 import { ISubscription } from '../Common/Models/ISubscription';
 import { SubscriptionItem, SubscriptionsWrapper } from "./styles/Subscriptions.style";
-import * as purchasesActionCreators from '../redux/Purchases/actionCreators'
-import { IMakePurchaseRequest } from '../Common/Requests/IMakePurchaseRequest';
+import * as purchasesActionCreators from '../redux/Purchases/actionCreators';
 import PurchaseButton from './other/PurchaseButton';
 import PurchaseForm from './forms/PurchaseForm';
+import tokenStorage from '../Services/TokenStorage';
 
 function mapStateToProps(state: RootState) {
     return {
@@ -30,9 +30,11 @@ type SerialsProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDi
 const Serials: React.FC<SerialsProps> = ({ subscriptions, isFetching, fetchSubscriptions, makePurchase }) => {
 
     const [isFormOpened, setFormOpened] = useState(false);
+    const [isAuth, setAuth] = useState(false);
 
     useEffect(() => {
         fetchSubscriptions();
+        setAuth(tokenStorage.getUserDataFromToken() ? true : false);
     }, []);
 
     const subscriptionsList = subscriptions.map((subscription: ISubscription) => {
@@ -40,7 +42,7 @@ const Serials: React.FC<SerialsProps> = ({ subscriptions, isFetching, fetchSubsc
             <SubscriptionItem key={subscription.id}>
                 <h3>{subscription.name}</h3>
                 <p>Price: {subscription.pricePerMonth}$</p>
-                <PurchaseButton callback={() => { setFormOpened(!isFormOpened); }} />
+                {isAuth && <PurchaseButton callback={() => { setFormOpened(!isFormOpened); }} />}
                 {isFormOpened && <PurchaseForm subscriptionId={subscription.id} makePurchase={makePurchase}/>}
             </SubscriptionItem>
         );
