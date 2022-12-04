@@ -23,7 +23,8 @@ namespace SerialsOnlineCenter.DAL.Repositories
 
             SqlMapper.AddTypeHandler(new SqlDateOnlyTypeHandler());
 
-            var query = "SELECT * FROM purchases WHERE purchase_id = @Id";
+            var query = "SELECT purchase_id as Id, amount_of_months as AmountOfMonths, date as Date, user_id as UserId, total_price " +
+                "as TotalPrice, subscription_id as SubscriptionId FROM purchases WHERE purchase_id = @Id";
 
             var command = CreateCommand(query, new { @Id = id }, cancellationToken: cancellationToken);
 
@@ -56,7 +57,8 @@ namespace SerialsOnlineCenter.DAL.Repositories
 
             SqlMapper.AddTypeHandler(new SqlDateOnlyTypeHandler());
 
-            var result = await connection.QueryAsync<PurchaseEntity>("SELECT * FROM purchases", cancellationToken);
+            var result = await connection.QueryAsync<PurchaseEntity>("SELECT purchase_id as Id, amount_of_months as AmountOfMonths, date as Date, user_id as UserId, total_price " +
+                "as TotalPrice, subscription_id as SubscriptionId FROM purchases", cancellationToken);
 
             return result.ToList();
         }
