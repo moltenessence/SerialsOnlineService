@@ -22,16 +22,11 @@ const SubscriptionsFilterForm: React.FC<Props> = ({ filterData }) => {
             <SearchForm>
               <FormItem>
                 <label>Select subscription with:  </label>
-                <Field as="select" name="priceFilterOption">
-                  <option value={PriceFilterOptions.MaximalPrice}>Max price</option>
-                  <option value={PriceFilterOptions.MinimalPrice}>Min price</option>
-                  <option value={PriceFilterOptions.All}>Show all</option>
-                </Field>
-              </FormItem>
-              <FormItem>
-                <Button type="submit" disabled={false}>
-                  Submit
-                </Button>
+                  <Field as="select" name="priceFilterOption">
+                    <option value={PriceFilterOptions.MaximalPrice}>Max price</option>
+                    <option value={PriceFilterOptions.MinimalPrice}>Min price</option>
+                    <option value={PriceFilterOptions.All}>Show all</option>
+                  </Field>
               </FormItem>
             </SearchForm>
           </Form>
