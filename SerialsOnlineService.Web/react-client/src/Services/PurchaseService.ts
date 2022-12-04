@@ -1,5 +1,4 @@
 import { axiosInstance } from '../utils/axios';
-import { ISerial } from '../Common/Models/ISerial';
 import { IPurchase } from '../Common/Models/IPurchase';
 import { IMakePurchaseRequest } from '../Common/Requests/IMakePurchaseRequest';
 import { AxiosError } from 'axios';
@@ -16,6 +15,13 @@ class PurchaseService {
             then((response) => response.data);
         return result;
     }
+
+    public static async getByMaxPrice(minPrice: number): Promise<Array<IPurchase>> {
+        const result = await axiosInstance.get(`api/Purchase/price/max${minPrice}`).
+            then((response) => response.data);
+        return result;
+    }
+
 
     public static async makePurchase(request: IMakePurchaseRequest)  {
         const result = await axiosInstance.post<IPurchase>(`api/Purchase`, {...request}).

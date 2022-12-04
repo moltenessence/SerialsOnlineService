@@ -125,7 +125,8 @@ namespace SerialsOnlineCenter.DAL.Repositories
 
             SqlMapper.AddTypeHandler(new SqlDateOnlyTypeHandler());
 
-            var query = "SELECT * FROM purchases ORDER BY total_price DESC LIMIT @AmountOfPurchases";
+            var query = "SELECT purchase_id as Id, amount_of_months as AmountOfMonths, date as Date, user_id as UserId, total_price " +
+                "as TotalPrice, subscription_id as SubscriptionId FROM purchases ORDER BY total_price DESC LIMIT @AmountOfPurchases";
 
             var command = CreateCommand(query, new { @AmountOfPurchases = amountOfPurchases }, cancellationToken: cancellationToken);
 
