@@ -69,7 +69,6 @@ const Serials: React.FC<SerialsProps> = ({ serials, isFetching, fetchSerials, fe
             <div>
                 <SerialsFilterForm filterData={filterSerials} />
             </div>
-
             <SerialsWrapper>
                 {isFetching ? <Preloader /> : null}
                 <div>

@@ -8,6 +8,7 @@ import Preloader from './other/Preloader';
 import { connect } from 'react-redux';
 import {useEffect} from "react";
 import tokenStorage from "../Services/TokenStorage";
+import DeleteButton from "./other/DeleteButton";
 
 function mapStateToProps(state: RootState) {
     return {
@@ -18,11 +19,12 @@ function mapStateToProps(state: RootState) {
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
     fetchPurchases: purchasesActionCreators.fetchPurchases,
+    deletePurchase: purchasesActionCreators.deletePurchase
 }, dispatch);
 
 type PurchasesProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & ReactJSXIntrinsicAttributes
 
-const Purchases : React.FC<PurchasesProps> = ({purchases, isFetching, fetchPurchases}) => {
+const Purchases : React.FC<PurchasesProps> = ({purchases, isFetching, fetchPurchases, deletePurchase}) => {
 
     useEffect(() => {
         fetchPurchases();
@@ -35,7 +37,7 @@ const Purchases : React.FC<PurchasesProps> = ({purchases, isFetching, fetchPurch
             {tokenStorage.getUserDataFromToken() ? purchases?.map(purchase => {
                 return (
                     <PurchaseItem key={purchase.id}>
-                        <h3>Purchase #{purchase.id}</h3>
+                        <h3>Purchase #{purchase.id} <DeleteButton callback={() => deletePurchase(purchase.id)}/> </h3>
                         <p> Amount of months: {purchase.amountOfMonths}</p>
                         <p> Purchase date: {purchase.date}</p>
                         <p> Subscription: {purchase.subscription}</p>

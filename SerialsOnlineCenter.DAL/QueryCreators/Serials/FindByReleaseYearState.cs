@@ -5,7 +5,7 @@ namespace SerialsOnlineCenter.DAL.QueryCreators.Serials
 {
     public class FindByReleaseYearState : IQueryState<SerialFilterProperties>
     {
-        private const string condition = "release_year > @ReleaseYear";
+        private const string condition = "release_year >= @ReleaseYear";
         public StringBuilder Handle(StringBuilder sb, SerialFilterProperties properties)
         {
             if (properties?.ReleaseYear > 0)

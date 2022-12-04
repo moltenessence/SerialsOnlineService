@@ -11,6 +11,12 @@ class PurchaseService {
         return result;
     }
 
+    public static async deleteById(id: number) {
+        const result = await axiosInstance.delete<IPurchase>(`api/Purchase/${id}`).
+            then((response) => response.data);
+        return result;
+    }
+
     public static async makePurchase(request: IMakePurchaseRequest)  {
         const result = await axiosInstance.post<IPurchase>(`api/Purchase`, {...request}).
             then((response) => response.data).

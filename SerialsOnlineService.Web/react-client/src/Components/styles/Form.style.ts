@@ -34,7 +34,7 @@ export const RatingButton = styled.button`
 
 export const SearchForm = styled.div`
 display: inline-flex;
-width: 1600px;
+width: 1410px;
 border: none;
 background-color: ${props => props.theme.background};
 color: ${props => props.theme.text};

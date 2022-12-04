@@ -5,7 +5,7 @@ namespace SerialsOnlineCenter.DAL.QueryCreators.Serials
 {
     public class FindByAmountOfSeriesState : IQueryState<SerialFilterProperties>
     {
-        private const string condition = "amount_of_series > @AmountOfSeries";
+        private const string condition = "amount_of_series >= @AmountOfSeries";
 
         public StringBuilder Handle(StringBuilder sb, SerialFilterProperties properties)
         {
