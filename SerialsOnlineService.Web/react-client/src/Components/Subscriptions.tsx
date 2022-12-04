@@ -12,6 +12,7 @@ import * as purchasesActionCreators from '../redux/Purchases/actionCreators';
 import PurchaseButton from './other/PurchaseButton';
 import PurchaseForm from './forms/PurchaseForm';
 import tokenStorage from '../Services/TokenStorage';
+import SubscriptionsFilterForm from './forms/SubscriptionsFilterForm';
 
 function mapStateToProps(state: RootState) {
     return {
@@ -22,12 +23,13 @@ function mapStateToProps(state: RootState) {
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
     fetchSubscriptions: subscriptionsActionCreators.fetchSubscriptions,
-    makePurchase: purchasesActionCreators.makePurchase
+    makePurchase: purchasesActionCreators.makePurchase,
+    filterSubscriptions: subscriptionsActionCreators.filterSubscriptions
 }, dispatch);
 
 type SerialsProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & ReactJSXIntrinsicAttributes
 
-const Serials: React.FC<SerialsProps> = ({ subscriptions, isFetching, fetchSubscriptions, makePurchase }) => {
+const Serials: React.FC<SerialsProps> = ({ subscriptions, isFetching, fetchSubscriptions, makePurchase, filterSubscriptions }) => {
 
     const [isFormOpened, setFormOpened] = useState(false);
     const [isAuth, setAuth] = useState(false);
@@ -37,7 +39,7 @@ const Serials: React.FC<SerialsProps> = ({ subscriptions, isFetching, fetchSubsc
         setAuth(tokenStorage.getUserDataFromToken() ? true : false);
     }, []);
 
-    const subscriptionsList = subscriptions.map((subscription: ISubscription) => {
+    const subscriptionsList = subscriptions?.map((subscription: ISubscription) => {
         return (
             <SubscriptionItem key={subscription.id}>
                 <h3>{subscription.name}</h3>
@@ -51,6 +53,7 @@ const Serials: React.FC<SerialsProps> = ({ subscriptions, isFetching, fetchSubsc
     return (
         <SubscriptionsWrapper>
             {isFetching ? <Preloader /> : null}
+            <SubscriptionsFilterForm filterData={filterSubscriptions} />
             {subscriptionsList.length ? subscriptionsList : <p>No subscriptions available.</p>}
         </SubscriptionsWrapper>
     );

@@ -16,13 +16,6 @@ class PurchaseService {
         return result;
     }
 
-    public static async getByMaxPrice(minPrice: number): Promise<Array<IPurchase>> {
-        const result = await axiosInstance.get(`api/Purchase/price/max${minPrice}`).
-            then((response) => response.data);
-        return result;
-    }
-
-
     public static async makePurchase(request: IMakePurchaseRequest)  {
         const result = await axiosInstance.post<IPurchase>(`api/Purchase`, {...request}).
             then((response) => response.data).
