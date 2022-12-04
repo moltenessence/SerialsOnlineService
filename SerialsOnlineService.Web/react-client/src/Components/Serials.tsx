@@ -7,7 +7,7 @@ import { RootState } from "../redux/store";
 import { ReactJSXIntrinsicAttributes } from '@emotion/react/types/jsx-namespace';
 import * as serialsActionCreators from '../redux/Serials/actionCreators'
 import * as userActionCreators from '../redux/User/actionCreators'
-import { getIsFetching, getSerials, getModalContent, getRatings } from '../redux/Serials/selectors';
+import { getIsFetching, getSerials, getModalContent, getRatings, getGenres } from '../redux/Serials/selectors';
 import Preloader from './other/Preloader';
 import { connect } from 'react-redux';
 import { ISerial } from '../Common/Models/ISerial';
@@ -15,6 +15,7 @@ import { NavLink } from "react-router-dom";
 import { RoutePaths } from '../Common/Routes';
 import { getUser } from '../redux/User/selectors';
 import SerialsFilterForm from './forms/SerialsFilterForm';
+import GenresButton from './other/GenresButton';
 
 function mapStateToProps(state: RootState) {
     return {
@@ -22,7 +23,7 @@ function mapStateToProps(state: RootState) {
         isFetching: getIsFetching(state),
         modalContent: getModalContent(state),
         ratings: getRatings(state),
-        user: getUser(state)
+        user: getUser(state),
     };
 }
 
@@ -31,7 +32,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
     fetchSerialById: serialsActionCreators.fetchSerialById,
     rateSerial: serialsActionCreators.rateSerial,
     fetchUser: userActionCreators.fetchUser,
-    filterSerials: serialsActionCreators.filterSerials
+    filterSerials: serialsActionCreators.filterSerials,
 }, dispatch);
 
 type SerialsProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & ReactJSXIntrinsicAttributes
@@ -73,6 +74,10 @@ const Serials: React.FC<SerialsProps> = ({ serials, isFetching, fetchSerials, fe
                 {isFetching ? <Preloader /> : null}
                 <div>
                     {isSerialInfoOpened ? <SerialModal openSerialInfo={openSerialInfo} serialInfo={modalContent} ratings={ratings} rateSerial={rateSerial} /> : null}
+                    <NavLink to={RoutePaths.SerialsRoute + '/genres'}>
+                    <GenresButton callback={() => { }} />
+                </NavLink>
+                
                     {user ? serialsList.length ? serialsList : <p>No serials.</p> : 'You need to login. '}
                 </div>
             </SerialsWrapper>

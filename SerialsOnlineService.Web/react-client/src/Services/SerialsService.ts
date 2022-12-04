@@ -2,6 +2,7 @@ import { axiosInstance } from "../utils/axios";
 import { ISerial } from "../Common/Models/ISerial";
 import { ISerialWithRatings } from "../Common/Models/ISerialWithRatings";
 import { ISerialsQueryFilter } from "../Common/Models/ISerialsQueryFilter";
+import { IGroupedGenres } from "../Common/Models/IGropedGenres";
 
 class SerialsService {
   public static async getAll(): Promise<Array<ISerial>> {
@@ -14,6 +15,13 @@ class SerialsService {
   public static async getById(id: number): Promise<ISerialWithRatings> {
     const result = await axiosInstance
       .get(`api/Serial/ratings/${id}`)
+      .then((response) => response.data);
+    return result;
+  }
+
+  public static async getGenres () {
+    const result = await axiosInstance
+      .get<Array<IGroupedGenres>>(`api/Serial/genres/group`)
       .then((response) => response.data);
     return result;
   }
