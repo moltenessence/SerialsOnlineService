@@ -67,10 +67,11 @@ const Serials: React.FC<SerialsProps> = ({ serials, isFetching, fetchSerials, fe
 
     return (
         <React.Fragment>
-            <div>
+            {user ? 
+            <SerialsWrapper>
+                <div>
                 <SerialsFilterForm filterData={filterSerials} />
             </div>
-            <SerialsWrapper>
                 {isFetching ? <Preloader /> : null}
                 <div>
                     {isSerialInfoOpened ? <SerialModal openSerialInfo={openSerialInfo} serialInfo={modalContent} ratings={ratings} rateSerial={rateSerial} /> : null}
@@ -78,10 +79,10 @@ const Serials: React.FC<SerialsProps> = ({ serials, isFetching, fetchSerials, fe
                     <GenresButton callback={() => { }} />
                 </NavLink>
                 
-                    {user ? serialsList.length ? serialsList : <p>No serials.</p> : 'You need to login. '}
+                    {serialsList.length ? serialsList : <p>No serials.</p>}
                 </div>
             </SerialsWrapper>
-
+            : <p>You need to login.</p>}
         </React.Fragment>
     );
 };
