@@ -25,7 +25,7 @@ const Ratings: React.FC<RatingsProps> = ({ ratings }) => {
                 <RatingItem>
                     <RatingField><strong>Username:</strong> {rating.userName}</RatingField>
                     <RatingField><strong>Rating:</strong> {getRatingAsStars(rating.value)}</RatingField>
-                    <RatingField><strong>Comment:</strong> {rating.annotation ?? 'User has not left any comments.'}</RatingField>
+                    <RatingField><strong>Comment:</strong> {rating.annotation === '' ? <em>No comment.</em> : rating.annotation}</RatingField>
                 </RatingItem>
             );
         }

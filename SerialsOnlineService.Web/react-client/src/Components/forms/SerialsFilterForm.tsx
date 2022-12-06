@@ -24,11 +24,11 @@ const SerialsFilterForm: React.FC<Props> = ({ filterData }) => {
             </FormItem>
             <FormItem>
               <div>Release year: </div>
-              <Field type="number" name="releaseYear" />
+              <Field type="number" name="releaseYear" Min={0}/>
             </FormItem>
             <FormItem>
               <div>Amount of series: </div>
-              <Field type="number" name="amountOfSeries" />
+              <Field type="number" name="amountOfSeries" Min={0}/>
             </FormItem>
             <FormItem>
               <div>Order by release </div>

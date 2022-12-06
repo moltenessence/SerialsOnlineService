@@ -50,5 +50,5 @@ export const ErrorWrapper = styled.button`
   border: none;
   border-radius: 5px;
   letter-spacing: 1px;
-  width: 260px;
+  width: 190px;
 `;

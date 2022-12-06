@@ -1,3 +1,4 @@
+import { width } from "@mui/system";
 import { Field, Form, Formik, ErrorMessage } from "formik";
 import { IUpdateUserRequest, IUser } from "../../Common/Models/IUser";
 import { AppDispatch } from "../../redux/store";
@@ -17,11 +18,13 @@ function validateAge(value: number) {
   return error;
 }
 
-function validateUsername(value:string)
-{
+function validateUsername(value: string) {
   let error;
   if (value.length > 20) {
     error = 'Too long username.';
+  }
+  if (value === '') {
+    error = 'Username field is required.';
   }
   return error;
 }
@@ -40,11 +43,11 @@ const UpdateUserForm: React.FC<Props> = ({ user, updateUser }) => {
           <Form>
             <FormItem>
               <div>Age: </div>
-              <Field type="number" name="age" validate={validateAge}/>
+              <Field type="number" name="age" validate={validateAge} Min={0} />
             </FormItem>
             <FormItem>
               <div>Username: </div>
-              <Field type="text" name="username" validate={validateUsername} />
+              <Field type="text" name="userName" validate={validateUsername} />
             </FormItem>
             <FormItem>
               <Button type="submit" disabled={false}>
@@ -52,6 +55,7 @@ const UpdateUserForm: React.FC<Props> = ({ user, updateUser }) => {
               </Button>
             </FormItem>
             {errors.age && touched.age && <ErrorWrapper> {errors.age} </ErrorWrapper>}
+            {errors.userName && touched.userName && <ErrorWrapper> {errors.userName} </ErrorWrapper >}
           </Form>
         )}
       </Formik>

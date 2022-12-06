@@ -1,6 +1,5 @@
 import { Field, Form, Formik } from "formik";
 import { PriceFilterOptions } from "../../Common/Enums/PriceFilterOptions";
-import { ISerialsQueryFilter } from "../../Common/Models/ISerialsQueryFilter";
 import { ISubscriptionFilter } from "../../Common/Models/ISubscriptionsFilter";
 import { FormWrapper, FormItem, Button, SearchForm } from "../styles/Form.style";
 
@@ -22,11 +21,16 @@ const SubscriptionsFilterForm: React.FC<Props> = ({ filterData }) => {
             <SearchForm>
               <FormItem>
                 <label>Select subscription with:  </label>
-                  <Field as="select" name="priceFilterOption">
-                    <option value={PriceFilterOptions.MaximalPrice}>Max price</option>
-                    <option value={PriceFilterOptions.MinimalPrice}>Min price</option>
-                    <option value={PriceFilterOptions.All}>Show all</option>
-                  </Field>
+                <Field as="select" name="priceFilterOption">
+                  <option value={PriceFilterOptions.MaximalPrice}>Max price</option>
+                  <option value={PriceFilterOptions.MinimalPrice}>Min price</option>
+                  <option value={PriceFilterOptions.All}>Show all</option>
+                </Field>
+              </FormItem>
+              <FormItem>
+                <Button type="submit" disabled={false}>
+                  Submit
+                </Button>
               </FormItem>
             </SearchForm>
           </Form>

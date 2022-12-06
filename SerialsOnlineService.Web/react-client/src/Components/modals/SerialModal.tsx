@@ -4,7 +4,6 @@ import { RatingText } from "../styles/Serials.style";
 import { ISerialWithRatings } from '../../Common/Models/ISerialWithRatings';
 import Ratings from '../Ratings';
 import RateSerialForm from '../forms/RateSerialForm';
-import { ISerialRatings } from '../../Common/Models/ISerialRatings';
 import { IRating } from '../../Common/Models/IRating';
 
 type ModalProps = {
@@ -26,14 +25,13 @@ const SerialModal: React.FC<ModalProps> = ({ openSerialInfo, serialInfo, ratings
             setSerialData();
         }, [ratings]);
 
-
     return (
         <Modal bodyStyle={{overflow: 'auto', maxHeight: 'calc(100vh - 200px)' }} title={serialInfo?.serial.name} centered open={true} onOk={()=>openSerialInfo(false)} onCancel={()=>openSerialInfo(false)}>
             <p>Amount of series: {serialInfo?.serial.amountOfSeries}</p>
             <p>Released: {serialInfo?.serial.releaseYear}</p>
             <p>Genre: {serialInfo?.serial.genre}</p>
             <p>Description: {serialInfo?.serial.description}</p>
-            <RatingText>Rating: {serialInfo?.ratings.average}</RatingText>
+            <RatingText>Rating: {serialInfo?.ratings?.average! > 0 ? serialInfo?.ratings.average : 'No ratings :( '}</RatingText>
             <Ratings ratings={ratings}/>
             <RateSerialForm serialId={serialId} rateSerial={rateSerial} openSerialInfo={openSerialInfo}/>
         </Modal>
