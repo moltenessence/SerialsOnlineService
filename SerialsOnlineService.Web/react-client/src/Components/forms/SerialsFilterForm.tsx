@@ -31,17 +31,10 @@ const SerialsFilterForm: React.FC<Props> = ({ filterData }) => {
                 <Field type="number" name="amountOfSeries" Min={0} />
               </FormItem>
               <FormItem>
-                <div>Order by release </div>
-                <Field as="select" name="orderByReleaseDesc">
-                  <option value={'true'}>Yes</option>
-                  <option value={'false'}>No</option>
-                </Field>
-              </FormItem>
-              <FormItem>
                 <div>Order by amount of series </div>
                 <Field as="select" name="orderByAmountOfSeriesDesc">
-                  <option value={'true'}>Yes</option>
-                  <option value={'false'}>No</option>
+                  <option value={'true'}>Descending</option>
+                  <option value={'false'}>Ascending</option>
                 </Field>
               </FormItem>
               <FormItem>

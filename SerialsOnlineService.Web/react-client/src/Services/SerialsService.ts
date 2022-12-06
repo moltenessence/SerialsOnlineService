@@ -30,8 +30,8 @@ class SerialsService {
     const amountOfSeries = filter?.amountOfSeries ? `&AmountOfSeries=${filter?.amountOfSeries}` : '';
     const releaseYear = filter?.releaseYear ? `&ReleaseYear=${filter?.releaseYear}` : '';
     const name = filter?.name ? `&Name=${filter?.name}` : '';
-    const orderByReleaseDesc = filter?.orderByReleaseDesc ? `&OrderByReleaseDesc=${filter?.orderByReleaseDesc}` : `&OrderByReleaseDesc=${false}`;
-    const orderByAmountOfSeriesDesc = filter?.orderByAmountOfSeriesDesc ? `OrderByAmountOfSeriesDesc=${filter?.orderByAmountOfSeriesDesc}` : `OrderByAmountOfSeriesDesc=${false}`;
+    const orderByReleaseDesc = filter?.orderByReleaseDesc ? `&OrderByReleaseDesc=${filter?.orderByReleaseDesc}` : ``;
+    const orderByAmountOfSeriesDesc = filter?.orderByAmountOfSeriesDesc ? `OderByAmountOfSeriesDesc=${filter?.orderByAmountOfSeriesDesc}` : ``;
 
     const query = amountOfSeries
       .concat(releaseYear)
